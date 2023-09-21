@@ -1,28 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package gui;
 
 import dao.UsuarioDAO;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 
 
-/**
- *
- * @author Senai
- */
 public class LoginGUI extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginGUI
-     */
+    
+    public void toMenu(){
+        JFrame window = new MenuGUI();
+        window.setVisible(true);
+        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                
+    }
+    
     public LoginGUI() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -39,10 +40,10 @@ public class LoginGUI extends javax.swing.JFrame {
         label_login = new javax.swing.JLabel();
         label_password = new javax.swing.JLabel();
         field_login = new javax.swing.JTextField();
-        field_password = new javax.swing.JTextField();
         button_enter = new javax.swing.JButton();
         button_cancel = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
+        field_password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
@@ -50,7 +51,7 @@ public class LoginGUI extends javax.swing.JFrame {
         jPanel1.setBackground(java.awt.Color.orange);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Entrar", 2, 0, new java.awt.Font("Segoe UI Black", 0, 18), new java.awt.Color(102, 204, 0))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Entrar", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Black", 0, 18), new java.awt.Color(102, 204, 0))); // NOI18N
 
         label_login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         label_login.setText("Login");
@@ -59,8 +60,6 @@ public class LoginGUI extends javax.swing.JFrame {
         label_password.setText("Senha");
 
         field_login.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-
-        field_password.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
         button_enter.setBackground(new java.awt.Color(255, 255, 255));
         button_enter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -94,18 +93,19 @@ public class LoginGUI extends javax.swing.JFrame {
                         .addGap(57, 57, 57)
                         .addComponent(button_enter, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(label_password)
-                                    .addComponent(label_login))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(field_password)
-                                    .addComponent(field_login, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(logo))))
-                .addContainerGap(83, Short.MAX_VALUE))
+                        .addGap(90, 90, 90)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label_password)
+                            .addComponent(label_login))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(field_login, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                            .addComponent(field_password))))
+                .addContainerGap(78, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(logo)
+                .addGap(112, 112, 112))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,10 +156,14 @@ public class LoginGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_enterActionPerformed
-        // TODO add your handling code here:
-        UsuarioDAO usuario = new UsuarioDAO();
+        
+        UsuarioDAO usuariodao = new UsuarioDAO();
         try {
-            usuario.validarLogin(field_login.getText(),Integer.valueOf(field_password.getText()));
+            usuariodao.validarLogin(field_login.getText(),field_password.getText());
+            if(usuariodao.logado == true){
+                toMenu();
+                dispose();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -209,7 +213,7 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JButton button_cancel;
     private javax.swing.JButton button_enter;
     private javax.swing.JTextField field_login;
-    private javax.swing.JTextField field_password;
+    private javax.swing.JPasswordField field_password;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel label_login;

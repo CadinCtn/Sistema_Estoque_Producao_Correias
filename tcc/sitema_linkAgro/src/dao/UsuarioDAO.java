@@ -6,12 +6,12 @@
 package dao;
 
 import factory.ConnectionFactory;
+import gui.LoginGUI;
 import gui.MenuGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
@@ -21,29 +21,26 @@ import javax.swing.JOptionPane;
  */
 public class UsuarioDAO {
     
+    public boolean logado = false;
     private Connection connection;
-    
-    String login;
-    int senha;
     
     public UsuarioDAO(){
         this.connection = new ConnectionFactory().getConnection();
     }
     
-    public void validarLogin(String login,int senha) throws SQLException{
+    public void validarLogin(String login,String senha) throws SQLException{
         
         String sql = "SELECT login,senha FROM usuarios WHERE login = ? and senha = ?;";
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1,login);
-            stmt.setInt(2,senha);
+            stmt.setString(2,senha);
             ResultSet resultado = stmt.executeQuery();
             
             if(resultado.next()){
-                JFrame window = new MenuGUI();
-                window.setVisible(true);
-                window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                logado = true;
+                
             }else{
                 JOptionPane.showMessageDialog(null, "Acesso negado: login ou senha incorretos. ","Incorreto",JOptionPane.WARNING_MESSAGE);
             }

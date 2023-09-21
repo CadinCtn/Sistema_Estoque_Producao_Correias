@@ -5,14 +5,12 @@
  */
 package modelo;
 
-/**
- *
- * @author Senai
- */
+
+
 public class Usuario {
     
     String login;
-    int senha;
+    String senha;
 
     public String getLogin() {
         return login;
@@ -22,11 +20,11 @@ public class Usuario {
         this.login = login;
     }
 
-    public int getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(int senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
     
