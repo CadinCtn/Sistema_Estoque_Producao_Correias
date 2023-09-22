@@ -6,19 +6,14 @@
 package dao;
 
 import factory.ConnectionFactory;
-import gui.LoginGUI;
-import gui.MenuGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import modelo.Usuario;
 
 
-/**
- *
- * @author Senai
- */
 public class UsuarioDAO {
     
     public boolean logado = false;
@@ -28,6 +23,7 @@ public class UsuarioDAO {
         this.connection = new ConnectionFactory().getConnection();
     }
     
+    //Método para validar login
     public void validarLogin(String login,String senha) throws SQLException{
         
         String sql = "SELECT login,senha FROM usuarios WHERE login = ? and senha = ?;";
@@ -38,6 +34,7 @@ public class UsuarioDAO {
             stmt.setString(2,senha);
             ResultSet resultado = stmt.executeQuery();
             
+            //se encontrar login correspondente banco de dados, a variável logado é verdadeira, o que permite executar a tela de menu
             if(resultado.next()){
                 logado = true;
                 
@@ -54,5 +51,25 @@ public class UsuarioDAO {
         
         
     }
+ 
+    //metodo para cadastrar novo usuário
+    public void criarUsuario(Usuario usuario){
         
+        String sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
+      
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1,usuario.getLogin());
+            stmt.setString(2,usuario.getSenha());
+            stmt.execute();
+            stmt.close();
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        
+        
+    }
+    
 }

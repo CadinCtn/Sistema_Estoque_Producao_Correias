@@ -33,6 +33,7 @@ public class MenuGUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         menu_new = new javax.swing.JMenu();
         submenu_newop = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menu_help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,6 +63,14 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_newop);
 
+        jMenuItem1.setText("Cadastrar Usuário");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menu_new.add(jMenuItem1);
+
         jMenuBar1.add(menu_new);
 
         menu_help.setText("Ajuda");
@@ -89,6 +98,12 @@ public class MenuGUI extends javax.swing.JFrame {
         window.setVisible(true);
         window.setLocationRelativeTo(null);
     }//GEN-LAST:event_submenu_newopActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        JFrame window = new CUsuarioGUI();
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,6 +142,7 @@ public class MenuGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu menu_help;
     private javax.swing.JMenu menu_new;

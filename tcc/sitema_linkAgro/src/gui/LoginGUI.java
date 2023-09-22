@@ -1,13 +1,13 @@
-
-
-
 package gui;
 
 import dao.UsuarioDAO;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
 
 
@@ -155,6 +155,14 @@ public class LoginGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    //TECLA de ATALHO para botão de entrar (ENTER)
+    InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"forward");
+    this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+    this.getRootPane().getActionMap().put("forward", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+    
     private void button_enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_enterActionPerformed
         
         UsuarioDAO usuariodao = new UsuarioDAO();
