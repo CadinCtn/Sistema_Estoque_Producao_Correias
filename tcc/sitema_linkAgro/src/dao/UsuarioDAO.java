@@ -15,8 +15,7 @@ import modelo.Usuario;
 
 
 public class UsuarioDAO {
-    
-    public boolean logado = false;
+   
     private Connection connection;
     
     public UsuarioDAO(){
@@ -24,7 +23,7 @@ public class UsuarioDAO {
     }
     
     //Método para validar login
-    public void validarLogin(String login,String senha) throws SQLException{
+    public boolean validarLogin(String login,String senha) throws SQLException{
         
         String sql = "SELECT login,senha FROM usuarios WHERE login = ? and senha = ?;";
         
@@ -34,10 +33,10 @@ public class UsuarioDAO {
             stmt.setString(2,senha);
             ResultSet resultado = stmt.executeQuery();
             
-            //se encontrar login correspondente banco de dados, a variável logado é verdadeira, o que permite executar a tela de menu
+            //Se encontrar login correspondente banco de dados, retorna true
             if(resultado.next()){
-                logado = true;
-                
+                return true;
+                   
             }else{
                 JOptionPane.showMessageDialog(null, "Acesso negado: login ou senha incorretos. ","Incorreto",JOptionPane.WARNING_MESSAGE);
             }
@@ -49,10 +48,41 @@ public class UsuarioDAO {
             throw new RuntimeException(u);
         }
         
+        return false;
+    }
+    
+
+    
+    
+    public boolean permissao(String login, String senha) throws SQLException{
         
+        String sql = "SELECT login,senha,permissao FROM usuarios WHERE login = ? and senha = ? and permissao = 'ADM';";
+        
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1,login);
+            stmt.setString(2,senha);
+                System.out.println("Login: " + login);
+                System.out.println("Senha: " + senha);
+            ResultSet resultado = stmt.executeQuery();
+            
+            //Se encontrar login correspondente banco de dados, retorna true
+            if(resultado.next()){
+               return true;
+            }
+            
+            stmt.execute();
+            stmt.close();
+        }
+        catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
+        return false;
+                
     }
  
-    //metodo para cadastrar novo usuário
+    
+        //metodo para cadastrar novo usuário
     public void criarUsuario(Usuario usuario){
         
         String sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
