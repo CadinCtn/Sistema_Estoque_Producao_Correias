@@ -25,7 +25,10 @@ public class CProdutosGUI extends javax.swing.JFrame {
     public void tabela(){
         ProdutoDAO ordemproducaodao = new ProdutoDAO();
         DefaultTableModel modelo = (DefaultTableModel) tab_produtos.getModel();
-        tab_produtos.removeAll();
+        
+        while(tab_produtos.getModel().getRowCount() > 0 ){
+            ((DefaultTableModel) tab_produtos.getModel()).removeRow(0);
+        }
         
         try {
             List<Produto> produtoList = ordemproducaodao.categoriaBox();
