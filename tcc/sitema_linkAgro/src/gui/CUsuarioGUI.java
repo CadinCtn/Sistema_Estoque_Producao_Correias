@@ -4,8 +4,14 @@
  */
 package gui;
 
+import dao.ProdutoDAO;
 import dao.UsuarioDAO;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Produto;
 import modelo.Usuario;
 
 /**
@@ -19,9 +25,37 @@ public class CUsuarioGUI extends javax.swing.JFrame {
      */
     public CUsuarioGUI() {
         initComponents();
-        setLocationRelativeTo(null);
+        tabela();
     }
+    
+    public void tabela(){
+        UsuarioDAO usuariodao = new UsuarioDAO();
+        DefaultTableModel modelo = (DefaultTableModel) tab_usuarios.getModel();
+        
+        while(tab_usuarios.getModel().getRowCount() > 0 ){
+            ((DefaultTableModel) tab_usuarios.getModel()).removeRow(0);
+        }
+        
+        try {
+            List<Usuario> usuarioList = usuariodao.selectUsuario();
 
+            for (Usuario usuario : usuarioList) {
+                
+                Object[] line = {usuario.getId(),usuario.getLogin(),usuario.getSenha()};
+                modelo.addRow(line);
+                
+            }
+
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Falha ao listar usuários cadastrados!" + e.getMessage(), "ERRO", JOptionPane.WARNING_MESSAGE);
+
+        }
+        
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,130 +66,136 @@ public class CUsuarioGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        button_enter = new javax.swing.JButton();
-        button_cancel = new javax.swing.JButton();
-        label_login = new javax.swing.JLabel();
-        label_password = new javax.swing.JLabel();
-        field_login = new javax.swing.JTextField();
-        label_login1 = new javax.swing.JLabel();
-        field_password = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tab_usuarios = new javax.swing.JTable();
+        btn_newUser = new javax.swing.JButton();
+        btn_deleteUser = new javax.swing.JButton();
+        btn_refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Criar Usuário");
+        setTitle("Usuários");
+        setPreferredSize(new java.awt.Dimension(400, 300));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        button_enter.setBackground(new java.awt.Color(255, 255, 255));
-        button_enter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_enter.setText("Cadastrar");
-        button_enter.addActionListener(new java.awt.event.ActionListener() {
+        tab_usuarios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_usuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Login", "Senha"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tab_usuarios);
+
+        btn_newUser.setBackground(new java.awt.Color(255, 255, 255));
+        btn_newUser.setText("Cadastrar Usuário");
+        btn_newUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_enterActionPerformed(evt);
+                btn_newUserActionPerformed(evt);
             }
         });
 
-        button_cancel.setBackground(new java.awt.Color(255, 255, 255));
-        button_cancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_cancel.setText("Cancelar");
-        button_cancel.addActionListener(new java.awt.event.ActionListener() {
+        btn_deleteUser.setBackground(new java.awt.Color(255, 255, 255));
+        btn_deleteUser.setText("Deletar Usuário");
+        btn_deleteUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_cancelActionPerformed(evt);
+                btn_deleteUserActionPerformed(evt);
             }
         });
 
-        label_login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        label_login.setText("Novo Login");
-
-        label_password.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        label_password.setText("Nova Senha");
-
-        field_login.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-
-        label_login1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        label_login1.setText("Cadastrar novo usuário");
-
-        field_password.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        btn_refresh.setBackground(new java.awt.Color(255, 255, 255));
+        btn_refresh.setText("Atualizar");
+        btn_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_refreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(label_login1)
-                            .addComponent(button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
-                        .addComponent(button_enter))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label_password)
-                            .addComponent(label_login))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(field_login, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(field_password, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(75, 75, 75))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_newUser, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(btn_deleteUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_refresh, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(label_login1)
-                .addGap(47, 47, 47)
+                .addComponent(btn_refresh)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(field_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(field_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(label_login)
-                        .addGap(18, 18, 18)
-                        .addComponent(label_password)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_enter)
-                    .addComponent(button_cancel))
-                .addGap(85, 85, 85))
+                        .addComponent(btn_newUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_deleteUser)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button_enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_enterActionPerformed
-        Usuario usuario = new Usuario();
-        
-        usuario.setLogin(field_login.getText());
-        usuario.setSenha(field_password.getText());
-        
-        if(field_login.getText().isEmpty() || field_password.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,"Preencha todos os campos para cadastrar um novo Usuário!", "AVISO!",JOptionPane.WARNING_MESSAGE);
-        } else {
-            UsuarioDAO usuariodao = new UsuarioDAO();
-            usuariodao.criarUsuario(usuario);
-            JOptionPane.showMessageDialog(null,"Usuário " + field_login.getText() + " cadastrado com sucesso!");
-            field_login.setText(null);
-            field_password.setText(null);
-        }
-    }//GEN-LAST:event_button_enterActionPerformed
+    private void btn_newUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newUserActionPerformed
+        JFrame window = new CadastroUsuarioGUI();
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btn_newUserActionPerformed
 
-    private void button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_cancelActionPerformed
-        dispose();
-    }//GEN-LAST:event_button_cancelActionPerformed
+    private void btn_deleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteUserActionPerformed
+        UsuarioDAO usuariodao = new UsuarioDAO();
+
+        int linhaSelecionada = -1;
+        linhaSelecionada = tab_usuarios.getSelectedRow();
+        if(linhaSelecionada >= 0){
+            int idUsuario = (int) tab_usuarios.getValueAt(linhaSelecionada, 0);
+
+            
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo DELETAR este usuário?","Deletar usuário",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                usuariodao.deleteUsuario(idUsuario);
+                tabela();
+                break;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o usuário que deseja deletar.");
+        }
+    }//GEN-LAST:event_btn_deleteUserActionPerformed
+
+    private void btn_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refreshActionPerformed
+        tabela();
+    }//GEN-LAST:event_btn_refreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,13 +233,11 @@ public class CUsuarioGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button_cancel;
-    private javax.swing.JButton button_enter;
-    private javax.swing.JTextField field_login;
-    private javax.swing.JTextField field_password;
+    private javax.swing.JButton btn_deleteUser;
+    private javax.swing.JButton btn_newUser;
+    private javax.swing.JButton btn_refresh;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel label_login;
-    private javax.swing.JLabel label_login1;
-    private javax.swing.JLabel label_password;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable tab_usuarios;
     // End of variables declaration//GEN-END:variables
 }

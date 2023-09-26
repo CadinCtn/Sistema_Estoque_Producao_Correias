@@ -16,7 +16,7 @@ public class Usuario {
         return id;
     }
     
-    public void setId(){
+    public void setId(int id){
         this.id = id;
     }
     
@@ -45,9 +45,7 @@ public class Usuario {
 
     public void setPermissao(String permissao) {
         this.permissao = permissao;
-    }
-
-    
+    }    
     
     
 }

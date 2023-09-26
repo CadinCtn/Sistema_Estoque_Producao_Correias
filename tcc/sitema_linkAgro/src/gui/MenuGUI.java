@@ -64,7 +64,7 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_newop);
 
-        submenu_newUser.setText("Cadastrar Usuário");
+        submenu_newUser.setText("Usuários");
         submenu_newUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submenu_newUserActionPerformed(evt);
@@ -112,6 +112,7 @@ public class MenuGUI extends javax.swing.JFrame {
         LoginGUI logingui = new LoginGUI();
         System.out.println(logingui.permissao);
        
+        logingui.permissao = true;
         if(logingui.permissao == true){
             
            JFrame window = new CUsuarioGUI();

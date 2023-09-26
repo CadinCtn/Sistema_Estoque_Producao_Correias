@@ -10,7 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.Produto;
 import modelo.Usuario;
 
 
@@ -99,6 +102,56 @@ public class UsuarioDAO {
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
         
+    }
+    
+    public void deleteUsuario(int id){
+        
+        String sql = "DELETE from usuarios  WHERE id = ?";        
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            
+            stmt.setLong(1,id);
+            
+            stmt.execute();
+            stmt.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possivel Deletar o usuário" + e.getMessage(),"ERRO",JOptionPane.WARNING_MESSAGE);
+        }
+        
+        
+    }
+    
+    
+    public List<Usuario> selectUsuario() throws SQLException{
+        String sql = "Select * FROM usuarios;";
+        
+         List<Usuario> usuarioList = new ArrayList<>();
+        
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();){
+            
+            while(rs.next()){
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setLogin(rs.getString("login"));
+                usuario.setSenha(rs.getString("senha"));
+               // usuario.getPermissao(rs.getString("permissao"));
+                usuarioList.add(usuario);
+                
+            }
+            
+            stmt.close();
+            rs.close();
+        }
+        
+        catch (SQLException u) {
+        throw new RuntimeException(u);
+        }
+        
+        return usuarioList;
         
     }
     

@@ -71,7 +71,7 @@ public class CProdutosGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Produto"
+                "Produtos"
             }
         ) {
             boolean[] canEdit = new boolean [] {
