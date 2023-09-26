@@ -5,7 +5,7 @@
  */
 package gui;
 
-import dao.OrdemProducaoDAO;
+import dao.ProdutoDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Produto;
@@ -13,7 +13,9 @@ import modelo.Produto;
 public class COrdemProducaoGUI extends javax.swing.JFrame {
 
     public void categoriaBox(){
-        OrdemProducaoDAO ordemproducaodao = new OrdemProducaoDAO();
+        ProdutoDAO ordemproducaodao = new ProdutoDAO();
+        
+        categoriaBox.removeAllItems();
         
         try{
             List<Produto> produtoList = ordemproducaodao.categoriaBox();
@@ -98,9 +100,9 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_addCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(categoriaBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(96, 96, 96)
+                .addGap(58, 58, 58)
                 .addComponent(label_ee)
-                .addGap(18, 18, 18)
+                .addGap(56, 56, 56)
                 .addComponent(label_width)
                 .addGap(18, 18, 18)
                 .addComponent(label_length)
@@ -148,7 +150,7 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_categoriaBoxActionPerformed
 
     private void btn_addCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addCategoriaActionPerformed
-        OrdemProducaoDAO ordemproducaodao = new OrdemProducaoDAO();
+        ProdutoDAO ordemproducaodao = new ProdutoDAO();
         String produto = JOptionPane.showInputDialog(null,"Digite o nome do novo produto a ser adicionado");
  
         if(produto.equals("")){
@@ -156,6 +158,8 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
         } else {
             ordemproducaodao.adicionaProduto(produto);
         }
+        
+        categoriaBox();
     }//GEN-LAST:event_btn_addCategoriaActionPerformed
 
     /**

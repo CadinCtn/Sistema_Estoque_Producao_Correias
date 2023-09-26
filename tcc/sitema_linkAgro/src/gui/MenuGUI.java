@@ -72,7 +72,7 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_newUser);
 
-        submenu_newproduct.setText("Adicionar Produto");
+        submenu_newproduct.setText("Produtos");
         submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submenu_newproductActionPerformed(evt);
@@ -125,7 +125,7 @@ public class MenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_submenu_newUserActionPerformed
 
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
-        JFrame window = new ProdutosGUI();
+        JFrame window = new CProdutosGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
     }//GEN-LAST:event_submenu_newproductActionPerformed

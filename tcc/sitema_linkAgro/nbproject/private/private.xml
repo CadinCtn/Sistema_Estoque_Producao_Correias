@@ -5,8 +5,12 @@
         <group>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/dao/UsuarioDAO.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/MenuGUI.java</file>
+            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/modelo/Usuario.java</file>
+            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/CProdutosGUI.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/CUsuarioGUI.java</file>
+            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/dao/OrdemProducaoDAO.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/COrdemProducaoGUI.java</file>
+            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/modelo/Produto.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/LoginGUI.java</file>
         </group>
     </open-files>
