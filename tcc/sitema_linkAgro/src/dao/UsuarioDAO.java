@@ -6,6 +6,7 @@
 package dao;
 
 import factory.ConnectionFactory;
+import gui.CadastroUsuarioGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import modelo.Produto;
 import modelo.Usuario;
 
 
@@ -86,10 +86,18 @@ public class UsuarioDAO {
  
     
         //metodo para cadastrar novo usuário
-    public void criarUsuario(Usuario usuario){
+    public void criarUsuario(Usuario usuario, boolean permissao){
+        CadastroUsuarioGUI cadastrousuariogui = new CadastroUsuarioGUI();
         
-        String sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
-      
+        String sql;
+        
+        if(permissao){
+            sql = "INSERT INTO usuarios (login,senha,permissao) VALUES (?,?,'ADM')";
+            System.out.println("selected");
+        } else {
+            sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
+        }
+        
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1,usuario.getLogin());
@@ -138,7 +146,7 @@ public class UsuarioDAO {
                 usuario.setId(rs.getInt("id"));
                 usuario.setLogin(rs.getString("login"));
                 usuario.setSenha(rs.getString("senha"));
-               // usuario.getPermissao(rs.getString("permissao"));
+                usuario.setPermissao(rs.getString("permissao"));
                 usuarioList.add(usuario);
                 
             }

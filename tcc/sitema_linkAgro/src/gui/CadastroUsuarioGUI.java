@@ -39,6 +39,7 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         field_login = new javax.swing.JTextField();
         label_login1 = new javax.swing.JLabel();
         field_password = new javax.swing.JTextField();
+        permissionBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Criar Usuário");
@@ -76,29 +77,37 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
 
         field_password.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
+        permissionBox.setBackground(new java.awt.Color(255, 255, 255));
+        permissionBox.setText("Criar como ADMINISTRADOR");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(25, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(label_login1)
-                            .addComponent(button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
-                        .addComponent(button_enter))
+                    .addComponent(label_login1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label_password)
-                            .addComponent(label_login))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(field_login, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(field_password, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(75, 75, 75))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(label_password)
+                                    .addComponent(label_login))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(field_login, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(field_password, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(52, 52, 52)
+                                    .addComponent(button_enter))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(permissionBox)
+                                    .addGap(29, 29, 29))))))
+                .addGap(71, 71, 71))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,11 +124,13 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
                         .addComponent(label_login)
                         .addGap(18, 18, 18)
                         .addComponent(label_password)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(permissionBox)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button_enter)
                     .addComponent(button_cancel))
-                .addGap(85, 85, 85))
+                .addGap(65, 65, 65))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,7 +157,7 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Preencha todos os campos para cadastrar um novo Usuário!", "AVISO!",JOptionPane.WARNING_MESSAGE);
         } else {
             UsuarioDAO usuariodao = new UsuarioDAO();
-            usuariodao.criarUsuario(usuario);
+            usuariodao.criarUsuario(usuario, permissionBox.isSelected());
             JOptionPane.showMessageDialog(null,"Usuário " + field_login.getText() + " cadastrado com sucesso!");
             field_login.setText(null);
             field_password.setText(null);
@@ -203,5 +214,6 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     private javax.swing.JLabel label_login;
     private javax.swing.JLabel label_login1;
     private javax.swing.JLabel label_password;
+    public javax.swing.JCheckBox permissionBox;
     // End of variables declaration//GEN-END:variables
 }
