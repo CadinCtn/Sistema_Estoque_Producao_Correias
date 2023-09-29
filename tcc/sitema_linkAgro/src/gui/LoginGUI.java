@@ -1,6 +1,5 @@
 package gui;
 
-import gui_adm.MenuAdmGUI;
 import dao.UsuarioDAO;
 import java.sql.SQLException;
 import javax.swing.JFrame;

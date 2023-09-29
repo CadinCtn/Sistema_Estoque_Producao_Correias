@@ -5,7 +5,6 @@
  */
 package gui;
 
-import gui_adm.*;
 import dao.UsuarioDAO;
 import gui.COrdemProducaoGUI;
 import gui.CProdutosGUI;

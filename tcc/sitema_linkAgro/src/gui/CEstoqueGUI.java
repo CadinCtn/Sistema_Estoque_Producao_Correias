@@ -4,6 +4,11 @@
  */
 package gui;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Lenovo
@@ -28,16 +33,22 @@ public class CEstoqueGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        tab_usuarios = new javax.swing.JTable();
+        tab_estoque = new javax.swing.JTable();
+        add_estoque = new javax.swing.JButton();
+        upd_estoque = new javax.swing.JButton();
+        del_est = new javax.swing.JButton();
+        est_pendente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        tab_usuarios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tab_usuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tab_estoque.setBackground(new java.awt.Color(255, 255, 255));
+        tab_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_estoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
                 "ID", "Categoria", "Lonas", "Largura", "Metragem"
@@ -51,23 +62,58 @@ public class CEstoqueGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(tab_usuarios);
+        jScrollPane5.setViewportView(tab_estoque);
+
+        add_estoque.setBackground(new java.awt.Color(255, 255, 255));
+        add_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        add_estoque.setText("Adicionar");
+        add_estoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_estoqueActionPerformed(evt);
+            }
+        });
+
+        upd_estoque.setBackground(new java.awt.Color(255, 255, 255));
+        upd_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        upd_estoque.setText("Editar");
+
+        del_est.setBackground(new java.awt.Color(255, 255, 255));
+        del_est.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        del_est.setText("Excluir");
+
+        est_pendente.setBackground(new java.awt.Color(204, 204, 204));
+        est_pendente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        est_pendente.setText("Estoque Pendente");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(add_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(upd_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(del_est, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(est_pendente))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(145, Short.MAX_VALUE)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(upd_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(del_est, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(est_pendente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -83,6 +129,63 @@ public class CEstoqueGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void pane(){
+        
+        //Criando painel do JOptionPane
+        JPanel paneJOP = new JPanel();
+
+        //Campos para digitalizar o texto
+        JTextField categoriaField = new JTextField(5);
+        JTextField lonaField = new JTextField(7);
+        JTextField larguraField = new JTextField(50);
+        JTextField metragemField = new JTextField(7);
+/*
+        //Adicionando elementos ao painel
+        paneJOP.add(new JLabel("Id Pedido: "));
+        paneJOP.add(idField);
+        paneJOP.add(new JLabel("Data Fechamento: "));
+        paneJOP.add(fecField);
+        paneJOP.add(new JLabel("Nome Cliente: "));
+        paneJOP.add(nomeField);
+        paneJOP.add(new JLabel("Prazo Embarque: "));
+        paneJOP.add(prazField);
+   
+        switch (JOptionPane.showConfirmDialog(null, paneJOP, "Adicionar Pedido", JOptionPane.OK_CANCEL_OPTION)) {
+            case JOptionPane.OK_OPTION -> {
+                //Colocando em variáveis do tipo String os elementos digitados para a busca
+                String idPedido = idField.getText();
+                String dataFechamento = fecField.getText();
+                String nomeCliente = nomeField.getText();
+                String prazoEmbarque = prazField.getText();
+
+                //if para impedir que haja algum pedido cadastrado como null
+                if ("".equals(idPedido) || "".equals(dataFechamento) || "".equals(nomeCliente) || "".equals(prazoEmbarque)) {
+                    //JOptionPane de alerta
+                    JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
+                } else {      
+
+                    //Retornando para o usuário o pedido adicionado
+                    JOptionPane.showMessageDialog(null, """
+                                               Pedido adicionado com sucesso!
+                                               Id Pedido: """ + idPedido + "\nData Fechamento: " + dataFechamento + "\nNome Cliente: " + nomeCliente + "\nPrazo Embarque: " + prazoEmbarque);
+                }
+
+                break;
+            }
+        }
+
+            */
+    }
+    
+    
+    
+    
+    private void add_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_estoqueActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_add_estoqueActionPerformed
 
     /**
      * @param args the command line arguments
@@ -120,8 +223,12 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_estoque;
+    private javax.swing.JButton del_est;
+    private javax.swing.JButton est_pendente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable tab_usuarios;
+    private javax.swing.JTable tab_estoque;
+    private javax.swing.JButton upd_estoque;
     // End of variables declaration//GEN-END:variables
 }
