@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package gui_adm;
 
-import gui_adm.*;
 import dao.UsuarioDAO;
 import gui.COrdemProducaoGUI;
 import gui.CProdutosGUI;
@@ -21,12 +20,12 @@ import javax.swing.JOptionPane;
  *
  * @author Senai
  */
-public class MenuGUI extends javax.swing.JFrame {
+public class MenuAdmGUI extends javax.swing.JFrame {
     
     /**
      * Creates new form MenuGUI
      */
-    public MenuGUI() {
+    public MenuAdmGUI() {
         initComponents();
     }
 
@@ -38,6 +37,7 @@ public class MenuGUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         menu_new = new javax.swing.JMenu();
         submenu_newop = new javax.swing.JMenuItem();
+        submenu_newUser = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
         menu_help = new javax.swing.JMenu();
 
@@ -67,6 +67,14 @@ public class MenuGUI extends javax.swing.JFrame {
             }
         });
         menu_new.add(submenu_newop);
+
+        submenu_newUser.setText("Usuários");
+        submenu_newUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_newUserActionPerformed(evt);
+            }
+        });
+        menu_new.add(submenu_newUser);
 
         submenu_newproduct.setText("Produtos");
         submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +112,14 @@ public class MenuGUI extends javax.swing.JFrame {
         window.setLocationRelativeTo(null);
     }//GEN-LAST:event_submenu_newopActionPerformed
 
+    private void submenu_newUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newUserActionPerformed
+      
+        JFrame window = new CUsuarioGUI();
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+        
+    }//GEN-LAST:event_submenu_newUserActionPerformed
+
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
         JFrame window = new CProdutosGUI();
         window.setVisible(true);
@@ -124,13 +140,13 @@ public class MenuGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAdmGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAdmGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAdmGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuAdmGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -138,7 +154,7 @@ public class MenuGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuGUI().setVisible(true);
+                new MenuAdmGUI().setVisible(true);
             }
         });
     }
@@ -148,6 +164,7 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu menu_help;
     private javax.swing.JMenu menu_new;
+    private javax.swing.JMenuItem submenu_newUser;
     private javax.swing.JMenuItem submenu_newop;
     private javax.swing.JMenuItem submenu_newproduct;
     // End of variables declaration//GEN-END:variables

@@ -1,5 +1,6 @@
 package gui;
 
+import gui_adm.MenuAdmGUI;
 import dao.UsuarioDAO;
 import java.sql.SQLException;
 import javax.swing.JFrame;
@@ -148,12 +149,17 @@ public class LoginGUI extends javax.swing.JFrame {
             permissao = usuariodao.permissao(field_login.getText(),field_password.getText());
             System.out.println(permissao);
             
-            if(logado == true){    
+            if(logado == true && permissao == true){    
                 
+                JFrame windowADM = new MenuAdmGUI();
+                windowADM.setVisible(true);
+                windowADM.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                dispose();
+                
+            } else if(logado == true){
                 JFrame window = new MenuGUI();
                 window.setVisible(true);
                 window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                dispose();
             }
         } 
         catch (SQLException e) {
