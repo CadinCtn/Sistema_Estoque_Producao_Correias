@@ -8,7 +8,6 @@ package gui_adm;
 import dao.UsuarioDAO;
 import gui.COrdemProducaoGUI;
 import gui.CProdutosGUI;
-import gui.CUsuarioGUI;
 import gui.LoginGUI;
 import java.sql.SQLException;
 import java.util.logging.Level;
