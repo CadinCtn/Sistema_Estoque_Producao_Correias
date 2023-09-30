@@ -39,6 +39,7 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         submenu_newop = new javax.swing.JMenuItem();
         submenu_newUser = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
+        submenu_estoque = new javax.swing.JMenuItem();
         menu_help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,6 +85,14 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_newproduct);
 
+        submenu_estoque.setText("Estoque Correias");
+        submenu_estoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_estoqueActionPerformed(evt);
+            }
+        });
+        menu_new.add(submenu_estoque);
+
         jMenuBar1.add(menu_new);
 
         menu_help.setText("Ajuda");
@@ -126,6 +135,12 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         window.setLocationRelativeTo(null);
     }//GEN-LAST:event_submenu_newproductActionPerformed
 
+    private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
+        JFrame window = new CEstoqueGUI();
+        window.setVisible(true);
+        window.setLocationRelativeTo(this);
+    }//GEN-LAST:event_submenu_estoqueActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -164,6 +179,7 @@ public class MenuAdmGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu menu_help;
     private javax.swing.JMenu menu_new;
+    private javax.swing.JMenuItem submenu_estoque;
     private javax.swing.JMenuItem submenu_newUser;
     private javax.swing.JMenuItem submenu_newop;
     private javax.swing.JMenuItem submenu_newproduct;

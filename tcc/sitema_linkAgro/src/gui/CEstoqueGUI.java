@@ -4,10 +4,15 @@
  */
 package gui;
 
-import javax.swing.JLabel;
+import dao.EstoqueDAO;
+import dao.ProdutoDAO;
+import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import modelo.Estoque;
+import modelo.Produto;
+
 
 /**
  *
@@ -20,8 +25,30 @@ public class CEstoqueGUI extends javax.swing.JFrame {
      */
     public CEstoqueGUI() {
         initComponents();
+        tabela();
     }
 
+    
+    public void tabela(){
+        EstoqueDAO estoquedao = new EstoqueDAO();
+        DefaultTableModel modelo = (DefaultTableModel) tab_estoque.getModel();
+        
+        
+        while(tab_estoque.getModel().getRowCount() > 0 ){
+            ((DefaultTableModel) tab_estoque.getModel()).removeRow(0);
+        }
+        
+        List<Estoque> estoqueList = estoquedao.selectEstoque();
+        for (Estoque estoque : estoqueList) {
+            
+            Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
+            modelo.addRow(line);
+            
+        }
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,7 +66,8 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         del_est = new javax.swing.JButton();
         est_pendente = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Estoque Correias");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -47,8 +75,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         tab_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tab_estoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Categoria", "Lonas", "Largura", "Metragem"
@@ -76,10 +103,20 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         upd_estoque.setBackground(new java.awt.Color(255, 255, 255));
         upd_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         upd_estoque.setText("Editar");
+        upd_estoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upd_estoqueActionPerformed(evt);
+            }
+        });
 
         del_est.setBackground(new java.awt.Color(255, 255, 255));
         del_est.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         del_est.setText("Excluir");
+        del_est.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                del_estActionPerformed(evt);
+            }
+        });
 
         est_pendente.setBackground(new java.awt.Color(204, 204, 204));
         est_pendente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -130,62 +167,62 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void pane(){
-        
-        //Criando painel do JOptionPane
-        JPanel paneJOP = new JPanel();
-
-        //Campos para digitalizar o texto
-        JTextField categoriaField = new JTextField(5);
-        JTextField lonaField = new JTextField(7);
-        JTextField larguraField = new JTextField(50);
-        JTextField metragemField = new JTextField(7);
-/*
-        //Adicionando elementos ao painel
-        paneJOP.add(new JLabel("Id Pedido: "));
-        paneJOP.add(idField);
-        paneJOP.add(new JLabel("Data Fechamento: "));
-        paneJOP.add(fecField);
-        paneJOP.add(new JLabel("Nome Cliente: "));
-        paneJOP.add(nomeField);
-        paneJOP.add(new JLabel("Prazo Embarque: "));
-        paneJOP.add(prazField);
-   
-        switch (JOptionPane.showConfirmDialog(null, paneJOP, "Adicionar Pedido", JOptionPane.OK_CANCEL_OPTION)) {
-            case JOptionPane.OK_OPTION -> {
-                //Colocando em variáveis do tipo String os elementos digitados para a busca
-                String idPedido = idField.getText();
-                String dataFechamento = fecField.getText();
-                String nomeCliente = nomeField.getText();
-                String prazoEmbarque = prazField.getText();
-
-                //if para impedir que haja algum pedido cadastrado como null
-                if ("".equals(idPedido) || "".equals(dataFechamento) || "".equals(nomeCliente) || "".equals(prazoEmbarque)) {
-                    //JOptionPane de alerta
-                    JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
-                } else {      
-
-                    //Retornando para o usuário o pedido adicionado
-                    JOptionPane.showMessageDialog(null, """
-                                               Pedido adicionado com sucesso!
-                                               Id Pedido: """ + idPedido + "\nData Fechamento: " + dataFechamento + "\nNome Cliente: " + nomeCliente + "\nPrazo Embarque: " + prazoEmbarque);
-                }
-
-                break;
-            }
-        }
-
-            */
-    }
-    
-    
-    
     
     private void add_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_estoqueActionPerformed
-        
-        
+        EstoqueDAO estoquedao = new EstoqueDAO();
+        estoquedao.insertEstoque(estoquedao.pane(null,null,null,null));
+        JOptionPane.showMessageDialog(null,"Correia adicionada com sucesso!");
+        tabela();
         
     }//GEN-LAST:event_add_estoqueActionPerformed
+
+    private void del_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_estActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = tab_estoque.getSelectedRow();
+        if(linhaSelecionada >=0){
+            
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa correia?","Aviso",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:    
+                EstoqueDAO estoquedao = new EstoqueDAO(); 
+                int id = (int) tab_estoque.getValueAt(linhaSelecionada, 0);
+                estoquedao.deleteEstoque(id);
+                tabela();
+                
+            break;
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione a correia que deseja excluir");
+        }
+        
+    }//GEN-LAST:event_del_estActionPerformed
+
+    private void upd_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_estoqueActionPerformed
+        EstoqueDAO estoquedao = new EstoqueDAO();
+        
+        int linhaSelecionada = -1;
+        linhaSelecionada = tab_estoque.getSelectedRow();
+        if(linhaSelecionada >=0){
+            
+            int id = (int) tab_estoque.getValueAt(linhaSelecionada,0);
+            String categoria = (String) tab_estoque.getValueAt(linhaSelecionada,1);
+            String lonas = (String) String.valueOf(tab_estoque.getValueAt(linhaSelecionada,2));
+            String largura = (String) String.valueOf(tab_estoque.getValueAt(linhaSelecionada,3));
+            String metragem = (String) String.valueOf(tab_estoque.getValueAt(linhaSelecionada,4));
+            
+            estoquedao.updadeEstoque(estoquedao.pane(categoria, lonas, largura, metragem), id);
+            tabela();
+            
+            
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione a correia que deseja editar");
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_upd_estoqueActionPerformed
 
     /**
      * @param args the command line arguments
