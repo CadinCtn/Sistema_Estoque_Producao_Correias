@@ -86,14 +86,12 @@ public class UsuarioDAO {
  
     
         //metodo para cadastrar novo usuário
-    public void criarUsuario(Usuario usuario, boolean permissao){
-        CadastroUsuarioGUI cadastrousuariogui = new CadastroUsuarioGUI();
-        
+    public void criarUsuario(Usuario usuario, boolean permissao){     
         String sql;
         
         if(permissao){
             sql = "INSERT INTO usuarios (login,senha,permissao) VALUES (?,?,'ADM')";
-            System.out.println("selected");
+            
         } else {
             sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
         }
@@ -112,6 +110,7 @@ public class UsuarioDAO {
         
     }
     
+    //Metodo para deletar usuário
     public void deleteUsuario(int id){
         
         String sql = "DELETE from usuarios  WHERE id = ?";        
@@ -131,7 +130,7 @@ public class UsuarioDAO {
         
     }
     
-    
+    //Método para gerar a tabela para visualizar usuários cadastrados
     public List<Usuario> selectUsuario() throws SQLException{
         String sql = "Select * FROM usuarios;";
         
