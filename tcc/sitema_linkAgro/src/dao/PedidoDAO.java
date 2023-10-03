@@ -26,7 +26,11 @@ public class PedidoDAO {
     
     public void adiciona(Pedido pedido){
     
+<<<<<<< Updated upstream
         String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao)VALUES(?, ?, ?, ?, ?)";
+=======
+        String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao)VALUES(?,?,"+pedidogui.field_dateClose.getDate()+",?,?)";
+>>>>>>> Stashed changes
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
