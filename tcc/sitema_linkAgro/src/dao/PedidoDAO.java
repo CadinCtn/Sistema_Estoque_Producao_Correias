@@ -8,7 +8,6 @@ package dao;
 import factory.ConnectionFactory;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import gui.PedidoGUI;
 import modelo.Pedido;
 import java.sql.Connection;
 
@@ -19,12 +18,6 @@ import java.sql.Connection;
 public class PedidoDAO {
     
     private Connection connection;
-    PedidoGUI pedidogui = new PedidoGUI();
-    int id;
-    // data fechamento
-    // data embarque
-    String nomeCliente;
-    String observacao;
     
     
     public PedidoDAO(){
@@ -33,12 +26,15 @@ public class PedidoDAO {
     
     public void adiciona(Pedido pedido){
     
-        String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao)VALUES(?,?,"+pedidogui.field_dateclose.getDate()+",?,?)";
+        String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao)VALUES(?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, 1);
-            stmt.setString(2, "teste");
+            stmt.setInt(1, pedido.getId());
+            stmt.setString(2, pedido.getNomeCliente());
+            stmt.setDate(3,pedido.getFechamento());
+            stmt.setDate(4,pedido.getEmbarque());
+            stmt.setString(5, pedido.getObservacao());
             stmt.execute();
             stmt.close();
         }
