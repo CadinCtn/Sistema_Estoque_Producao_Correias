@@ -6,7 +6,7 @@
 package menus;
 
 import estoque.CEstoqueGUI;
-import ordem_producao.COrdemProducaoGUI;
+import ordem_producao.ROrdemProducaoGUI;
 import produtos.CProdutosGUI;
 import javax.swing.JFrame;
 
@@ -105,9 +105,9 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void submenu_newopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newopActionPerformed
         
-        JFrame window = new COrdemProducaoGUI();
+        JFrame window = new ROrdemProducaoGUI();
         window.setVisible(true);
-        window.setLocationRelativeTo(null);
+        window.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_submenu_newopActionPerformed
 
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed

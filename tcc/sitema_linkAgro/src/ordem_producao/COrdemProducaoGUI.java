@@ -59,7 +59,7 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
         box_lonas = new javax.swing.JComboBox<>();
         button_confirm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tab_pedidosOp = new javax.swing.JTable();
         label_sector = new javax.swing.JLabel();
         field_sector = new javax.swing.JTextField();
 
@@ -128,8 +128,8 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
         button_confirm.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_confirm.setText("Confirmar");
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tab_pedidosOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_pedidosOp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -150,7 +150,7 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tab_pedidosOp);
 
         label_sector.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         label_sector.setText("Setor");
@@ -324,7 +324,6 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel label_category;
     private javax.swing.JLabel label_ee;
     private javax.swing.JLabel label_length;
@@ -332,5 +331,6 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JLabel label_obs;
     private javax.swing.JLabel label_sector;
     private javax.swing.JLabel label_width;
+    private javax.swing.JTable tab_pedidosOp;
     // End of variables declaration//GEN-END:variables
 }
