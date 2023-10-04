@@ -33,7 +33,7 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
     
     public COrdemProducaoGUI() {
         initComponents();
-        //categoriaBox();
+        categoriaBox();
     }
 
     
@@ -108,6 +108,7 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
         field_observation.setRows(5);
         jScrollPane1.setViewportView(field_observation);
 
+        button_addOrder.setBackground(new java.awt.Color(255, 255, 255));
         button_addOrder.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_addOrder.setText("Adicionar Pedido");
 
@@ -125,18 +126,14 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
         box_lonas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         box_lonas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "8", "10" }));
 
+        button_confirm.setBackground(new java.awt.Color(255, 255, 255));
         button_confirm.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_confirm.setText("Confirmar");
 
         tab_pedidosOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tab_pedidosOp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nome do Cliente", "Largura ", "Metragem"

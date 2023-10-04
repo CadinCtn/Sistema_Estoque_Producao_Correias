@@ -38,6 +38,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        button_createOp.setBackground(new java.awt.Color(255, 255, 255));
         button_createOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_createOp.setText("Gerar Ordem de Produção");
         button_createOp.addActionListener(new java.awt.event.ActionListener() {
