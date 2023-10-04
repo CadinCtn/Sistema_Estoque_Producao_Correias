@@ -4,6 +4,10 @@
  */
 package pedidos;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Lenovo
@@ -17,6 +21,30 @@ public class CPedidosGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+    
+    public void tabela(){
+        PedidoDAO pedidodao = new PedidoDAO();
+        DefaultTableModel modelo = (DefaultTableModel) tab_pedidos.getModel();
+        
+        
+        while(tab_pedidos.getModel().getRowCount() > 0 ){
+            ((DefaultTableModel) tab_pedidos.getModel()).removeRow(0);
+        }
+        
+        List<Pedido> estoqueList = pedidodao.selectPedidos();
+        Iterable<Pedido> pedidoList;
+        for (Pedido pedido : pedidoList) {
+            
+            Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
+            modelo.addRow(line);
+            
+        }
+        
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,6 +62,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
         del_pedido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Pedidos");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -139,7 +168,12 @@ public class CPedidosGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void add_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_pedidoActionPerformed
-       
+        PedidoDAO pedidodao = new PedidoDAO();
+        Pedido pedido = new Pedido();
+        pedidodao.insertPedido(pedidodao.paneJOP(null,null,null,null,null));
+        JOptionPane.showMessageDialog(null,"Pedido adicionado com sucesso!");
+        
+        
     }//GEN-LAST:event_add_pedidoActionPerformed
 
     private void upd_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoActionPerformed
