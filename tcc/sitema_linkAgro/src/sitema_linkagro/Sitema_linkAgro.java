@@ -5,7 +5,7 @@
  */
 package sitema_linkagro;
 
-import gui.LoginGUI;
+import usuarios.LoginGUI;
 import javax.swing.JFrame;
 
 /**
