@@ -8,12 +8,7 @@ package menus;
 import estoque.CEstoqueGUI;
 import ordem_producao.COrdemProducaoGUI;
 import produtos.CProdutosGUI;
-import usuarios.LoginGUI;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import usuarios.CUsuarioGUI;
 
 /**

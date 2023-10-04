@@ -164,11 +164,14 @@ public class LoginGUI extends javax.swing.JFrame {
                     JFrame window = new MenuGUI();
                     window.setVisible(true);
                     window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    dispose();
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Acesso negado: login ou senha incorretos. ","Incorreto",JOptionPane.WARNING_MESSAGE);
             }
         } 
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,e.getMessage());
+            throw new RuntimeException(e);
         }
     }
     

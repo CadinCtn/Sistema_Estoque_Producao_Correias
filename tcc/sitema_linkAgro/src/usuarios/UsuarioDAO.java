@@ -36,16 +36,13 @@ public class UsuarioDAO {
             stmt.setString(2,senha);
             ResultSet resultado = stmt.executeQuery();
             
+            
+            
+            
             //Se encontrar login correspondente banco de dados, retorna true
             if(resultado.next()){
                 return true;
-                   
-            }else{
-                JOptionPane.showMessageDialog(null, "Acesso negado: login ou senha incorretos. ","Incorreto",JOptionPane.WARNING_MESSAGE);
             }
-            
-            stmt.execute();
-            stmt.close();
         }
         catch (SQLException u) {
             throw new RuntimeException(u);
@@ -74,8 +71,6 @@ public class UsuarioDAO {
                return true;
             }
             
-            stmt.execute();
-            stmt.close();
         }
         catch (SQLException u) {
             throw new RuntimeException(u);

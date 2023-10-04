@@ -8,13 +8,8 @@ package menus;
 import estoque.CEstoqueGUI;
 import ordem_producao.COrdemProducaoGUI;
 import produtos.CProdutosGUI;
-import usuarios.CUsuarioGUI;
-import usuarios.LoginGUI;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -59,10 +54,9 @@ public class MenuGUI extends javax.swing.JFrame {
 
         menubar.setBackground(new java.awt.Color(255, 255, 255));
 
-        menu_new.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_plus.png"))); // NOI18N
         menu_new.setText("Novo");
 
-        submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/211649_clipboard_icon.png"))); // NOI18N
+        submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
         submenu_newop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,7 +65,7 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_newop);
 
-        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/379490_belt_conveyor_icon (1).png"))); // NOI18N
+        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
         submenu_newproduct.setText("Produtos");
         submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,7 +84,6 @@ public class MenuGUI extends javax.swing.JFrame {
 
         menubar.add(menu_new);
 
-        menu_help.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_help.png"))); // NOI18N
         menu_help.setText("Ajuda");
         menubar.add(menu_help);
 
