@@ -68,6 +68,8 @@ public class LoginGUI extends javax.swing.JFrame {
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/linkagroLogo.png"))); // NOI18N
 
+        field_password.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -149,19 +151,19 @@ public class LoginGUI extends javax.swing.JFrame {
         try {
             logado = usuariodao.validarLogin(field_login.getText(),field_password.getText());
             permissao = usuariodao.permissao(field_login.getText(),field_password.getText());
-            System.out.println(permissao);
             
-            if(logado == true && permissao == true){    
+            if(logado){    
                 
-                JFrame windowADM = new MenuAdmGUI();
-                windowADM.setVisible(true);
-                windowADM.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                dispose();
-                
-            } else if(logado == true){
-                JFrame window = new MenuGUI();
-                window.setVisible(true);
-                window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                if(permissao){
+                    JFrame windowADM = new MenuAdmGUI();
+                    windowADM.setVisible(true);
+                    windowADM.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    dispose();
+                } else {
+                    JFrame window = new MenuGUI();
+                    window.setVisible(true);
+                    window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                }
             }
         } 
         catch (SQLException e) {

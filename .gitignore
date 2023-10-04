@@ -1,1 +1,7 @@
-/tcc/sitema_linkAgro/dist/
+# Default ignored files
+/shelf/
+/workspace.xml
+.idea
+.vscode
+*.class
+/bin

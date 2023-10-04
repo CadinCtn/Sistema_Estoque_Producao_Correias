@@ -3,21 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/CadastroUsuarioGUI.java</file>
+            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/dao/UsuarioDAO.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/modelo/Usuario.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/MenuGUI.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/CProdutosGUI.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/modelo/Estoque.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/factory/TestaConexao.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/COrdemProducaoGUI.java</file>
+            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/modelo/Produto.java</file>
+            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/factory/ConnectionFactory.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/dao/ProdutoDAO.java</file>
             <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/LoginGUI.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/dao/UsuarioDAO.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/MenuAdmGUI.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/CUsuarioGUI.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/factory/ConnectionFactory.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/dao/EstoqueDAO.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/Repositorios/Sistema_Estoque_Producao/tcc/sitema_linkAgro/src/gui/CEstoqueGUI.java</file>
         </group>
     </open-files>
 </project-private>
