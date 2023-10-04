@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 
-public class TestaConexao {
+public class TestConnection {
     
     public static void main(String[] args) throws SQLException {
     
