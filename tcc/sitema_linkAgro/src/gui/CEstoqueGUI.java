@@ -170,7 +170,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     
     private void add_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_estoqueActionPerformed
         EstoqueDAO estoquedao = new EstoqueDAO();
-        estoquedao.insertEstoque(estoquedao.pane(null,null,null,null));
+        estoquedao.insertEstoque(estoquedao.paneJOP(null,null,null,null));
         JOptionPane.showMessageDialog(null,"Correia adicionada com sucesso!");
         tabela();
         
@@ -210,7 +210,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             String largura = (String) String.valueOf(tab_estoque.getValueAt(linhaSelecionada,3));
             String metragem = (String) String.valueOf(tab_estoque.getValueAt(linhaSelecionada,4));
             
-            estoquedao.updadeEstoque(estoquedao.pane(categoria, lonas, largura, metragem), id);
+            estoquedao.updadeEstoque(estoquedao.paneJOP(categoria, lonas, largura, metragem), id);
             tabela();
             
             

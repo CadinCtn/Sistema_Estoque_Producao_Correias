@@ -30,7 +30,7 @@ public class EstoqueDAO {
     
     
     //Método que cria JOptionPane para adicionar um estoque
-    public Estoque pane(String categoria, String lonas, String largura, String metragem){
+    public Estoque paneJOP(String categoria, String lonas, String largura, String metragem){
         Estoque estoque = new Estoque();
         
         
