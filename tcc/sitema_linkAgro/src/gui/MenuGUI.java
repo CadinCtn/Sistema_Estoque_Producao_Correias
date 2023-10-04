@@ -5,11 +5,10 @@
  */
 package gui;
 
-import gui_adm.*;
 import dao.UsuarioDAO;
 import gui.COrdemProducaoGUI;
 import gui.CProdutosGUI;
-import gui_adm.CUsuarioGUI;
+import gui.CUsuarioGUI;
 import gui.LoginGUI;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -34,35 +33,33 @@ public class MenuGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panel_background = new javax.swing.JPanel();
-        menubar = new javax.swing.JMenuBar();
+        jPanel1 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
         menu_new = new javax.swing.JMenu();
         submenu_newop = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
+        submenu_estoque = new javax.swing.JMenuItem();
         menu_help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sistema LinkAgro");
 
-        panel_background.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout panel_backgroundLayout = new javax.swing.GroupLayout(panel_background);
-        panel_background.setLayout(panel_backgroundLayout);
-        panel_backgroundLayout.setHorizontalGroup(
-            panel_backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 737, Short.MAX_VALUE)
         );
-        panel_backgroundLayout.setVerticalGroup(
-            panel_backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 386, Short.MAX_VALUE)
         );
 
-        menubar.setBackground(new java.awt.Color(255, 255, 255));
+        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
 
-        menu_new.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_plus.png"))); // NOI18N
         menu_new.setText("Novo");
 
-        submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/211649_clipboard_icon.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
         submenu_newop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,7 +68,6 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_newop);
 
-        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/379490_belt_conveyor_icon (1).png"))); // NOI18N
         submenu_newproduct.setText("Produtos");
         submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,23 +76,30 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_newproduct);
 
-        menubar.add(menu_new);
+        submenu_estoque.setText("Estoque Correias");
+        submenu_estoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_estoqueActionPerformed(evt);
+            }
+        });
+        menu_new.add(submenu_estoque);
 
-        menu_help.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_help.png"))); // NOI18N
+        jMenuBar1.add(menu_new);
+
         menu_help.setText("Ajuda");
-        menubar.add(menu_help);
+        jMenuBar1.add(menu_help);
 
-        setJMenuBar(menubar);
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -114,6 +117,12 @@ public class MenuGUI extends javax.swing.JFrame {
         window.setVisible(true);
         window.setLocationRelativeTo(null);
     }//GEN-LAST:event_submenu_newproductActionPerformed
+
+    private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
+        JFrame window = new CEstoqueGUI();
+        window.setVisible(true);
+        window.setLocationRelativeTo(this);
+    }//GEN-LAST:event_submenu_estoqueActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -149,10 +158,11 @@ public class MenuGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu menu_help;
     private javax.swing.JMenu menu_new;
-    private javax.swing.JMenuBar menubar;
-    private javax.swing.JPanel panel_background;
+    private javax.swing.JMenuItem submenu_estoque;
     private javax.swing.JMenuItem submenu_newop;
     private javax.swing.JMenuItem submenu_newproduct;
     // End of variables declaration//GEN-END:variables

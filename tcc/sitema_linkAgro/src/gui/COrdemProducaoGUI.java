@@ -13,12 +13,12 @@ import modelo.Produto;
 public class COrdemProducaoGUI extends javax.swing.JFrame {
 
     public void categoriaBox(){
-        ProdutoDAO ordemproducaodao = new ProdutoDAO();
+        ProdutoDAO produtodao = new ProdutoDAO();
         
         box_category.removeAllItems();
         
         try{
-            List<Produto> produtoList = ordemproducaodao.categoriaBox();
+            List<Produto> produtoList = produtodao.categoriaBox();
             
             for(Produto produto : produtoList){
                 box_category.addItem(produto.getProduto()); 

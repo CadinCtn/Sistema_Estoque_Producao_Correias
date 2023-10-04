@@ -6,6 +6,7 @@
 package dao;
 
 import factory.ConnectionFactory;
+import gui.CadastroUsuarioGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import modelo.Produto;
 import modelo.Usuario;
 
 
@@ -86,10 +86,16 @@ public class UsuarioDAO {
  
     
         //metodo para cadastrar novo usuário
-    public void criarUsuario(Usuario usuario){
+    public void criarUsuario(Usuario usuario, boolean permissao){     
+        String sql;
         
-        String sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
-      
+        if(permissao){
+            sql = "INSERT INTO usuarios (login,senha,permissao) VALUES (?,?,'ADM')";
+            
+        } else {
+            sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
+        }
+        
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1,usuario.getLogin());
@@ -104,6 +110,7 @@ public class UsuarioDAO {
         
     }
     
+    //Metodo para deletar usuário
     public void deleteUsuario(int id){
         
         String sql = "DELETE from usuarios  WHERE id = ?";        
@@ -123,7 +130,7 @@ public class UsuarioDAO {
         
     }
     
-    
+    //Método para gerar a tabela para visualizar usuários cadastrados
     public List<Usuario> selectUsuario() throws SQLException{
         String sql = "Select * FROM usuarios;";
         
@@ -138,7 +145,7 @@ public class UsuarioDAO {
                 usuario.setId(rs.getInt("id"));
                 usuario.setLogin(rs.getString("login"));
                 usuario.setSenha(rs.getString("senha"));
-               // usuario.getPermissao(rs.getString("permissao"));
+                usuario.setPermissao(rs.getString("permissao"));
                 usuarioList.add(usuario);
                 
             }
