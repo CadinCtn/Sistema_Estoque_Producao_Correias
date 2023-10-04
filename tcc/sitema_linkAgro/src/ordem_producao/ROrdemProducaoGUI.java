@@ -33,6 +33,8 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         button_createOp = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        button_update = new javax.swing.JButton();
+        button_delete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +68,14 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        button_update.setBackground(new java.awt.Color(255, 255, 255));
+        button_update.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_update.setText("Editar Ordem de Produção");
+
+        button_delete.setBackground(new java.awt.Color(255, 255, 255));
+        button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_delete.setText("Deletar Ordem de Produção");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,6 +85,10 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(button_createOp)
+                        .addGap(18, 18, 18)
+                        .addComponent(button_update)
+                        .addGap(18, 18, 18)
+                        .addComponent(button_delete)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE))
                 .addContainerGap())
@@ -83,7 +97,10 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(button_createOp)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(button_createOp)
+                    .addComponent(button_update)
+                    .addComponent(button_delete))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -147,6 +164,8 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_createOp;
+    private javax.swing.JButton button_delete;
+    private javax.swing.JButton button_update;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

@@ -62,6 +62,8 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
         tab_pedidosOp = new javax.swing.JTable();
         label_sector = new javax.swing.JLabel();
         field_sector = new javax.swing.JTextField();
+        button_update = new javax.swing.JButton();
+        button_delete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerar ordem de produção");
@@ -154,6 +156,14 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
 
         field_sector.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        button_update.setBackground(new java.awt.Color(255, 255, 255));
+        button_update.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_update.setText("Editar Pedido");
+
+        button_delete.setBackground(new java.awt.Color(255, 255, 255));
+        button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_delete.setText("Deletar Pedido");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -161,9 +171,9 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(label_sector)
@@ -194,13 +204,18 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(label_obs)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(button_addOrder)
-                                .addGap(51, 51, 51)
-                                .addComponent(button_confirm)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(button_addOrder)
+                        .addGap(18, 18, 18)
+                        .addComponent(button_update)
+                        .addGap(18, 18, 18)
+                        .addComponent(button_delete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button_confirm)
+                        .addGap(36, 36, 36))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +246,9 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button_addOrder)
-                    .addComponent(button_confirm))
+                    .addComponent(button_confirm)
+                    .addComponent(button_update)
+                    .addComponent(button_delete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -315,6 +332,8 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JButton button_addCategory;
     private javax.swing.JButton button_addOrder;
     private javax.swing.JButton button_confirm;
+    private javax.swing.JButton button_delete;
+    private javax.swing.JButton button_update;
     private javax.swing.JTextField field_length;
     private javax.swing.JTextArea field_observation;
     private javax.swing.JTextField field_sector;
