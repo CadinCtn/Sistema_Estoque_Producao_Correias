@@ -6,22 +6,20 @@
 package pedidos;
 
 import com.toedter.calendar.JDateChooser;
-import estoque.Estoque;
 import factory.ConnectionFactory;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import produtos.Produto;
-import produtos.ProdutoDAO;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -39,7 +37,7 @@ public class PedidoDAO {
     
     
     //Método que cria JOptionPane para adicionar um estoque
-    public Pedido paneJOP(String id, String nomeCliente, Date fechamento, Date embarque, String obs){
+    public Pedido paneJOP(String id, String nomeCliente, Date fechamento, Date embarque, String obs) {
         Pedido pedido = new Pedido();
         
         
@@ -68,7 +66,7 @@ public class PedidoDAO {
         
         
          //Setando valores iniciais do Field
-        idField.setText(String.valueOf(id));
+        idField.setText(id);
         nomeField.setText(nomeCliente);
         fechamentoDate.setDate(fechamento);
         embarqueDate.setDate(embarque);
@@ -80,16 +78,29 @@ public class PedidoDAO {
             case JOptionPane.OK_OPTION : 
                 
                 //if para impedir que seja cadastrado como null
-                if (idField.getText().isEmpty() || nomeField.getText().isEmpty() || fechamentoDate.getDate() == null || embarqueDate.getDate() == null || obsField.getText().isEmpty()) {
+                if (idField.getText().isEmpty() || nomeField.getText().isEmpty() || fechamentoDate.getDate() == null || embarqueDate.getDate() == null) {
                     //JOptionPane de alerta
                     JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
                 } else {      
 
+                    //Convertendo java.util para java.sql em no formato Date
+                        //Formato da data
+                        SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
+                        //Fechamento
+                        java.util.Date fechUtil = fechamentoDate.getDate(); //Pegando o valor registrado no JDateChooser e colocando em uma variável do tipo util.Date
+                        java.sql.Date fechSql = new java.sql.Date(fechUtil.getTime()); //Finalmente convertendo para sql.Date para adicionar no banco de dados
+                        
+                        
+                        //Embarque
+                        java.util.Date embaUtil = embarqueDate.getDate();
+                        java.sql.Date embaSql = new java.sql.Date(embaUtil.getTime());
+                        System.out.println(embaSql);
+                    
                     //Criando objeto ana classe modelo
                     pedido.setId(Integer.valueOf(idField.getText()));
                     pedido.setNomeCliente(nomeField.getText());
-                    pedido.setFechamento((Date) fechamentoDate.getDate());
-                    pedido.setEmbarque((Date) embarqueDate.getDate());
+                    pedido.setFechamento( fechSql);
+                    pedido.setEmbarque( embaSql);
                     pedido.setObservacao(obsField.getText());
                     
                     
@@ -175,7 +186,7 @@ public class PedidoDAO {
     
     
     //Select Pedidos
-    public List<Pedido> selectEstoque(){
+    public List<Pedido> selectPedidos(){
         String sql = "SELECT * FROM pedidos";
         
         List<Pedido> pedidoList = new ArrayList();

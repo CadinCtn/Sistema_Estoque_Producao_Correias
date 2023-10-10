@@ -4,9 +4,11 @@
  */
 package pedidos;
 
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -19,6 +21,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
      */
     public CPedidosGUI() {
         initComponents();
+        tabela();
     }
 
     
@@ -32,11 +35,11 @@ public class CPedidosGUI extends javax.swing.JFrame {
             ((DefaultTableModel) tab_pedidos.getModel()).removeRow(0);
         }
         
-        List<Pedido> estoqueList = pedidodao.selectPedidos();
-        Iterable<Pedido> pedidoList;
+        
+        List<Pedido> pedidoList = pedidodao.selectPedidos();
         for (Pedido pedido : pedidoList) {
             
-            Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
+            Object[] line = {pedido.getId(), pedido.getNomeCliente(), pedido.getFechamento(),pedido.getEmbarque(),pedido.getObservacao()};
             modelo.addRow(line);
             
         }
@@ -72,7 +75,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pedido", "Data Fechamento", "Data Embarque", "Nome Cliente", "OBS"
+                "ID Pedido", "Nome Cliente", "Data Fechamento", "Data Embarque", "OBS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -88,14 +91,14 @@ public class CPedidosGUI extends javax.swing.JFrame {
             tab_pedidos.getColumnModel().getColumn(0).setMinWidth(100);
             tab_pedidos.getColumnModel().getColumn(0).setPreferredWidth(100);
             tab_pedidos.getColumnModel().getColumn(0).setMaxWidth(100);
-            tab_pedidos.getColumnModel().getColumn(1).setMinWidth(125);
-            tab_pedidos.getColumnModel().getColumn(1).setPreferredWidth(125);
-            tab_pedidos.getColumnModel().getColumn(1).setMaxWidth(125);
+            tab_pedidos.getColumnModel().getColumn(1).setMinWidth(250);
+            tab_pedidos.getColumnModel().getColumn(1).setPreferredWidth(250);
             tab_pedidos.getColumnModel().getColumn(2).setMinWidth(125);
             tab_pedidos.getColumnModel().getColumn(2).setPreferredWidth(125);
             tab_pedidos.getColumnModel().getColumn(2).setMaxWidth(125);
-            tab_pedidos.getColumnModel().getColumn(3).setMinWidth(250);
-            tab_pedidos.getColumnModel().getColumn(3).setPreferredWidth(250);
+            tab_pedidos.getColumnModel().getColumn(3).setMinWidth(125);
+            tab_pedidos.getColumnModel().getColumn(3).setPreferredWidth(125);
+            tab_pedidos.getColumnModel().getColumn(3).setMaxWidth(125);
             tab_pedidos.getColumnModel().getColumn(4).setMinWidth(150);
             tab_pedidos.getColumnModel().getColumn(4).setPreferredWidth(150);
         }
@@ -169,20 +172,52 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
     private void add_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_pedidoActionPerformed
         PedidoDAO pedidodao = new PedidoDAO();
-        Pedido pedido = new Pedido();
         pedidodao.insertPedido(pedidodao.paneJOP(null,null,null,null,null));
         JOptionPane.showMessageDialog(null,"Pedido adicionado com sucesso!");
-        
-        
+        tabela();
     }//GEN-LAST:event_add_pedidoActionPerformed
 
     private void upd_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoActionPerformed
-      
+      int linhaSelecionada = -1;
+    linhaSelecionada = tab_pedidos.getSelectedRow();
+        if(linhaSelecionada >=0){
+            int id = (int) tab_pedidos.getValueAt(linhaSelecionada, 0);
+            
+            PedidoDAO pedidodao = new PedidoDAO();
+            
+            String Id = (String) tab_pedidos.getValueAt(linhaSelecionada, 1);
+            String nome = (String) tab_pedidos.getValueAt(linhaSelecionada, 2);
+            String obs = (String) tab_pedidos.getValueAt(linhaSelecionada, 5);
+            
+            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, tab_pedidos.getValueAt(linhaSelecionada, 3), tab_pedidos.getValueAt(linhaSelecionada, 4), obs), id);
+            
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
+        }
+        
 
+            
     }//GEN-LAST:event_upd_pedidoActionPerformed
 
     private void del_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_pedidoActionPerformed
-    
+    int linhaSelecionada = -1;
+    linhaSelecionada = tab_pedidos.getSelectedRow();
+        if(linhaSelecionada >=0){
+            
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:    
+                PedidoDAO pedidodao = new PedidoDAO(); 
+                int id = (int) tab_pedidos.getValueAt(linhaSelecionada, 0);
+                pedidodao.deletePedido(id);
+                tabela();
+                
+            break;
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
+        }
+        
 
     }//GEN-LAST:event_del_pedidoActionPerformed
 
