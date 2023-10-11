@@ -81,23 +81,27 @@ public class OrdemProducaoDAO {
     
     
     //Select
-    public List<PedidoOp> selectOrdemProcucao(){
+    public List<OrdemProducao> selectOrdemProducao(){
         String sql = "SELECT * FROM ordem_producao";
         
-        List<PedidoOp> pedidoopList = new ArrayList();
+        List<OrdemProducao> opList = new ArrayList();
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()){
-                PedidoOp pedidoop = new PedidoOp();
-                pedidoop.setId(rs.getInt("id"));
-                pedidoop.setNome_cliente(rs.getString("categoria"));
-                pedidoop.setLargura(rs.getFloat("largura"));
-                pedidoop.setMetragem(rs.getFloat("metragem"));
+                OrdemProducao op = new OrdemProducao();
+                op.setId(rs.getInt("id"));
+                op.setCategoria(rs.getString("categoria"));
+                op.setEe(rs.getInt("EE"));
+                op.setLarguraTecido(rs.getFloat("largura_tecido"));
+                op.setMetragemTecido(rs.getFloat("metragem_tecido"));
+                op.setLonas(rs.getInt("lonas"));
+                op.setSetor(rs.getString("setor"));
+                op.setObservacao(rs.getString("observacao"));
                 
-                pedidoopList.add(pedidoop);
+                opList.add(op);
             }
             
             stmt.close();
@@ -110,7 +114,7 @@ public class OrdemProducaoDAO {
         }
         
         
-        return pedidoopList;
+        return opList;
     }
     
     

@@ -5,7 +5,10 @@
  */
 package ordem_producao;
 
+
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,8 +21,28 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
      */
     public ROrdemProducaoGUI() {
         initComponents();
+        tabela();
     }
 
+    public void tabela(){
+        OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+        DefaultTableModel modelo = (DefaultTableModel) tab_ordemProducao.getModel();
+        
+        
+        while(tab_ordemProducao.getModel().getRowCount() > 0 ){
+            ((DefaultTableModel) tab_ordemProducao.getModel()).removeRow(0);
+        }
+        
+        List<OrdemProducao> opList = opdao.selectOrdemProducao();
+        for (OrdemProducao op : opList) {
+            
+            Object[] line = {op.getId(), op.getCategoria(), op.getEe(), op.getLarguraTecido(), op.getMetragemTecido(),op.getLonas(),op.getSetor(),op.getObservacao()};
+            modelo.addRow(line);
+            
+        }
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,11 +55,12 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         button_createOp = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tab_ordemProducao = new javax.swing.JTable();
         button_update = new javax.swing.JButton();
         button_delete = new javax.swing.JButton();
+        button_return = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -49,8 +73,8 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tab_ordemProducao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_ordemProducao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -66,7 +90,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tab_ordemProducao);
 
         button_update.setBackground(new java.awt.Color(255, 255, 255));
         button_update.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -76,6 +100,16 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_delete.setText("Deletar Ordem de Produção");
 
+        button_return.setBackground(new java.awt.Color(255, 255, 255));
+        button_return.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_return.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/botao-voltar (1).png"))); // NOI18N
+        button_return.setBorder(null);
+        button_return.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_returnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -83,25 +117,32 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(button_return)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_createOp)
                         .addGap(18, 18, 18)
                         .addComponent(button_update)
                         .addGap(18, 18, 18)
-                        .addComponent(button_delete)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE))
+                        .addComponent(button_delete)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_createOp)
-                    .addComponent(button_update)
-                    .addComponent(button_delete))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(button_createOp)
+                            .addComponent(button_update)
+                            .addComponent(button_delete))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(button_return)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -125,7 +166,13 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         JFrame window = new COrdemProducaoGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+        dispose();
     }//GEN-LAST:event_button_createOpActionPerformed
+
+    private void button_returnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_returnActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_button_returnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,7 +204,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ROrdemProducaoGUI().setVisible(true);
+                
             }
         });
     }
@@ -165,9 +212,10 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_createOp;
     private javax.swing.JButton button_delete;
+    private javax.swing.JButton button_return;
     private javax.swing.JButton button_update;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tab_ordemProducao;
     // End of variables declaration//GEN-END:variables
 }
