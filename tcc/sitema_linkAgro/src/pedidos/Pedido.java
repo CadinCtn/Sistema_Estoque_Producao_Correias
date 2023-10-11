@@ -13,8 +13,8 @@ import java.sql.Date;
  */
 public class Pedido {
     int id;
-    Date fechamento;
-    Date embarque;
+    String fechamento;
+    String embarque;
     String nomeCliente;
     String observacao;
 
@@ -28,19 +28,19 @@ public class Pedido {
         this.id = id;
     }
 
-    public Date getFechamento() {
+    public String getFechamento() {
         return fechamento;
     }
 
-    public void setFechamento(Date fechamento) {
+    public void setFechamento(String fechamento) {
         this.fechamento = fechamento;
     }
 
-    public Date getEmbarque() {
+    public String getEmbarque() {
         return embarque;
     }
 
-    public void setEmbarque(Date embarque) {
+    public void setEmbarque(String embarque) {
         this.embarque = embarque;
     }
 

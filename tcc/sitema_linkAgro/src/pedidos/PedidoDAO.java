@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -18,8 +19,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,7 +40,7 @@ public class PedidoDAO {
     
     
     //Método que cria JOptionPane para adicionar um estoque
-    public Pedido paneJOP(String id, String nomeCliente, Date fechamento, Date embarque, String obs) {
+    public Pedido paneJOP(String id, String nomeCliente, String fechamento, String embarque, String obs) {
         Pedido pedido = new Pedido();
         
         
@@ -65,11 +68,13 @@ public class PedidoDAO {
         paneJOP.add(obsField);
         
         
+        
+        
+        
+        
          //Setando valores iniciais do Field
         idField.setText(id);
         nomeField.setText(nomeCliente);
-        fechamentoDate.setDate(fechamento);
-        embarqueDate.setDate(embarque);
         obsField.setText(obs);
         
        
@@ -78,7 +83,7 @@ public class PedidoDAO {
             case JOptionPane.OK_OPTION : 
                 
                 //if para impedir que seja cadastrado como null
-                if (idField.getText().isEmpty() || nomeField.getText().isEmpty() || fechamentoDate.getDate() == null || embarqueDate.getDate() == null) {
+                if (idField.getText().isEmpty() || nomeField.getText().isEmpty() || fechamentoDate.getDateFormatString().isEmpty() || embarqueDate.getDateFormatString().isEmpty()) {
                     //JOptionPane de alerta
                     JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
                 } else {      
@@ -86,21 +91,20 @@ public class PedidoDAO {
                     //Convertendo java.util para java.sql em no formato Date
                         //Formato da data
                         SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
+       
                         //Fechamento
                         java.util.Date fechUtil = fechamentoDate.getDate(); //Pegando o valor registrado no JDateChooser e colocando em uma variável do tipo util.Date
-                        java.sql.Date fechSql = new java.sql.Date(fechUtil.getTime()); //Finalmente convertendo para sql.Date para adicionar no banco de dados
-                        
+                        String fech = dateForm.format(fechUtil);                                
                         
                         //Embarque
                         java.util.Date embaUtil = embarqueDate.getDate();
-                        java.sql.Date embaSql = new java.sql.Date(embaUtil.getTime());
-                        System.out.println(embaSql);
+                        String emba = dateForm.format(embaUtil);
                     
                     //Criando objeto ana classe modelo
                     pedido.setId(Integer.valueOf(idField.getText()));
                     pedido.setNomeCliente(nomeField.getText());
-                    pedido.setFechamento( fechSql);
-                    pedido.setEmbarque( embaSql);
+                    pedido.setFechamento( fech);
+                    pedido.setEmbarque( emba);
                     pedido.setObservacao(obsField.getText());
                     
                     
@@ -130,8 +134,8 @@ public class PedidoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, pedido.getId());
             stmt.setString(2, pedido.getNomeCliente());
-            stmt.setDate(3,pedido.getFechamento());
-            stmt.setDate(4,pedido.getEmbarque());
+            stmt.setString(3,pedido.getFechamento());
+            stmt.setString(4,pedido.getEmbarque());
             stmt.setString(5, pedido.getObservacao());
             stmt.execute();
             stmt.close();
@@ -169,8 +173,8 @@ public class PedidoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, pedido.getId());
             stmt.setString(2,pedido.getNomeCliente());
-            stmt.setDate(3,pedido.getFechamento());
-            stmt.setDate(4,pedido.getEmbarque());
+            stmt.setString(3,pedido.getFechamento());
+            stmt.setString(4,pedido.getEmbarque());
             stmt.setString(5, pedido.getObservacao());
             
             stmt.execute();
@@ -199,8 +203,8 @@ public class PedidoDAO {
                 Pedido pedido = new Pedido();
                 pedido.setId(rs.getInt("id"));
                 pedido.setNomeCliente(rs.getString("nome_cliente"));
-                pedido.setFechamento(rs.getDate("data_fechamento"));
-                pedido.setEmbarque(rs.getDate("data_embarque"));
+                pedido.setFechamento(rs.getString("data_fechamento"));
+                pedido.setEmbarque(rs.getString("data_embarque"));
                 pedido.setObservacao(rs.getString("observacao"));
                 
                 pedidoList.add(pedido);

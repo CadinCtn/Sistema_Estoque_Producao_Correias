@@ -33,7 +33,7 @@ CREATE TABLE `estoque` (
   PRIMARY KEY (`id`),
   KEY `categoria` (`categoria`),
   CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`categoria`) REFERENCES `produtos` (`produto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `estoque` (
 
 LOCK TABLES `estoque` WRITE;
 /*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
+INSERT INTO `estoque` VALUES (1,'Agrothor',3,7.00,25.00),(2,'Agropem',4,20.00,100.00),(5,'Agrothor',2,20.00,50.00),(6,'Agrothor',3,20.00,30.00),(7,'Primethor',6,8.00,68.90),(9,'Agropem',9,2.50,20.00),(10,'Primethor',3,10.00,29.60);
 /*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,8 +115,8 @@ DROP TABLE IF EXISTS `pedidos`;
 CREATE TABLE `pedidos` (
   `id` int NOT NULL,
   `nome_cliente` varchar(255) NOT NULL,
-  `data_fechamento` date NOT NULL,
-  `data_embarque` date NOT NULL,
+  `data_fechamento` varchar(10) DEFAULT NULL,
+  `data_embarque` varchar(10) DEFAULT NULL,
   `observacao` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -127,6 +128,7 @@ CREATE TABLE `pedidos` (
 
 LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
+INSERT INTO `pedidos` VALUES (222,'222','2023-10-05','2023-10-05',''),(1111,'Testedara','2023-01-01','2023-10-26',''),(2000,'Almirante','2023-01-03','2023-10-18',''),(2222,'Dionisio','2023-01-12','2023-10-21',''),(5656,'Taitano','2023-01-18','2023-10-20',''),(7777,'Jaime','2023-01-04','2023-10-18',''),(9999,'Dta','2023-10-04','2023-10-19','');
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,7 +195,7 @@ CREATE TABLE `usuarios` (
   `permissao` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,7 +204,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'cris','2404','ADM'),(2,'roger','251021',NULL);
+INSERT INTO `usuarios` VALUES (1,'cris','2404','ADM'),(2,'roger','251021',NULL),(9,'felipe','felipe09',NULL),(13,'teste','teste',NULL),(14,'testeadm','teste','ADM');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -215,4 +217,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-26 11:16:30
+-- Dump completed on 2023-10-11 13:52:10

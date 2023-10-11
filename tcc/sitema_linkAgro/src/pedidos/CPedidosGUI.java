@@ -4,7 +4,7 @@
  */
 package pedidos;
 
-import java.sql.SQLException;
+
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -189,7 +189,9 @@ public class CPedidosGUI extends javax.swing.JFrame {
             String nome = (String) tab_pedidos.getValueAt(linhaSelecionada, 2);
             String obs = (String) tab_pedidos.getValueAt(linhaSelecionada, 5);
             
-            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, tab_pedidos.getValueAt(linhaSelecionada, 3), tab_pedidos.getValueAt(linhaSelecionada, 4), obs), id);
+         
+          
+            pedidodao.updatePedido(pedidodao.paneJOP(null, null, null, null, null), id);
             
         } else {
             JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
