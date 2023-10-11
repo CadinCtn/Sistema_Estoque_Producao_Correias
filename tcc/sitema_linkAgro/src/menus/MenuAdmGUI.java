@@ -9,6 +9,7 @@ import estoque.CEstoqueGUI;
 import ordem_producao.COrdemProducaoGUI;
 import produtos.CProdutosGUI;
 import javax.swing.JFrame;
+import pedidos.CPedidosGUI;
 import usuarios.CUsuarioGUI;
 
 /**
@@ -35,6 +36,7 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         submenu_newUser = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
         submenu_estoque = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menu_help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -89,6 +91,14 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_estoque);
 
+        jMenuItem1.setText("Pedidos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menu_new.add(jMenuItem1);
+
         jMenuBar1.add(menu_new);
 
         menu_help.setText("Ajuda");
@@ -138,6 +148,12 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         window.setLocationRelativeTo(this);
     }//GEN-LAST:event_submenu_estoqueActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        JFrame window = new CPedidosGUI();
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -173,6 +189,7 @@ public class MenuAdmGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu menu_help;
     private javax.swing.JMenu menu_new;
