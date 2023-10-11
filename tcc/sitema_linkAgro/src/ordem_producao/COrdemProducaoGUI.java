@@ -33,7 +33,7 @@ public class COrdemProducaoGUI extends javax.swing.JFrame {
     
     public COrdemProducaoGUI() {
         initComponents();
-        //categoriaBox();
+        categoriaBox();
     }
 
     
