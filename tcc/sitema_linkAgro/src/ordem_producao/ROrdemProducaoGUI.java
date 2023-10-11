@@ -99,6 +99,11 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         button_delete.setBackground(new java.awt.Color(255, 255, 255));
         button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_delete.setText("Deletar Ordem de Produção");
+        button_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_deleteActionPerformed(evt);
+            }
+        });
 
         button_return.setBackground(new java.awt.Color(255, 255, 255));
         button_return.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -174,6 +179,16 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_button_returnActionPerformed
 
+    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
+        // TODO add your handling code here:
+        OrdemProducao op = new OrdemProducao();
+        int row = -1;
+        row = tab_ordemProducao.getSelectedRow();
+        op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(row, 0))));
+        
+        
+    }//GEN-LAST:event_button_deleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -199,6 +214,9 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ROrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

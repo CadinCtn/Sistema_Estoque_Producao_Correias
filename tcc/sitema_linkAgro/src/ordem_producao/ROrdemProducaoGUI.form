@@ -150,6 +150,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Deletar Ordem de Produ&#xe7;&#xe3;o"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_deleteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="button_return">
           <Properties>
