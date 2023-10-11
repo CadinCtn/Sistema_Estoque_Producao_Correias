@@ -185,14 +185,14 @@ public class CPedidosGUI extends javax.swing.JFrame {
             
             PedidoDAO pedidodao = new PedidoDAO();
             
-            String Id = (String) tab_pedidos.getValueAt(linhaSelecionada, 1);
-            String nome = (String) tab_pedidos.getValueAt(linhaSelecionada, 2);
-            String obs = (String) tab_pedidos.getValueAt(linhaSelecionada, 5);
-            
-         
+            String Id =  tab_pedidos.getValueAt(linhaSelecionada, 0).toString();
+            String nome = (String) tab_pedidos.getValueAt(linhaSelecionada, 1);
+            String fechamento = (String) tab_pedidos.getValueAt(linhaSelecionada, 2);
+            String embarque = (String) tab_pedidos.getValueAt(linhaSelecionada, 3);
+            String obs = (String) tab_pedidos.getValueAt(linhaSelecionada, 4);
           
-            pedidodao.updatePedido(pedidodao.paneJOP(null, null, null, null, null), id);
-            
+            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
+            tabela();
         } else {
             JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
         }

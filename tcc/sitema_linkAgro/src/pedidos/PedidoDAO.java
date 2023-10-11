@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -19,10 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -68,13 +65,10 @@ public class PedidoDAO {
         paneJOP.add(obsField);
         
         
-        
-        
-        
-        
          //Setando valores iniciais do Field
         idField.setText(id);
         nomeField.setText(nomeCliente);
+        
         obsField.setText(obs);
         
        
