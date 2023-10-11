@@ -49,12 +49,13 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
 
         menu_new.setText("Novo");
+        menu_new.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
         submenu_newop.setText("Ordem de produção");
         submenu_newop.addActionListener(new java.awt.event.ActionListener() {
@@ -91,6 +92,7 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         jMenuBar1.add(menu_new);
 
         menu_help.setText("Ajuda");
+        menu_help.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jMenuBar1.add(menu_help);
 
         setJMenuBar(jMenuBar1);

@@ -6,7 +6,7 @@
 package menus;
 
 import estoque.CEstoqueGUI;
-import ordem_producao.COrdemProducaoGUI;
+import ordem_producao.ROrdemProducaoGUI;
 import produtos.CProdutosGUI;
 import javax.swing.JFrame;
 
@@ -49,12 +49,13 @@ public class MenuGUI extends javax.swing.JFrame {
         );
         panel_backgroundLayout.setVerticalGroup(
             panel_backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
 
         menubar.setBackground(new java.awt.Color(255, 255, 255));
 
         menu_new.setText("Novo");
+        menu_new.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
         submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
@@ -85,6 +86,7 @@ public class MenuGUI extends javax.swing.JFrame {
         menubar.add(menu_new);
 
         menu_help.setText("Ajuda");
+        menu_help.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         menubar.add(menu_help);
 
         setJMenuBar(menubar);
@@ -105,9 +107,9 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void submenu_newopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newopActionPerformed
         
-        JFrame window = new COrdemProducaoGUI();
+        JFrame window = new ROrdemProducaoGUI();
         window.setVisible(true);
-        window.setLocationRelativeTo(null);
+        window.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_submenu_newopActionPerformed
 
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
