@@ -8,6 +8,7 @@ package ordem_producao;
 
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +43,8 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         }
         
     }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,6 +98,11 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         button_update.setBackground(new java.awt.Color(255, 255, 255));
         button_update.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_update.setText("Editar Ordem de Produção");
+        button_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_updateActionPerformed(evt);
+            }
+        });
 
         button_delete.setBackground(new java.awt.Color(255, 255, 255));
         button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -122,33 +130,29 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(button_return)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(button_createOp)
                         .addGap(18, 18, 18)
                         .addComponent(button_update)
                         .addGap(18, 18, 18)
-                        .addComponent(button_delete)))
+                        .addComponent(button_delete))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+                    .addComponent(button_return))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(button_createOp)
-                            .addComponent(button_update)
-                            .addComponent(button_delete))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(button_return)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(button_return)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(button_createOp)
+                    .addComponent(button_update)
+                    .addComponent(button_delete))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -168,7 +172,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
 
     private void button_createOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_createOpActionPerformed
         // TODO add your handling code here:
-        JFrame window = new COrdemProducaoGUI();
+        JFrame window = new CUOrdemProducaoGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         dispose();
@@ -182,12 +186,61 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
         // TODO add your handling code here:
         OrdemProducao op = new OrdemProducao();
+        
         int row = -1;
         row = tab_ordemProducao.getSelectedRow();
-        op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(row, 0))));
         
+        if(row >=0){
+            
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa ordem de produção?","Aviso",JOptionPane.YES_NO_OPTION)){
+                
+                case JOptionPane.YES_OPTION:    
+                    OrdemProducaoDAO opdao = new OrdemProducaoDAO(); 
+                    op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(row, 0))));
+                    opdao.deleteOrdemProducao(op.getId());
+                    tabela();
+                
+                break;
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja excluir.");
+        }
         
     }//GEN-LAST:event_button_deleteActionPerformed
+
+    private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_updateActionPerformed
+        // TODO add your handling code here:
+        OrdemProducao op = new OrdemProducao();
+        
+        int row = -1;
+        row = tab_ordemProducao.getSelectedRow();
+        
+        if(row >= 0){
+            CUOrdemProducaoGUI cuop = new CUOrdemProducaoGUI();
+            
+            op.setEdit(true);
+            int id = Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(row, 0)));
+            String categoria = String.valueOf(tab_ordemProducao.getValueAt(row, 1));
+            String ee = String.valueOf(tab_ordemProducao.getValueAt(row, 2));
+            String width = String.valueOf(tab_ordemProducao.getValueAt(row, 3));
+            String length = String.valueOf(tab_ordemProducao.getValueAt(row, 4));
+            String lonas = String.valueOf(tab_ordemProducao.getValueAt(row, 5));
+            String setor = String.valueOf(tab_ordemProducao.getValueAt(row, 6));
+            String observacao = String.valueOf(tab_ordemProducao.getValueAt(row, 7));
+            
+            cuop.fillFields(op.isEdit(), id, categoria, ee, width, length, lonas, setor, observacao);
+            
+            
+            cuop.setVisible(true);
+            cuop.setLocationRelativeTo(null);
+            dispose();
+            
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja editar.");
+        }
+        
+    }//GEN-LAST:event_button_updateActionPerformed
 
     /**
      * @param args the command line arguments

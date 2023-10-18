@@ -118,17 +118,20 @@ public class OrdemProducaoDAO {
     }
     
     
-    
-    public void updadePedidoOp(PedidoOp pedidoop, int id){
-        String sql = "UPDATE pedidos_op SET id = ?, nome_cliente = ?, largura = ?, metragem = ? WHERE id = " + id;
+    // Update
+    public void updadeOrdemProducao(OrdemProducao op, int id){
+        String sql = "UPDATE ordem_producao SET categoria = ?, EE = ?, largura_tecido = ?, metragem_tecido = ?, lonas = ?, setor = ?, observacao = ? WHERE id = " + id;
         
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1,pedidoop.getId());
-            stmt.setString(1,pedidoop.getNome_cliente());
-            stmt.setFloat(3,pedidoop.getLargura());
-            stmt.setFloat(4,pedidoop.getMetragem());
+            stmt.setString(1,op.getCategoria());
+            stmt.setInt(2,op.getEe());
+            stmt.setFloat(3,op.getLarguraTecido());
+            stmt.setFloat(4,op.getMetragemTecido());
+            stmt.setInt(5,op.getLonas());
+            stmt.setString(6,op.getSetor());
+            stmt.setString(7,op.getObservacao());
             stmt.execute();
             stmt.close();
             
