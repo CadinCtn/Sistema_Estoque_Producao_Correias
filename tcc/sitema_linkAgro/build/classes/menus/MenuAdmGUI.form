@@ -19,6 +19,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="submenu_newop">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/icon_clipboard.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Ordem de produ&#xe7;&#xe3;o"/>
               </Properties>
               <Events>

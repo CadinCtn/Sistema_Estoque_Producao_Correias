@@ -86,18 +86,14 @@ public class DesenhoCorte extends JPanel{
         g.setColor(Color.ORANGE);
         g.fillRect((int)x2,(int)y2, (int)px2,(int)py2);
         
-        
-        
     }
     
     
     public static void main(String args[]){
-        DesenhoCorte p = new DesenhoCorte();
+        DesenhoCorte draw = new DesenhoCorte();
         JFrame frame = new JFrame();
         
-        
-        
-        frame.setContentPane(p);
+        frame.setContentPane(draw);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(frame);

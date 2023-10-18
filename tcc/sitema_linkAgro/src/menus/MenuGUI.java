@@ -131,7 +131,7 @@ public class MenuGUI extends javax.swing.JFrame {
     private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
         JFrame window = new CEstoqueGUI();
         window.setVisible(true);
-        window.setLocationRelativeTo(this);
+        window.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_submenu_estoqueActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

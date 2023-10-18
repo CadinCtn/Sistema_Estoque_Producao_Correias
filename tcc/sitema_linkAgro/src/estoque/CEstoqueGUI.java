@@ -4,12 +4,12 @@
  */
 package estoque;
 
-import produtos.ProdutoDAO;
-import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import produtos.Produto;
+import produtos.ProdutoDAO;
+
 
 
 /**
@@ -23,9 +23,35 @@ public class CEstoqueGUI extends javax.swing.JFrame {
      */
     public CEstoqueGUI() {
         initComponents();
+        categoriaBox();
         tabela();
     }
 
+    
+    
+    public void categoriaBox(){
+        ProdutoDAO produtodao = new ProdutoDAO();
+        
+        box_category.removeAllItems();
+        
+        try{
+            List<Produto> produtoList = produtodao.categoriaBox();
+            
+            for(Produto produto : produtoList){
+                box_category.addItem(produto.getProduto()); 
+        }
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    
+    
+    
+    
+    
     
     public void tabela(){
         EstoqueDAO estoquedao = new EstoqueDAO();
@@ -63,6 +89,13 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         upd_estoque = new javax.swing.JButton();
         del_est = new javax.swing.JButton();
         est_pendente = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        busca_est = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        largField = new javax.swing.JTextField();
+        metField = new javax.swing.JTextField();
+        box_category = new javax.swing.JComboBox<>();
+        box_lona = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Estoque Correias");
@@ -71,6 +104,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
 
         tab_estoque.setBackground(new java.awt.Color(255, 255, 255));
         tab_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_estoque.setForeground(new java.awt.Color(0, 0, 0));
         tab_estoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -87,6 +121,9 @@ public class CEstoqueGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_estoque.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tab_estoque.setSelectionBackground(new java.awt.Color(0, 102, 102));
+        tab_estoque.setSelectionForeground(new java.awt.Color(51, 51, 51));
         jScrollPane5.setViewportView(tab_estoque);
 
         add_estoque.setBackground(new java.awt.Color(255, 255, 255));
@@ -120,35 +157,91 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         est_pendente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         est_pendente.setText("Estoque Pendente");
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/botao-voltar (1).png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        busca_est.setBackground(new java.awt.Color(255, 255, 255));
+        busca_est.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        busca_est.setText("Buscar");
+        busca_est.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                busca_estActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Filtros:");
+
+        largField.setText("0");
+
+        metField.setText("0");
+
+        box_lona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "8", "10" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(add_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(upd_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(del_est, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(busca_est, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(est_pendente))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 81, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(box_category, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(box_lona, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(largField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(metField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(add_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(upd_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(del_est, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(est_pendente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(est_pendente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(busca_est, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(largField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(metField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(box_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(box_lona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -222,6 +315,45 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_upd_estoqueActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void busca_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busca_estActionPerformed
+        
+        if((largField.getText()).isEmpty() || (metField.getText()).isEmpty()){
+           JOptionPane.showMessageDialog(null,"Preencha todos os filtros");
+        } else {
+
+           EstoqueDAO estoquedao = new EstoqueDAO();
+           DefaultTableModel modelo = (DefaultTableModel) tab_estoque.getModel();
+
+
+           while(tab_estoque.getModel().getRowCount() > 0 ){
+               ((DefaultTableModel) tab_estoque.getModel()).removeRow(0);
+           }
+
+           Estoque est = new Estoque();
+           est.setCategoria(String.valueOf(box_category.getSelectedItem()));
+           est.setLonas(Integer.valueOf(String.valueOf(box_lona.getSelectedItem())));
+           
+           
+           
+           List<Estoque> estoqueList = estoquedao.buscaEstoque(est.getCategoria(), est.getLonas(),Float.parseFloat(largField.getText()),Float.parseFloat(metField.getText()));
+           
+           for (Estoque estoque : estoqueList) {
+
+               Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
+               modelo.addRow(line);
+            
+        }
+            
+            
+        }
+        
+        
+    }//GEN-LAST:event_busca_estActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -260,10 +392,17 @@ public class CEstoqueGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_estoque;
+    private javax.swing.JComboBox<String> box_category;
+    private javax.swing.JComboBox<String> box_lona;
+    private javax.swing.JButton busca_est;
     private javax.swing.JButton del_est;
     private javax.swing.JButton est_pendente;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextField largField;
+    private javax.swing.JTextField metField;
     private javax.swing.JTable tab_estoque;
     private javax.swing.JButton upd_estoque;
     // End of variables declaration//GEN-END:variables

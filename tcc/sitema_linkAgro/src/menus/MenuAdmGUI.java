@@ -59,6 +59,7 @@ public class MenuAdmGUI extends javax.swing.JFrame {
         menu_new.setText("Novo");
         menu_new.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
+        submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
         submenu_newop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,7 +146,7 @@ public class MenuAdmGUI extends javax.swing.JFrame {
     private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
         JFrame window = new CEstoqueGUI();
         window.setVisible(true);
-        window.setLocationRelativeTo(this);
+        window.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_submenu_estoqueActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

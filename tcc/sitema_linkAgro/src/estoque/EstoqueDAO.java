@@ -33,7 +33,6 @@ public class EstoqueDAO {
     public Estoque pane(String categoria, String lonas, String largura, String metragem){
         Estoque estoque = new Estoque();
         
-        
         //Criando painel do JOptionPane
         JPanel paneJOP = new JPanel();
 
@@ -183,6 +182,41 @@ public class EstoqueDAO {
         
         return estoqueList;
     }
+    
+    //Metodo para filtrar a tabela
+    public List<Estoque> buscaEstoque(String categoria, int lonas, float largura, float metragem){
+        String sql = "SELECT * FROM estoque WHERE categoria = '" + categoria + "' and lonas = " + lonas + " and largura >= " + largura + " and metragem >= " + metragem;
+        
+        List<Estoque> estoqueFiltList = new ArrayList();
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Estoque estoque = new Estoque();
+                estoque.setId(rs.getInt("id"));
+                estoque.setCategoria(rs.getString("categoria"));
+                estoque.setLonas(rs.getInt("lonas"));
+                estoque.setLargura(rs.getFloat("largura"));
+                estoque.setMetragem(rs.getFloat("metragem"));
+                
+                estoqueFiltList.add(estoque);
+            }
+            
+            stmt.close();
+            rs.close();
+                    
+            
+        }
+        catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        
+        
+        return estoqueFiltList;
+    }
+    
     
     
     
