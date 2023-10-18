@@ -19,6 +19,7 @@ public class OrdemProducao {
     int lonas;
     String setor;
     String observacao;
+    boolean edit = false;
 
     public int getId() {
         return id;
@@ -83,6 +84,15 @@ public class OrdemProducao {
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+    
     
     
     

@@ -6,10 +6,9 @@
 package menus;
 
 import estoque.CEstoqueGUI;
-//import ordem_producao.ROrdemProducaoGUI;
+import ordem_producao.ROrdemProducaoGUI;
 import produtos.CProdutosGUI;
 import javax.swing.JFrame;
-import pedidos.CPedidosGUI;
 
 
 /**
@@ -35,7 +34,6 @@ public class MenuGUI extends javax.swing.JFrame {
         submenu_newop = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
         submenu_estoque = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
         menu_help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,13 +49,12 @@ public class MenuGUI extends javax.swing.JFrame {
         );
         panel_backgroundLayout.setVerticalGroup(
             panel_backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 385, Short.MAX_VALUE)
+            .addGap(0, 386, Short.MAX_VALUE)
         );
 
         menubar.setBackground(new java.awt.Color(255, 255, 255));
 
         menu_new.setText("Novo");
-        menu_new.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
         submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
@@ -85,18 +82,9 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_estoque);
 
-        jMenuItem1.setText("Pedidos");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        menu_new.add(jMenuItem1);
-
         menubar.add(menu_new);
 
         menu_help.setText("Ajuda");
-        menu_help.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         menubar.add(menu_help);
 
         setJMenuBar(menubar);
@@ -117,9 +105,9 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void submenu_newopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newopActionPerformed
         
-      //  JFrame window = new ROrdemProducaoGUI();
-       // window.setVisible(true);
-        //window.setExtendedState(MAXIMIZED_BOTH);
+        JFrame window = new ROrdemProducaoGUI();
+        window.setVisible(true);
+        window.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_submenu_newopActionPerformed
 
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
@@ -131,14 +119,8 @@ public class MenuGUI extends javax.swing.JFrame {
     private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
         JFrame window = new CEstoqueGUI();
         window.setVisible(true);
-        window.setExtendedState(MAXIMIZED_BOTH);
+        window.setLocationRelativeTo(this);
     }//GEN-LAST:event_submenu_estoqueActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        JFrame window = new CPedidosGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -174,7 +156,6 @@ public class MenuGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menu_help;
     private javax.swing.JMenu menu_new;
     private javax.swing.JMenuBar menubar;
