@@ -269,6 +269,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Adicionar Pedido"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_addOrderActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="box_ee">
           <Properties>

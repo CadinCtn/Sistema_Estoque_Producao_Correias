@@ -49,10 +49,9 @@ public class ProdutoDAO {
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1,produto);
-            JOptionPane.showMessageDialog(null,"Produto " + produto + " DELETADO com sucesso.");
             stmt.execute();
             stmt.close();
-            
+            JOptionPane.showMessageDialog(null,"Produto " + produto + " DELETADO com sucesso.");
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e.getMessage());

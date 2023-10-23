@@ -150,6 +150,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         button_addOrder.setBackground(new java.awt.Color(255, 255, 255));
         button_addOrder.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_addOrder.setText("Adicionar Pedido");
+        button_addOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_addOrderActionPerformed(evt);
+            }
+        });
 
         box_ee.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         box_ee.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "90", "100", "125", "140" }));
@@ -329,7 +334,10 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_button_returnActionPerformed
 
     private void button_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_confirmActionPerformed
-        // TODO add your handling code here:
+        if(field_length.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,"Preencha todos os campos necessários para gerar a Ordem de Produção","Aviso",JOptionPane.WARNING_MESSAGE);
+        } else {
+        
         OrdemProducao op = new OrdemProducao();
         op.setCategoria(String.valueOf(box_category.getSelectedItem()));
         op.setEe(Integer.valueOf(String.valueOf(box_ee.getSelectedItem())));
@@ -345,6 +353,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         dispose();
+        }
 
     }//GEN-LAST:event_button_confirmActionPerformed
 
@@ -368,6 +377,12 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private void box_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_categoryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_box_categoryActionPerformed
+
+    private void button_addOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addOrderActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_button_addOrderActionPerformed
 
     /**
      * @param args the command line arguments
