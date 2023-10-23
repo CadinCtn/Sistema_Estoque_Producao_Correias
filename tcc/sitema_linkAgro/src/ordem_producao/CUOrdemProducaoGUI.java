@@ -379,7 +379,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_box_categoryActionPerformed
 
     private void button_addOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addOrderActionPerformed
-        JFrame window = new PedidoOpGui();
+        JFrame window = new CPedidoOpGui();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         
