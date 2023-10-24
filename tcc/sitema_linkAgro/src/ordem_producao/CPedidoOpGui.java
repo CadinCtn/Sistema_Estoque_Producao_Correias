@@ -4,6 +4,7 @@
  */
 package ordem_producao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,16 +15,26 @@ import pedidos.PedidoDAO;
  *
  * @author Lenovo
  */
-public class CPedidoOpGui extends javax.swing.JFrame {
+public class CPedidoOpGUI extends javax.swing.JFrame {
 
+    public void teste(){
+        System.out.println("AAAAAAAAAA");
+    }
+    
     /**
      * Creates new form PedidoOpGui
      */
-    public CPedidoOpGui() {
+    public CPedidoOpGUI() {
         initComponents();
         tabela();
     }
 
+    
+    public void Dispose(){
+        super.dispose();
+        CUOrdemProducaoGUI cpg = new CUOrdemProducaoGUI();
+        cpg.onDispose();
+    }
     
     //Método para popular a tabela pedidos op com os pedidos cadastrados
     public void tabela(){
@@ -198,7 +209,7 @@ public class CPedidoOpGui extends javax.swing.JFrame {
         if(selectedLine >= 0){
             if(largField.getText().isEmpty() || metField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Preencha a largura e a metragem!");
-                
+            } else {    
                 //Adicionando o pedido com as medidas especificadas a tabela pedidos_op do banco de dados
                 PedidoOp pedidoop = new PedidoOp();
                 
@@ -209,7 +220,7 @@ public class CPedidoOpGui extends javax.swing.JFrame {
                 
                 
                 
-                
+                Dispose();
                 
             }
         } else {
@@ -234,21 +245,23 @@ public class CPedidoOpGui extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CPedidoOpGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CPedidoOpGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CPedidoOpGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CPedidoOpGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CPedidoOpGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CPedidoOpGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CPedidoOpGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CPedidoOpGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CPedidoOpGui().setVisible(true);
+                new CPedidoOpGUI().setVisible(true);
             }
         });
     }

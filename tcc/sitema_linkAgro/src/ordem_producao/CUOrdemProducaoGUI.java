@@ -9,10 +9,32 @@ import produtos.ProdutoDAO;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import produtos.Produto;
 
 public class CUOrdemProducaoGUI extends javax.swing.JFrame {
-
+    
+    CPedidoOpGUI cpedidoopgui = new CPedidoOpGUI();
+    
+    public CUOrdemProducaoGUI() {
+        initComponents();
+        categoriaBox();
+        
+    }
+    
+    
+    public void onDispose(){
+        
+        System.out.println("Disposado!");
+        
+        DefaultTableModel mod = (DefaultTableModel) tab_pedidosOp.getModel();
+        Object[] line = {1,1,1,1,1};
+        mod.addRow(line);
+        
+        cpedidoopgui.teste();
+    }
+    
+    
     public void categoriaBox(){
         ProdutoDAO produtodao = new ProdutoDAO();
         
@@ -66,12 +88,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     }
     
     
-    public CUOrdemProducaoGUI() {
-        initComponents();
-        categoriaBox();
-        
-        
-    }
+    
 
     
     @SuppressWarnings("unchecked")
@@ -90,7 +107,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         field_length = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         field_observation = new javax.swing.JTextArea();
-        button_addOrder = new javax.swing.JButton();
+        button_addPedOp = new javax.swing.JButton();
         box_ee = new javax.swing.JComboBox<>();
         box_width = new javax.swing.JComboBox<>();
         box_lonas = new javax.swing.JComboBox<>();
@@ -99,7 +116,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         tab_pedidosOp = new javax.swing.JTable();
         label_sector = new javax.swing.JLabel();
         field_sector = new javax.swing.JTextField();
-        button_delete = new javax.swing.JButton();
+        button_removePedidoOp = new javax.swing.JButton();
         button_return = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -147,12 +164,12 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         field_observation.setRows(5);
         jScrollPane1.setViewportView(field_observation);
 
-        button_addOrder.setBackground(new java.awt.Color(255, 255, 255));
-        button_addOrder.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_addOrder.setText("Adicionar Pedido");
-        button_addOrder.addActionListener(new java.awt.event.ActionListener() {
+        button_addPedOp.setBackground(new java.awt.Color(255, 255, 255));
+        button_addPedOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_addPedOp.setText("Adicionar Pedido");
+        button_addPedOp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_addOrderActionPerformed(evt);
+                button_addPedOpActionPerformed(evt);
             }
         });
 
@@ -203,9 +220,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
 
         field_sector.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        button_delete.setBackground(new java.awt.Color(255, 255, 255));
-        button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_delete.setText("Remover Pedido");
+        button_removePedidoOp.setBackground(new java.awt.Color(255, 255, 255));
+        button_removePedidoOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_removePedidoOp.setText("Remover Pedido");
 
         button_return.setBackground(new java.awt.Color(255, 255, 255));
         button_return.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -262,9 +279,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(button_addOrder)
+                        .addComponent(button_addPedOp)
                         .addGap(18, 18, 18)
-                        .addComponent(button_delete)
+                        .addComponent(button_removePedidoOp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_confirm)
                         .addGap(36, 36, 36))))
@@ -280,11 +297,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(button_addOrder)
+                            .addComponent(button_addPedOp)
                             .addComponent(button_confirm)
-                            .addComponent(button_delete))
+                            .addComponent(button_removePedidoOp))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -375,15 +392,15 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_button_addCategoryActionPerformed
 
     private void box_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_categoryActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_box_categoryActionPerformed
 
-    private void button_addOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addOrderActionPerformed
-        JFrame window = new CPedidoOpGui();
+    private void button_addPedOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addPedOpActionPerformed
+        JFrame window = new CPedidoOpGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         
-    }//GEN-LAST:event_button_addOrderActionPerformed
+    }//GEN-LAST:event_button_addPedOpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -427,9 +444,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> box_lonas;
     private javax.swing.JComboBox<String> box_width;
     private javax.swing.JButton button_addCategory;
-    private javax.swing.JButton button_addOrder;
+    private javax.swing.JButton button_addPedOp;
     private javax.swing.JButton button_confirm;
-    private javax.swing.JButton button_delete;
+    private javax.swing.JButton button_removePedidoOp;
     private javax.swing.JButton button_return;
     private javax.swing.JTextField field_length;
     private javax.swing.JTextArea field_observation;
