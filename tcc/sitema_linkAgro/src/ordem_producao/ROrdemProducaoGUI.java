@@ -169,12 +169,13 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void button_createOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_createOpActionPerformed
         // TODO add your handling code here:
-        JFrame window = new CUOrdemProducaoGUI();
+        CUOrdemProducaoGUI window = new CUOrdemProducaoGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+        Controller.setCUOrdemProducao(window);
         dispose();
     }//GEN-LAST:event_button_createOpActionPerformed
 
@@ -213,27 +214,27 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         OrdemProducao op = new OrdemProducao();
         
-        int row = -1;
-        row = tab_ordemProducao.getSelectedRow();
+        int selectedRow = -1;
+        selectedRow = tab_ordemProducao.getSelectedRow();
         
-        if(row >= 0){
-            CUOrdemProducaoGUI cuop = new CUOrdemProducaoGUI();
+        if(selectedRow >= 0){
+            CUOrdemProducaoGUI cuopg = new CUOrdemProducaoGUI();
             
+            int id = Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0)));
+            String categoria = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 1));
+            String ee = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 2));
+            String width = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 3));
+            String length = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 4));
+            String lonas = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 5));
+            String setor = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 6));
+            String observacao = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 7));
             op.setEdit(true);
-            int id = Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(row, 0)));
-            String categoria = String.valueOf(tab_ordemProducao.getValueAt(row, 1));
-            String ee = String.valueOf(tab_ordemProducao.getValueAt(row, 2));
-            String width = String.valueOf(tab_ordemProducao.getValueAt(row, 3));
-            String length = String.valueOf(tab_ordemProducao.getValueAt(row, 4));
-            String lonas = String.valueOf(tab_ordemProducao.getValueAt(row, 5));
-            String setor = String.valueOf(tab_ordemProducao.getValueAt(row, 6));
-            String observacao = String.valueOf(tab_ordemProducao.getValueAt(row, 7));
             
-            cuop.fillFields(op.isEdit(), id, categoria, ee, width, length, lonas, setor, observacao);
+            cuopg.fillFields(op.getEdit(), id, categoria, ee, width, length, lonas, setor, observacao);
             
             
-            cuop.setVisible(true);
-            cuop.setLocationRelativeTo(null);
+            cuopg.setVisible(true);
+            cuopg.setLocationRelativeTo(null);
             dispose();
             
         } else {

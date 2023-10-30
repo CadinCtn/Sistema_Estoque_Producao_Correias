@@ -4,7 +4,6 @@
  */
 package ordem_producao;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -17,29 +16,19 @@ import pedidos.PedidoDAO;
  */
 public class CPedidoOpGUI extends javax.swing.JFrame {
 
-    public void teste(){
-        System.out.println("AAAAAAAAAA");
-    }
     
-    /**
-     * Creates new form PedidoOpGui
-     */
     public CPedidoOpGUI() {
         initComponents();
         tabela();
-    }
+        }
 
     
-    public void Dispose(){
-        super.dispose();
-        CUOrdemProducaoGUI cpg = new CUOrdemProducaoGUI();
-        cpg.onDispose();
-    }
+    
     
     //Método para popular a tabela pedidos op com os pedidos cadastrados
     public void tabela(){
         PedidoDAO pedidodao = new PedidoDAO();
-        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosOp.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tab_pedidos.getModel();
         
         
         List<Pedido> pedidoList = pedidodao.selectPedidos();
@@ -60,7 +49,7 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         button_return = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        tab_pedidosOp = new javax.swing.JTable();
+        tab_pedidos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         largField = new javax.swing.JTextField();
@@ -82,8 +71,8 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
             }
         });
 
-        tab_pedidosOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tab_pedidosOp.setModel(new javax.swing.table.DefaultTableModel(
+        tab_pedidos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_pedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -99,7 +88,7 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(tab_pedidosOp);
+        jScrollPane5.setViewportView(tab_pedidos);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Metragem:");
@@ -205,22 +194,25 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
 
     private void btn_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_confirmActionPerformed
         int selectedLine = -1;
-        selectedLine = tab_pedidosOp.getSelectedRow();
+        selectedLine = tab_pedidos.getSelectedRow();
         if(selectedLine >= 0){
             if(largField.getText().isEmpty() || metField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Preencha a largura e a metragem!");
             } else {    
-                //Adicionando o pedido com as medidas especificadas a tabela pedidos_op do banco de dados
+                //Adicionando o pedido com as medidas especificadas a tabela do CUOrdemProducaoGUI
+    
                 PedidoOp pedidoop = new PedidoOp();
-                
-                pedidoop.setId((int) tab_pedidosOp.getValueAt(selectedLine,0));
-                pedidoop.setNome_cliente((String) tab_pedidosOp.getValueAt(selectedLine,1));
+    
+                pedidoop.setId((int) tab_pedidos.getValueAt(selectedLine,0));
+                pedidoop.setNome_cliente((String) tab_pedidos.getValueAt(selectedLine,1));
                 pedidoop.setLargura(Float.valueOf(largField.getText()));
                 pedidoop.setMetragem(Float.valueOf(metField.getText()));
                 
                 
+                CUOrdemProducaoGUI cuopgui = Controller.getCUOrdemProducao();
+                cuopgui.addRow(pedidoop);
                 
-                Dispose();
+                dispose();
                 
             }
         } else {
@@ -275,6 +267,6 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField largField;
     private javax.swing.JTextField metField;
-    private javax.swing.JTable tab_pedidosOp;
+    private javax.swing.JTable tab_pedidos;
     // End of variables declaration//GEN-END:variables
 }

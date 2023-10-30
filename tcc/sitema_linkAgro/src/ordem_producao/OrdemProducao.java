@@ -5,6 +5,8 @@
  */
 package ordem_producao;
 
+import java.lang.ModuleLayer.Controller;
+
 /**
  *
  * @author senai
@@ -20,6 +22,10 @@ public class OrdemProducao {
     String setor;
     String observacao;
     boolean edit = false;
+    
+    private static CUOrdemProducaoGUI cuopgui;
+    
+    
 
     public int getId() {
         return id;
@@ -85,7 +91,7 @@ public class OrdemProducao {
         this.observacao = observacao;
     }
 
-    public boolean isEdit() {
+    public boolean getEdit() {
         return edit;
     }
 
