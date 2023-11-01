@@ -5,6 +5,7 @@
  */
 package ordem_producao;
 
+import java.util.ArrayList;
 import produtos.ProdutoDAO;
 import java.util.List;
 import javax.swing.JFrame;
@@ -22,12 +23,34 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
  
     }
   
+    public void tabela(int id){
+        PedidoOpDAO pedidodao = new PedidoOpDAO();
+        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosOp.getModel();
+        
+        
+        List<PedidoOp> pedidoOpList = pedidodao.selectPedidoOp(id);
+        for (PedidoOp pedidoop : pedidoOpList) {
+            
+            Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem()};
+            modelo.addRow(line);
+            
+        }
+        
+    }
     
     
+    //array com todos os pedidos da opmpara adicionar a tabela no banco de dados
+    List<PedidoOp> listPedidoOp = new ArrayList<>();
+    
+    //Adicionando linha a tabela tab_pedidosOp e no array
    public void addRow(PedidoOp pedidoop){
+       //adiciona na tabela
        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosOp.getModel();
        Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem()};
        modelo.addRow(line);
+       
+       //adiciona no array
+       listPedidoOp.add(pedidoop);
        
    }
     
@@ -67,8 +90,13 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             box_lonas.setSelectedItem(lonas);
             field_sector.setText(setor);
             field_observation.setText(observation);
+            
+            tabela(id);
+            
             this.id = id;
             this.edit = edit;
+            
+            
             
         }
     }
@@ -115,6 +143,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         setTitle("Gerar ordem de produção");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setToolTipText("");
 
         label_category.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         label_category.setText("Categoria");
@@ -220,6 +249,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         button_removePedidoOp.setBackground(new java.awt.Color(255, 255, 255));
         button_removePedidoOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         button_removePedidoOp.setText("Remover Pedido");
+        button_removePedidoOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_removePedidoOpActionPerformed(evt);
+            }
+        });
 
         button_return.setBackground(new java.awt.Color(255, 255, 255));
         button_return.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -362,6 +396,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Preencha todos os campos necessários para gerar a Ordem de Produção","Aviso",JOptionPane.WARNING_MESSAGE);
         } else {
         
+            //Adicionando ao obj da clase modelo 
         OrdemProducao op = new OrdemProducao();
         op.setCategoria(String.valueOf(box_category.getSelectedItem()));
         op.setEe(Integer.valueOf(String.valueOf(box_ee.getSelectedItem())));
@@ -370,9 +405,18 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         op.setLonas(Integer.valueOf(String.valueOf(box_lonas.getSelectedItem())));
         op.setSetor(field_sector.getText());
         op.setObservacao(field_observation.getText());
-        
+        //Atualizando ou editando a op
         cU(op,edit,id);
-
+        
+        //adicionando os pedidos da op na tabela
+        PedidoOpDAO pedidoopdao = new PedidoOpDAO();
+        for (PedidoOp pedidoop : listPedidoOp) {
+            
+            pedidoopdao.insertPedidoOp(pedidoop,edit);
+            
+        }
+        
+        
         JFrame window = new ROrdemProducaoGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
@@ -412,6 +456,32 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private void field_sectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_field_sectorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_field_sectorActionPerformed
+
+    private void button_removePedidoOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_removePedidoOpActionPerformed
+        int selectedRow = -1;
+        selectedRow = tab_pedidosOp.getSelectedRow();
+        
+        if(selectedRow >=0){
+            
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
+                
+                case JOptionPane.YES_OPTION:    
+                    if(edit){
+                        //Deleta o pedido que está cadastrado no banco de dados
+                        
+                        
+                        
+                        
+                    } else {
+                        ((DefaultTableModel) tab_pedidosOp.getModel()).removeRow(selectedRow);   
+                    }
+                break;
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir.");
+        }
+    }//GEN-LAST:event_button_removePedidoOpActionPerformed
 
     /**
      * @param args the command line arguments

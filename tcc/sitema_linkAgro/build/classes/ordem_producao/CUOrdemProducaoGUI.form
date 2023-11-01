@@ -39,6 +39,7 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
 
       <Layout>
@@ -413,6 +414,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Remover Pedido"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_removePedidoOpActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="button_return">
           <Properties>

@@ -199,8 +199,8 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
             if(largField.getText().isEmpty() || metField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Preencha a largura e a metragem!");
             } else {    
+                
                 //Adicionando o pedido com as medidas especificadas a tabela do CUOrdemProducaoGUI
-    
                 PedidoOp pedidoop = new PedidoOp();
     
                 pedidoop.setId((int) tab_pedidos.getValueAt(selectedLine,0));

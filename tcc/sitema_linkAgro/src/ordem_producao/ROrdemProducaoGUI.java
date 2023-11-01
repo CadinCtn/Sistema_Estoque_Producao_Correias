@@ -64,6 +64,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         button_return = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Ordem de Produção");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -233,8 +234,10 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             cuopg.fillFields(op.getEdit(), id, categoria, ee, width, length, lonas, setor, observacao);
             
             
+            
             cuopg.setVisible(true);
             cuopg.setLocationRelativeTo(null);
+            Controller.setCUOrdemProducao(cuopg);
             dispose();
             
         } else {

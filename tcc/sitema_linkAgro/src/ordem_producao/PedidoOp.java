@@ -11,10 +11,21 @@ package ordem_producao;
  */
 public class PedidoOp {
     
+    int id_op;
     int id;
     String nome_cliente;
     float largura;
     float metragem;
+
+
+    public int getId_op() {
+        return id_op;
+    }
+
+    public void setId_op(int id_op) {
+        this.id_op = id_op;
+    }
+
 
     public int getId() {
         return id;

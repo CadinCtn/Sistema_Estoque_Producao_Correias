@@ -28,79 +28,45 @@ public class PedidoOpDAO {
         this.connection = new ConnectionFactory().getConnection();
     }
     
-    //Método que cria JOptionPane para adicionar um pedido a op
-    public PedidoOp pane(String id, String nome_cliente, String largura, String metragem){
-        PedidoOp pedidoop = new PedidoOp();
-        
-        
-        //Criando painel do JOptionPane
-        JPanel paneJOP = new JPanel();
-
-        //Campos para digitar o texto
-        JTextField idField = new JTextField(3);
-        JTextField clienteField = new JTextField(10);
-        JTextField larguraField = new JTextField(7);
-        JTextField metragemField = new JTextField(7);
-
-        
-        //Adicionando elementos ao painel
-        paneJOP.add(new JLabel("Id: "));
-        paneJOP.add(idField);
-        paneJOP.add(new JLabel("Nome Cliente: "));
-        paneJOP.add(clienteField);
-        paneJOP.add(new JLabel("Largura: "));
-        paneJOP.add(larguraField);
-        paneJOP.add(new JLabel("Metragem: "));
-        paneJOP.add(metragemField);
-        
-        
-         //Setando valores iniciais do Field
-        idField.setText(String.valueOf(id));
-        clienteField.setText(nome_cliente);
-        larguraField.setText(largura);
-        metragemField.setText(metragem);
-        
-        
-   
-        switch (JOptionPane.showConfirmDialog(null, paneJOP, "Adicionar Pedido", JOptionPane.OK_CANCEL_OPTION)) {
-            case JOptionPane.OK_OPTION : 
-                
-                //if para impedir que seja cadastrado como null
-                if (idField.getText().isEmpty() || clienteField.getText().isEmpty() || larguraField.getText().isEmpty() || metragemField.getText().isEmpty()) {
-                    //JOptionPane de alerta
-                    JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos!", "ERRO!", JOptionPane.WARNING_MESSAGE);
-                } else {      
-
-                    //Criando objeto ana classe modelo
-                    pedidoop.setId(Integer.valueOf(idField.getText()));
-                    pedidoop.setNome_cliente(clienteField.getText());
-                    pedidoop.setLargura(Float.valueOf(larguraField.getText()));
-                    pedidoop.setMetragem(Float.valueOf(metragemField.getText()));
-                    
-                    //retornando objeto a ser inserido na tabela
-                    return pedidoop;
-                   
-                }
-
-                break;
-            
-        }
-        
-        return null;
-            
-    }
-    
-    
-     //Insert
-    public void insertPedidoOp(PedidoOp pedidoop){
-        String sql = "INSERT INTO pedidoop (id,nome_cliente,largura,metragem) VALUES (?,?,?,?);";
+    //ultimo id inserido da OP
+    public int lastId(){
+        String sql = "SELECT MAX(id) FROM ordem_producao;";
+        int lastId;
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(2,pedidoop.getNome_cliente());
-            stmt.setInt(1,pedidoop.getId());
-            stmt.setFloat(3,pedidoop.getLargura());
-            stmt.setFloat(4,pedidoop.getMetragem());
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            lastId = rs.getInt("max(id)");
+            
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,e);
+            throw new RuntimeException(e);
+        }
+        
+        return lastId;
+    }
+    
+     //Insert
+    public void insertPedidoOp(PedidoOp pedidoop, boolean edit){
+        String sql = "INSERT INTO pedidos_op (id_op,id,nome_cliente,largura,metragem) VALUES (?,?,?,?,?);";
+        
+        int id_op;
+        if(edit){
+            CUOrdemProducaoGUI cuopgui = Controller.getCUOrdemProducao();
+            id_op = cuopgui.id;
+        } else {
+            id_op = lastId();
+        }
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1,id_op);
+            stmt.setInt(2,pedidoop.getId());
+            stmt.setString(3,pedidoop.getNome_cliente());
+            stmt.setFloat(4,pedidoop.getLargura());
+            stmt.setFloat(5,pedidoop.getMetragem());
             
             stmt.execute();
             stmt.close();
@@ -115,7 +81,7 @@ public class PedidoOpDAO {
     
     //Delete
     public void deletePedidoOp(int id){
-        String sql = "DELETE FROM pedidoop WHERE id = ?";
+        String sql = "DELETE FROM pedidos_op WHERE id = ?";
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -133,8 +99,8 @@ public class PedidoOpDAO {
     
     
     //Select
-    public List<PedidoOp> selectPedidoOp(){
-        String sql = "SELECT * FROM pedidos_op";
+    public List<PedidoOp> selectPedidoOp(int id_op){
+        String sql = "SELECT * FROM pedidos_op WHERE id_op = " + id_op;
         
         List<PedidoOp> pedidoopList = new ArrayList();
         
@@ -144,8 +110,9 @@ public class PedidoOpDAO {
             
             while(rs.next()){
                 PedidoOp pedidoop = new PedidoOp();
+                pedidoop.setId_op(id_op);
                 pedidoop.setId(rs.getInt("id"));
-                pedidoop.setNome_cliente(rs.getString("categoria"));
+                pedidoop.setNome_cliente(rs.getString("nome_cliente"));
                 pedidoop.setLargura(rs.getFloat("largura"));
                 pedidoop.setMetragem(rs.getFloat("metragem"));
                 
