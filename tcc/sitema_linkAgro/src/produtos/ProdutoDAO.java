@@ -32,13 +32,12 @@ public class ProdutoDAO {
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1,produto);
-            JOptionPane.showMessageDialog(null,"Produto " + produto + " ADICIONADO com sucesso.");
             stmt.execute();
             stmt.close();
-            
+            JOptionPane.showMessageDialog(null,"Produto " + produto + " ADICIONADO com sucesso.");
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null,e.getMessage());
+            JOptionPane.showMessageDialog(null,"Não é possivel adicionar um produto igual a um que ja existe!\n"+e.getMessage());
         }
         
     }
@@ -54,19 +53,26 @@ public class ProdutoDAO {
             JOptionPane.showMessageDialog(null,"Produto " + produto + " DELETADO com sucesso.");
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null,e.getMessage());
+            JOptionPane.showMessageDialog(null,"Não foi possivel deletar o produto, existem itens cadastrados com esse produdo!\n" + e.getMessage());
         }
         
     }
     
     
+    //Update
     public void updadeProduto(String produto, String newProduto){
-        String sql = "UPDATE produtos set produto = ? WHERE produto = ?";
-        
+        String sqlIns = "INSERT INTO produtos (produto) VALUES (?)";
+        String sqlDel = "DELETE FROM produtos WHERE produto = ?;";
         try{
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sqlIns);
             stmt.setString(1,newProduto);
-            stmt.setString(2,produto);
+            stmt.execute();
+            stmt.close();
+            
+            updateItens(produto, newProduto);
+            
+            stmt = connection.prepareStatement(sqlDel);
+            stmt.setString(1,produto);
             stmt.execute();
             stmt.close();
             
@@ -74,6 +80,28 @@ public class ProdutoDAO {
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
+        
+    }
+    
+    //Alterando todos os itens cadastrados nas tabelas com o antigo produto para o novo produto
+    public void updateItens(String produto, String newProduto){
+         String sqlEst = "UPDATE estoque SET categoria = '" + newProduto + "' WHERE categoria = '" + produto + "';";
+         String sqlOp = "UPDATE ordem_producao SET categoria = '" + newProduto + "' WHERE categoria = '" + produto + "';";
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sqlEst);
+            stmt.execute();
+            stmt.close();
+            
+            stmt = connection.prepareStatement(sqlOp);
+            stmt.execute();
+            stmt.close();
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+      
         
     }
     
