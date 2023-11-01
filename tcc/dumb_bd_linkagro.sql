@@ -93,7 +93,7 @@ CREATE TABLE `ordem_producao` (
   PRIMARY KEY (`id`),
   KEY `categoria` (`categoria`),
   CONSTRAINT `ordem_producao_ibfk_1` FOREIGN KEY (`categoria`) REFERENCES `produtos` (`produto`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `ordem_producao` (
 
 LOCK TABLES `ordem_producao` WRITE;
 /*!40000 ALTER TABLE `ordem_producao` DISABLE KEYS */;
-INSERT INTO `ordem_producao` VALUES (3,'Agrothor',100,16.00,100.00,5,'Calandra','Teste\nTeste\nTeste'),(6,'Agropem',90,16.00,50.00,2,'',''),(8,'Agropem',90,16.00,20.00,2,'',''),(9,'Primethor',100,16.00,200.00,2,'',''),(10,'Agropem',100,16.00,40.00,2,'',''),(11,'Agropem',90,16.00,100.00,2,'','');
+INSERT INTO `ordem_producao` VALUES (3,'Agrothor',100,16.00,100.00,5,'Calandra','Teste\nTeste\nTeste'),(6,'Agropem',90,16.00,50.00,2,'',''),(8,'Agropem',90,16.00,20.00,2,'',''),(9,'Primethor',100,16.00,200.00,2,'',''),(10,'Agropem',100,16.00,40.00,2,'',''),(11,'Agropem',90,16.00,100.00,2,'',''),(16,'Agropem',90,16.00,20.00,2,'','');
 /*!40000 ALTER TABLE `ordem_producao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,9 +146,11 @@ CREATE TABLE `pedidos_op` (
   `nome_cliente` varchar(255) NOT NULL,
   `largura` float(4,2) DEFAULT NULL,
   `metragem` float(5,2) DEFAULT NULL,
+  `vinc` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`vinc`),
   KEY `id_op` (`id_op`),
   CONSTRAINT `pedidos_op_ibfk_1` FOREIGN KEY (`id_op`) REFERENCES `ordem_producao` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +159,7 @@ CREATE TABLE `pedidos_op` (
 
 LOCK TABLES `pedidos_op` WRITE;
 /*!40000 ALTER TABLE `pedidos_op` DISABLE KEYS */;
-INSERT INTO `pedidos_op` VALUES (11,8989,'555',2.00,2.00),(11,8989,'555',22.00,80.00),(11,2345,'Felipeles',2.00,200.00),(11,2222,'Cao',20.00,80.00),(11,2345,'Felipeles',20.00,80.00),(11,8989,'555',20.00,30.00),(11,4444,'Janilson',20.00,30.00),(11,2222,'Cao',7.00,7.00),(11,4444,'Janilson',7.00,7.00),(10,4444,'Janilson',2.00,2.00);
+INSERT INTO `pedidos_op` VALUES (9,8989,'555',2.00,2.00,1),(3,2345,'Felipeles',9.00,23.00,2),(3,8989,'555',22.00,222.00,4);
 /*!40000 ALTER TABLE `pedidos_op` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,4 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-01 15:37:02
+-- Dump completed on 2023-11-01 16:59:30
