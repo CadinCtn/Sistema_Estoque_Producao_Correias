@@ -33,7 +33,7 @@ CREATE TABLE `estoque` (
   PRIMARY KEY (`id`),
   KEY `categoria` (`categoria`),
   CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`categoria`) REFERENCES `produtos` (`produto`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `estoque` (
 
 LOCK TABLES `estoque` WRITE;
 /*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
-INSERT INTO `estoque` VALUES (1,'Agrothor',3,7.00,25.00),(2,'Agropem',4,20.00,100.00),(5,'Agrothor',2,20.00,50.00),(6,'Agrothor',3,20.00,30.00),(7,'Primethor',6,8.00,68.90),(9,'Agropem',9,2.50,20.00),(10,'Primethor',3,10.00,29.60);
+INSERT INTO `estoque` VALUES (1,'Agropem',3,7.00,25.00),(2,'Agropem',4,20.00,100.00),(5,'Agrothor',3,20.00,50.00),(6,'Agrothor',3,20.00,30.00),(7,'Primethor',6,8.00,68.90),(9,'Agropem',8,2.50,20.00),(10,'Primethor',3,10.00,29.60);
 /*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `ordem_producao` (
   PRIMARY KEY (`id`),
   KEY `categoria` (`categoria`),
   CONSTRAINT `ordem_producao_ibfk_1` FOREIGN KEY (`categoria`) REFERENCES `produtos` (`produto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,6 +102,7 @@ CREATE TABLE `ordem_producao` (
 
 LOCK TABLES `ordem_producao` WRITE;
 /*!40000 ALTER TABLE `ordem_producao` DISABLE KEYS */;
+INSERT INTO `ordem_producao` VALUES (3,'Agrothor',100,16.00,100.00,5,'Calandra','Teste\nTeste\nTeste'),(6,'Agropem',90,16.00,50.00,2,'',''),(8,'Agropem',90,16.00,20.00,2,'',''),(9,'Primethor',100,16.00,200.00,2,'',''),(10,'Agropem',100,16.00,40.00,2,'',''),(11,'Agropem',90,16.00,100.00,2,'','');
 /*!40000 ALTER TABLE `ordem_producao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +129,7 @@ CREATE TABLE `pedidos` (
 
 LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` VALUES (222,'222','2023-10-05','2023-10-05',''),(1111,'Testedara','2023-01-01','2023-10-26',''),(2000,'Almirante','2023-01-03','2023-10-18',''),(2222,'Dionisio','2023-01-12','2023-10-21',''),(5656,'Taitano','2023-01-18','2023-10-20',''),(7777,'Jaime','2023-01-04','2023-10-18',''),(9999,'Dta','2023-10-04','2023-10-19','');
+INSERT INTO `pedidos` VALUES (2222,'Cao','14/10/2023','17/10/2023','URGENTE'),(2345,'Felipeles','06/10/2023','09/10/2023',''),(4444,'Janilson','01/10/2023','20/10/2023',''),(8989,'555','10/10/2023','03/10/2023','');
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,12 +141,13 @@ DROP TABLE IF EXISTS `pedidos_op`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pedidos_op` (
+  `id_op` int NOT NULL,
   `id` int NOT NULL,
   `nome_cliente` varchar(255) NOT NULL,
-  `largura` float(4,2) NOT NULL,
-  `metragem` float(5,2) NOT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `pedidos_op_ibfk_1` FOREIGN KEY (`id`) REFERENCES `pedidos` (`id`)
+  `largura` float(4,2) DEFAULT NULL,
+  `metragem` float(5,2) DEFAULT NULL,
+  KEY `id_op` (`id_op`),
+  CONSTRAINT `pedidos_op_ibfk_1` FOREIGN KEY (`id_op`) REFERENCES `ordem_producao` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -155,6 +157,7 @@ CREATE TABLE `pedidos_op` (
 
 LOCK TABLES `pedidos_op` WRITE;
 /*!40000 ALTER TABLE `pedidos_op` DISABLE KEYS */;
+INSERT INTO `pedidos_op` VALUES (11,8989,'555',2.00,2.00),(11,8989,'555',22.00,80.00),(11,2345,'Felipeles',2.00,200.00),(11,2222,'Cao',20.00,80.00),(11,2345,'Felipeles',20.00,80.00),(11,8989,'555',20.00,30.00),(11,4444,'Janilson',20.00,30.00),(11,2222,'Cao',7.00,7.00),(11,4444,'Janilson',7.00,7.00),(10,4444,'Janilson',2.00,2.00);
 /*!40000 ALTER TABLE `pedidos_op` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +198,7 @@ CREATE TABLE `usuarios` (
   `permissao` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +207,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'cris','2404','ADM'),(2,'roger','251021',NULL),(9,'felipe','felipe09',NULL),(13,'teste','teste',NULL),(14,'testeadm','teste','ADM');
+INSERT INTO `usuarios` VALUES (1,'cris','2404','ADM'),(2,'roger','251021',NULL),(9,'felipe','felipe09',NULL),(13,'teste','teste',NULL),(17,'teste2','teste','ADM');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -217,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-11 13:52:10
+-- Dump completed on 2023-11-01 15:37:02
