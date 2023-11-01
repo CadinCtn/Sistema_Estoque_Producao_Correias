@@ -17,7 +17,7 @@ public class PedidoOp {
     float largura;
     float metragem;
 
-
+    
     public int getId_op() {
         return id_op;
     }
@@ -59,6 +59,14 @@ public class PedidoOp {
         this.metragem = metragem;
     }
     
-    
+    public int getCod() {
+        return cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
+    int cod;
+
     
 }

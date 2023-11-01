@@ -12,10 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -29,15 +26,15 @@ public class PedidoOpDAO {
     }
     
     //ultimo id inserido da OP
-    public int lastId(){
-        String sql = "SELECT MAX(id) FROM ordem_producao;";
+    public int lastId(String column,String table){
+        String sql = "SELECT MAX(" + column + ") FROM " +  table;
         int lastId;
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             rs.next();
-            lastId = rs.getInt("max(id)");
+            lastId = rs.getInt("max("+ column +")");
             
         }
         catch(SQLException e){
@@ -57,7 +54,7 @@ public class PedidoOpDAO {
             CUOrdemProducaoGUI cuopgui = Controller.getCUOrdemProducao();
             id_op = cuopgui.id;
         } else {
-            id_op = lastId();
+            id_op = lastId("id","ordem_producao");
         }
         
         try{
@@ -80,12 +77,29 @@ public class PedidoOpDAO {
     }
     
     //Delete
-    public void deletePedidoOp(int id){
-        String sql = "DELETE FROM pedidos_op WHERE id = ?";
+    public void deletePedidoOp(int cod){
+        String sql = "DELETE FROM pedidos_op WHERE vinc = ?;";
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setInt(1, cod);
+            
+            stmt.execute();
+            stmt.close();
+            
+        }
+        catch(SQLException e){
+            throw new  RuntimeException(e);
+        }
+        
+    }
+    
+    public void deleteAllPedidosOfOp(int id_op){
+        String sql = "DELETE FROM pedidos_op WHERE id_op = " + id_op;
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            
             
             stmt.execute();
             stmt.close();
@@ -115,7 +129,7 @@ public class PedidoOpDAO {
                 pedidoop.setNome_cliente(rs.getString("nome_cliente"));
                 pedidoop.setLargura(rs.getFloat("largura"));
                 pedidoop.setMetragem(rs.getFloat("metragem"));
-                
+                pedidoop.setCod(rs.getInt("vinc"));
                 pedidoopList.add(pedidoop);
             }
             

@@ -31,7 +31,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         List<PedidoOp> pedidoOpList = pedidodao.selectPedidoOp(id);
         for (PedidoOp pedidoop : pedidoOpList) {
             
-            Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem()};
+            Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),pedidoop.getCod()};
             modelo.addRow(line);
             
         }
@@ -44,9 +44,10 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     
     //Adicionando linha a tabela tab_pedidosOp e no array
    public void addRow(PedidoOp pedidoop){
-       //adiciona na tabela
+       
+        //adiciona na tabela
        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosOp.getModel();
-       Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem()};
+       Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),null};
        modelo.addRow(line);
        
        //adiciona no array
@@ -223,11 +224,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nome do Cliente", "Largura ", "Metragem"
+                "ID", "Nome do Cliente", "Largura ", "Metragem", "Cod."
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -235,6 +236,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tab_pedidosOp);
+        if (tab_pedidosOp.getColumnModel().getColumnCount() > 0) {
+            tab_pedidosOp.getColumnModel().getColumn(4).setMinWidth(40);
+            tab_pedidosOp.getColumnModel().getColumn(4).setPreferredWidth(40);
+            tab_pedidosOp.getColumnModel().getColumn(4).setMaxWidth(40);
+        }
 
         label_sector.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         label_sector.setText("Setor");
@@ -468,13 +474,16 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                 case JOptionPane.YES_OPTION:    
                     if(edit){
                         //Deleta o pedido que está cadastrado no banco de dados
+                        int cod = (int) tab_pedidosOp.getValueAt(selectedRow, 4);
+                        PedidoOpDAO pedidoopdao = new PedidoOpDAO();
+                        pedidoopdao.deletePedidoOp(cod);
                         
-                        
-                        
+                        ((DefaultTableModel) tab_pedidosOp.getModel()).removeRow(selectedRow);  
                         
                     } else {
                         ((DefaultTableModel) tab_pedidosOp.getModel()).removeRow(selectedRow);   
                     }
+                    
                 break;
             }
             

@@ -6,7 +6,7 @@ public class PrintAutoIncrementValue {
      
         PedidoOpDAO op = new PedidoOpDAO();
         
-        System.out.println(op.lastId());
+       
         
         
         

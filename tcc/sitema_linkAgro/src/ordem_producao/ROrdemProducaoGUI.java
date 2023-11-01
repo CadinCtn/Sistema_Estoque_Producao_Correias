@@ -189,17 +189,23 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         OrdemProducao op = new OrdemProducao();
         
-        int row = -1;
-        row = tab_ordemProducao.getSelectedRow();
+        int selectedRow = -1;
+        selectedRow = tab_ordemProducao.getSelectedRow();
         
-        if(row >=0){
+        if(selectedRow >=0){
             
             switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa ordem de produção?","Aviso",JOptionPane.YES_NO_OPTION)){
                 
                 case JOptionPane.YES_OPTION:    
+                    PedidoOpDAO pedidoopdao = new PedidoOpDAO();
                     OrdemProducaoDAO opdao = new OrdemProducaoDAO(); 
-                    op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(row, 0))));
+                    
+                    op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0))));
+                    pedidoopdao.deleteAllPedidosOfOp(op.getId());
                     opdao.deleteOrdemProducao(op.getId());
+                    
+                    
+                    
                     tabela();
                 
                 break;
