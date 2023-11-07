@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -130,6 +132,7 @@ public class EstoqueDAO {
         
     }
     
+    
     //Delete
     public void deleteEstoque(int id){
         String sql = "DELETE FROM estoque WHERE id = ?";
@@ -179,9 +182,34 @@ public class EstoqueDAO {
             throw new RuntimeException(e);
         }
         
+        //agrupando categorias e ordenando a largura em oredm crescente
+        ordem(estoqueList);
         
         return estoqueList;
     }
+    
+    
+    //Agrupando e ordenando os objetos
+    public void ordem(List<Estoque> list){
+        Comparator<Estoque> comparator = new Comparator<Estoque>(){
+          public int compare(Estoque est1, Estoque est2){
+              int result = est1.getCategoria().compareTo(est2.getCategoria());
+              if(result == 0){
+                  result = Integer.compare(est1.getLonas(),est2.getLonas());
+                  if(result == 0){
+                    result = Float.compare(est1.getLargura(),est2.getLargura());   
+                    if(result == 0){
+                        result = Float.compare(est1.getMetragem(),est2.getMetragem());
+                    }
+                  }
+              }
+              return result;
+          }  
+        };
+        Collections.sort(list,comparator);
+    }
+        
+    
     
     //Metodo para filtrar a tabela
     public List<Estoque> buscaEstoque(String categoria, int lonas, float largura, float metragem){
@@ -219,7 +247,7 @@ public class EstoqueDAO {
     
     
     
-    
+    //Update
     public void updadeEstoque(Estoque estoque, int id){
         String sql = "UPDATE estoque SET categoria = ?, lonas = ?, largura = ?, metragem = ? WHERE id = " + id;
         
