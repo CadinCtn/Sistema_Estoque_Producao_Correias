@@ -36,7 +36,7 @@ public class EstoqueDAO {
 
         //Campos para digitalizar o texto
         JComboBox categoriaBox = new JComboBox();
-        JTextField lonasField = new JTextField(7);
+        JComboBox lonasBox = new JComboBox();
         JTextField larguraField = new JTextField(7);
         JTextField metragemField = new JTextField(7);
 
@@ -45,15 +45,14 @@ public class EstoqueDAO {
         paneJOP.add(new JLabel("Categoria: "));
         paneJOP.add(categoriaBox);
         paneJOP.add(new JLabel("Lonas: "));
-        paneJOP.add(lonasField);
+        paneJOP.add(lonasBox);
         paneJOP.add(new JLabel("Largura: "));
         paneJOP.add(larguraField);
         paneJOP.add(new JLabel("Metragem: "));
         paneJOP.add(metragemField);
         
-        
+        //Adicionando itens as comboBox
         ProdutoDAO produtodao = new ProdutoDAO();
-        
         try{
             List<Produto> produtoList = produtodao.categoriaBox();
             
@@ -64,11 +63,16 @@ public class EstoqueDAO {
         catch(SQLException e){
             throw new RuntimeException(e);
         }
+          for (int i = 2; i <= 10; i++) {
+            if (i != 7 && i != 9) {
+                lonasBox.addItem(i);
+            }
+        }
         
         
          //Setando valores iniciais do Field
         categoriaBox.setSelectedItem(categoria);
-        lonasField.setText(lonas);
+        lonasBox.setSelectedItem(lonas);
         larguraField.setText(largura);
         metragemField.setText(metragem);
         
@@ -78,14 +82,14 @@ public class EstoqueDAO {
             case JOptionPane.OK_OPTION : 
                 
                 //if para impedir que seja cadastrado como null
-                if (lonasField.getText().isEmpty() || larguraField.getText().isEmpty() || metragemField.getText().isEmpty()) {
+                if ( larguraField.getText().isEmpty() || metragemField.getText().isEmpty()) {
                     //JOptionPane de alerta
                     JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
                 } else {      
 
                     //Criando objeto ana classe modelo
                     estoque.setCategoria((String) categoriaBox.getSelectedItem());
-                    estoque.setLonas(Integer.valueOf(lonasField.getText()));
+                    estoque.setLonas((int) lonasBox.getSelectedItem());
                     estoque.setLargura(Float.valueOf(larguraField.getText()));
                     estoque.setMetragem(Float.valueOf(metragemField.getText()));
                     

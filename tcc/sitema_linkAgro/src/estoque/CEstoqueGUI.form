@@ -297,14 +297,8 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="largField">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="0"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="metField">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="0"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="box_category">
           <Properties>

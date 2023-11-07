@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package estoque;
 
 import java.util.List;
@@ -9,7 +5,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import produtos.Produto;
 import produtos.ProdutoDAO;
-
 
 
 /**
@@ -24,15 +19,13 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     public CEstoqueGUI() {
         initComponents();
         categoriaBox();
-        tabela();
+        tabela();   
     }
 
     
     
     public void categoriaBox(){
         ProdutoDAO produtodao = new ProdutoDAO();
-        
-        box_category.removeAllItems();
         
         try{
             List<Produto> produtoList = produtodao.categoriaBox();
@@ -45,6 +38,9 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        
+        box_category.setSelectedItem(null);
+        box_lona.setSelectedItem(null);
     }
     
     
@@ -182,10 +178,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Filtros:");
-
-        largField.setText("0");
-
-        metField.setText("0");
 
         box_lona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "8", "10" }));
 
