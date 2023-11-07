@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package estoque;
 
 import produtos.ProdutoDAO;
@@ -211,6 +207,29 @@ public class EstoqueDAO {
         
     
     
+    //Update
+    public void updadeEstoque(Estoque estoque, int id){
+        String sql = "UPDATE estoque SET categoria = ?, lonas = ?, largura = ?, metragem = ? WHERE id = " + id;
+        
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1,estoque.getCategoria());
+            stmt.setInt(2,estoque.getLonas());
+            stmt.setFloat(3,estoque.getLargura());
+            stmt.setFloat(4,estoque.getMetragem());
+            stmt.execute();
+            stmt.close();
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        
+    }
+    
+    
+    
     //Metodo para filtrar a tabela
     public List<Estoque> buscaEstoque(String categoria, int lonas, float largura, float metragem){
         String sql = "SELECT * FROM estoque WHERE categoria = '" + categoria + "' and lonas = " + lonas + " and largura >= " + largura + " and metragem >= " + metragem;
@@ -241,32 +260,12 @@ public class EstoqueDAO {
             throw new RuntimeException(e);
         }
         
+        //agrupando categorias e ordenando a largura em oredm crescente
+        ordem(estoqueFiltList);
         
         return estoqueFiltList;
     }
     
-    
-    
-    //Update
-    public void updadeEstoque(Estoque estoque, int id){
-        String sql = "UPDATE estoque SET categoria = ?, lonas = ?, largura = ?, metragem = ? WHERE id = " + id;
-        
-        
-        try{
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1,estoque.getCategoria());
-            stmt.setInt(2,estoque.getLonas());
-            stmt.setFloat(3,estoque.getLargura());
-            stmt.setFloat(4,estoque.getMetragem());
-            stmt.execute();
-            stmt.close();
-            
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-        
-    }
-    
+
     
 }
