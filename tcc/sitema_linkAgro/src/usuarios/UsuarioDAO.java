@@ -105,6 +105,29 @@ public class UsuarioDAO {
         
     }
     
+    public void editarUsuario(Usuario usuario, int id, boolean permissao){
+        String sql;
+        if(permissao){
+            sql = "UPDATE usuarios SET login = '?', senha = '?', permissao = 'ADM'";
+        } else {
+            sql = "UPDATE usuarios SET login = '?', senha = '?', permissao = ''";
+        }
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, usuario.getLogin());
+            stmt.setString(2,usuario.getSenha());
+            stmt.execute();
+            stmt.close();
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "ERRO: \n"+e);
+            throw new RuntimeException(e);
+        }
+        
+        
+    }
+    
+    
     //Metodo para deletar usuário
     public void deleteUsuario(int id){
         
