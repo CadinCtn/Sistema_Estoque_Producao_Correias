@@ -4,10 +4,8 @@
  */
 package ordem_producao;
 
-/**
- *
- * @author Lenovo
- */
+
+
 public class Controller {
     private static CUOrdemProducaoGUI cuOrdemProducaoGui;
 

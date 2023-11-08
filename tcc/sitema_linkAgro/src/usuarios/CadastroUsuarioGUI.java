@@ -156,9 +156,10 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         } else {
             UsuarioDAO usuariodao = new UsuarioDAO();
             usuariodao.criarUsuario(usuario, permissionBox.isSelected());
-            JOptionPane.showMessageDialog(null,"Usuário " + field_login.getText() + " cadastrado com sucesso!");
-            field_login.setText(null);
-            field_password.setText(null);
+            
+           CUsuarioGUI cugui = Controller.getcUsuarioGUI();
+           cugui.tabela();
+            
         }
         dispose();
     }//GEN-LAST:event_button_enterActionPerformed

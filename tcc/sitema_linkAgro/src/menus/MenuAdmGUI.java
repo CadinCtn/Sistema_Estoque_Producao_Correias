@@ -11,6 +11,7 @@ import produtos.CProdutosGUI;
 import javax.swing.JFrame;
 import pedidos.CPedidosGUI;
 import usuarios.CUsuarioGUI;
+import usuarios.Controller;
 
 /**
  *
@@ -131,9 +132,10 @@ public class MenuAdmGUI extends javax.swing.JFrame {
 
     private void submenu_newUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newUserActionPerformed
       
-        JFrame window = new CUsuarioGUI();
+        CUsuarioGUI window = new CUsuarioGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+        Controller.setcUsuarioGUI(window);
         
     }//GEN-LAST:event_submenu_newUserActionPerformed
 

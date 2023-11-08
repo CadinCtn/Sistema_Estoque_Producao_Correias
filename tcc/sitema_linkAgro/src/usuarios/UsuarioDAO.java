@@ -6,7 +6,6 @@
 package usuarios;
 
 import factory.ConnectionFactory;
-import usuarios.CadastroUsuarioGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,6 +96,7 @@ public class UsuarioDAO {
             stmt.setString(2,usuario.getSenha());
             stmt.execute();
             stmt.close();
+            JOptionPane.showMessageDialog(null,"Usuário " + usuario.getLogin() + " cadastrado com sucesso!");
             
         }
         catch(Exception e){
