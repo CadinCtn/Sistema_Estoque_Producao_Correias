@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
  */
 public class CadastroUsuarioGUI extends javax.swing.JFrame {
 
+    boolean edit = false;
+    
     /**
      * Creates new form CUsuarioGUI
      */
@@ -46,7 +48,7 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
 
         button_enter.setBackground(new java.awt.Color(255, 255, 255));
         button_enter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_enter.setText("Cadastrar");
+        button_enter.setText("Confirmar");
         button_enter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_enterActionPerformed(evt);
@@ -76,14 +78,19 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         field_password.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
         permissionBox.setBackground(new java.awt.Color(255, 255, 255));
-        permissionBox.setText("Criar como ADMINISTRADOR");
+        permissionBox.setText("ADMINISTRADOR");
+        permissionBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                permissionBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label_login1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -148,14 +155,29 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     private void button_enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_enterActionPerformed
         Usuario usuario = new Usuario();
         
-        usuario.setLogin(field_login.getText());
-        usuario.setSenha(field_password.getText());
         
         if(field_login.getText().isEmpty() || field_password.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Preencha todos os campos para cadastrar um novo Usuário!", "AVISO!",JOptionPane.WARNING_MESSAGE);
         } else {
+        
             UsuarioDAO usuariodao = new UsuarioDAO();
-            usuariodao.criarUsuario(usuario, permissionBox.isSelected());
+            if(edit){
+                Usuario user = Controller.getUsuario();
+                
+                user.setLogin(field_login.getText());
+                user.setSenha(field_password.getText());
+                
+                System.out.println(user.getId());
+                System.out.println(user.getLogin());
+                System.out.println(user.getSenha());
+                usuariodao.editarUsuario(user, user.getId(), permissionBox.isSelected());
+                
+            } else {
+                usuario.setLogin(field_login.getText());
+                usuario.setSenha(field_password.getText());
+                
+                usuariodao.criarUsuario(usuario, permissionBox.isSelected());
+            }
             
            CUsuarioGUI cugui = Controller.getcUsuarioGUI();
            cugui.tabela();
@@ -167,6 +189,10 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     private void button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_cancelActionPerformed
         dispose();
     }//GEN-LAST:event_button_cancelActionPerformed
+
+    private void permissionBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permissionBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_permissionBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,8 +235,8 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_cancel;
     private javax.swing.JButton button_enter;
-    private javax.swing.JTextField field_login;
-    private javax.swing.JTextField field_password;
+    public javax.swing.JTextField field_login;
+    public javax.swing.JTextField field_password;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label_login;
     private javax.swing.JLabel label_login1;

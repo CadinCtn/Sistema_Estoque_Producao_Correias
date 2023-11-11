@@ -13,6 +13,19 @@ import ordem_producao.*;
 public class Controller {
     
     private static CUsuarioGUI cUsuarioGUI;
+    private static Usuario usuario;
+    
+    
+    
+    //getter setter
+    public static Usuario getUsuario() {
+        return usuario;
+    }
+
+    public static void setUsuario(Usuario usuario) {
+        Controller.usuario = usuario;
+    }
+    
 
     public static CUsuarioGUI getcUsuarioGUI() {
         return cUsuarioGUI;

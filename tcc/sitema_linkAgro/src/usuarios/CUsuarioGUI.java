@@ -67,6 +67,7 @@ public class CUsuarioGUI extends javax.swing.JFrame {
         tab_usuarios = new javax.swing.JTable();
         btn_newUser = new javax.swing.JButton();
         btn_deleteUser = new javax.swing.JButton();
+        btn_editUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Usuários");
@@ -108,15 +109,25 @@ public class CUsuarioGUI extends javax.swing.JFrame {
             }
         });
 
+        btn_editUser.setBackground(new java.awt.Color(255, 255, 255));
+        btn_editUser.setText("Editar Usuário");
+        btn_editUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_deleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_newUser, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btn_deleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_newUser, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_editUser, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                 .addContainerGap())
@@ -124,15 +135,15 @@ public class CUsuarioGUI extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btn_newUser, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_deleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_editUser, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_deleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -178,6 +189,38 @@ public class CUsuarioGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_deleteUserActionPerformed
 
+    private void btn_editUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editUserActionPerformed
+        int selectedRow = -1;
+        selectedRow = tab_usuarios.getSelectedRow();
+        if(selectedRow < 0){
+            JOptionPane.showMessageDialog(null,"Selecione o usuário que deseja editar");
+        } else {
+            Usuario usuario = new Usuario();
+            Controller.setUsuario(usuario);
+            
+            usuario.setId((int) tab_usuarios.getValueAt(selectedRow,0));
+            usuario.setLogin((String) tab_usuarios.getValueAt(selectedRow,1));
+            usuario.setSenha((String) tab_usuarios.getValueAt(selectedRow,2));
+            usuario.setPermissao((String) tab_usuarios.getValueAt(selectedRow,3));
+            
+            CadastroUsuarioGUI cusergui = new CadastroUsuarioGUI();
+            cusergui.field_login.setText(usuario.getLogin());
+            cusergui.field_password.setText(usuario.getSenha());
+                if(usuario.getPermissao() != null){
+                    cusergui.permissionBox.setSelected(true);
+                }
+                
+            
+            cusergui.edit = true;
+            cusergui.setLocationRelativeTo(null);
+            cusergui.setVisible(true);
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_btn_editUserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -216,6 +259,7 @@ public class CUsuarioGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_deleteUser;
+    private javax.swing.JButton btn_editUser;
     private javax.swing.JButton btn_newUser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;

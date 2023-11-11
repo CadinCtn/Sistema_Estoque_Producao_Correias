@@ -108,22 +108,24 @@ public class UsuarioDAO {
     public void editarUsuario(Usuario usuario, int id, boolean permissao){
         String sql;
         if(permissao){
-            sql = "UPDATE usuarios SET login = '?', senha = '?', permissao = 'ADM'";
+            sql = "UPDATE usuarios SET login = ?, senha = ?, permissao = 'ADM' WHERE id = ?";
         } else {
-            sql = "UPDATE usuarios SET login = '?', senha = '?', permissao = ''";
+            sql = "UPDATE usuarios SET login = ?, senha = ?, permissao = null WHERE id = ?";
         }
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, usuario.getLogin());
             stmt.setString(2,usuario.getSenha());
+            stmt.setInt(3,usuario.getId());
             stmt.execute();
             stmt.close();
+            
+            JOptionPane.showMessageDialog(null,"Usuário atualizado com sucesso!");
         }
         catch(SQLException e){
             JOptionPane.showMessageDialog(null, "ERRO: \n"+e);
             throw new RuntimeException(e);
         }
-        
         
     }
     
