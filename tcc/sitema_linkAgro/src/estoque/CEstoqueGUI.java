@@ -3,6 +3,7 @@ package estoque;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import menus.MenuGUI;
 import produtos.Produto;
 import produtos.ProdutoDAO;
 
@@ -97,7 +98,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Estoque Correias");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -342,6 +343,9 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_upd_estoqueActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        MenuGUI menugui = new MenuGUI();
+        menugui.setVisible(true);
+        menugui.setExtendedState(MAXIMIZED_BOTH);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

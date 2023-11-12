@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import menus.MenuGUI;
 
 /**
  *
@@ -63,7 +64,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         button_delete = new javax.swing.JButton();
         button_return = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ordem de Produção");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -138,16 +139,19 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                         .addComponent(button_update)
                         .addGap(18, 18, 18)
                         .addComponent(button_delete))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
-                    .addComponent(button_return))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(button_return)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(15, 15, 15)
                 .addComponent(button_return)
-                .addGap(22, 22, 22)
+                .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button_createOp)
                     .addComponent(button_update)
@@ -181,7 +185,9 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_button_createOpActionPerformed
 
     private void button_returnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_returnActionPerformed
-        // TODO add your handling code here:
+        MenuGUI menugui = new MenuGUI();
+        menugui.setVisible(true);
+        menugui.setExtendedState(MAXIMIZED_BOTH);
         dispose();
     }//GEN-LAST:event_button_returnActionPerformed
 
