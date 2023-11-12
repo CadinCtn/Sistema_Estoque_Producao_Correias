@@ -6,9 +6,15 @@
 package menus;
 
 import estoque.CEstoqueGUI;
+import java.awt.event.ActionEvent;
 import ordem_producao.ROrdemProducaoGUI;
 import produtos.CProdutosGUI;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import pedidos.CPedidosGUI;
+import usuarios.CUsuarioGUI;
+import usuarios.Controller;
+import usuarios.LoginGUI;
 
 
 /**
@@ -34,6 +40,8 @@ public class MenuGUI extends javax.swing.JFrame {
         submenu_newop = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
         submenu_estoque = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        submenu_user = new javax.swing.JMenuItem();
         menu_help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,12 +57,13 @@ public class MenuGUI extends javax.swing.JFrame {
         );
         panel_backgroundLayout.setVerticalGroup(
             panel_backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
 
         menubar.setBackground(new java.awt.Color(255, 255, 255));
 
         menu_new.setText("Novo");
+        menu_new.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
         submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
@@ -82,9 +91,26 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         menu_new.add(submenu_estoque);
 
+        jMenuItem1.setText("Pedidos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menu_new.add(jMenuItem1);
+
+        submenu_user.setText("Usuarios");
+        submenu_user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_userActionPerformed(evt);
+            }
+        });
+        menu_new.add(submenu_user);
+
         menubar.add(menu_new);
 
         menu_help.setText("Ajuda");
+        menu_help.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         menubar.add(menu_help);
 
         setJMenuBar(menubar);
@@ -122,40 +148,34 @@ public class MenuGUI extends javax.swing.JFrame {
         window.setLocationRelativeTo(this);
     }//GEN-LAST:event_submenu_estoqueActionPerformed
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void submenu_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_userActionPerformed
+        
+        LoginGUI logingui = Controller.getLogingui();
+        
+        if(logingui.permissao){
+            CUsuarioGUI window = new CUsuarioGUI();
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            Controller.setcUsuarioGUI(window);
+        } else {
+            JOptionPane.showMessageDialog(null,"Acesso negado","AVISO!",JOptionPane.WARNING_MESSAGE);
         }
-        //</editor-fold>
-        //</editor-fold>
+        
+        
+        
+        
+    }//GEN-LAST:event_submenu_userActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuGUI().setVisible(true);
-            }
-        });
-    }
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        CPedidosGUI cpedidosgui = new CPedidosGUI();
+        cpedidosgui.setVisible(true);
+        cpedidosgui.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menu_help;
     private javax.swing.JMenu menu_new;
     private javax.swing.JMenuBar menubar;
@@ -163,5 +183,6 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem submenu_estoque;
     private javax.swing.JMenuItem submenu_newop;
     private javax.swing.JMenuItem submenu_newproduct;
+    private javax.swing.JMenuItem submenu_user;
     // End of variables declaration//GEN-END:variables
 }

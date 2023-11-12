@@ -14,10 +14,18 @@ public class Controller {
     
     private static CUsuarioGUI cUsuarioGUI;
     private static Usuario usuario;
-    
+    private static LoginGUI logingui;
     
     
     //getter setter
+    public static LoginGUI getLogingui() {
+        return logingui;
+    }
+
+    public static void setLogingui(LoginGUI logingui) {
+        Controller.logingui = logingui;
+    }
+    
     public static Usuario getUsuario() {
         return usuario;
     }

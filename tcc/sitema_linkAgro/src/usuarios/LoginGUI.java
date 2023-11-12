@@ -1,14 +1,13 @@
 package usuarios;
 
 import menus.MenuGUI;
-import menus.MenuAdmGUI;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
 public class LoginGUI extends javax.swing.JFrame {
-    boolean permissao = false;
+    public boolean permissao = false;
     private boolean logado = false;
     
     
@@ -153,19 +152,12 @@ public class LoginGUI extends javax.swing.JFrame {
             logado = usuariodao.validarLogin(field_login.getText(),field_password.getText());
             permissao = usuariodao.permissao(field_login.getText(),field_password.getText());
             
-            if(logado){    
+            if(logado){
+                JFrame window = new MenuGUI();
+                window.setVisible(true);
+                window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                dispose();
                 
-                if(permissao){
-                    JFrame windowADM = new MenuAdmGUI();
-                    windowADM.setVisible(true);
-                    windowADM.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    dispose();
-                } else {
-                    JFrame window = new MenuGUI();
-                    window.setVisible(true);
-                    window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    dispose();
-                }
             } else {
                 JOptionPane.showMessageDialog(null, "Acesso negado: login ou senha incorretos. ","Incorreto",JOptionPane.WARNING_MESSAGE);
             }

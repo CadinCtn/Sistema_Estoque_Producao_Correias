@@ -7,6 +7,7 @@ package sitema_linkagro;
 
 import usuarios.LoginGUI;
 import javax.swing.JFrame;
+import usuarios.Controller;
 
 /**
  *
@@ -19,9 +20,10 @@ public class Sitema_linkAgro {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        JFrame window = new LoginGUI();
+        LoginGUI window = new LoginGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+        Controller.setLogingui(window);
     }
     
 }
