@@ -209,7 +209,7 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
                 pedidoop.setMetragem(Float.valueOf(metField.getText()));
                 
                 
-                CUOrdemProducaoGUI cuopgui = Controller.getCUOrdemProducao();
+                CUOrdemProducaoGUI cuopgui = ControllerOP.getCUOrdemProducao();
                 cuopgui.addRow(pedidoop);
                 
                 dispose();

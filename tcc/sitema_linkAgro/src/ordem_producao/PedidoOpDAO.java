@@ -51,7 +51,7 @@ public class PedidoOpDAO {
         
         int id_op;
         if(edit){
-            CUOrdemProducaoGUI cuopgui = Controller.getCUOrdemProducao();
+            CUOrdemProducaoGUI cuopgui = ControllerOP.getCUOrdemProducao();
             id_op = cuopgui.id;
         } else {
             id_op = lastId("id","ordem_producao");

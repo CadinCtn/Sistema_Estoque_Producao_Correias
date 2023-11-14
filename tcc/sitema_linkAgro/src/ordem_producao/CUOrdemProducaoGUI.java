@@ -19,7 +19,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     public CUOrdemProducaoGUI() {
         initComponents();
         categoriaBox();
-        
  
     }
   
@@ -316,14 +315,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(box_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(label_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(label_obs)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(label_obs)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 74, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(button_addPedOp)
@@ -331,7 +327,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                         .addComponent(button_removePedidoOp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_confirm)
-                        .addGap(36, 36, 36))))
+                        .addGap(48, 48, 48))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,10 +386,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_returnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_returnActionPerformed
-        // TODO add your handling code here:
-        JFrame window = new ROrdemProducaoGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
+        
         dispose();
     }//GEN-LAST:event_button_returnActionPerformed
 
@@ -414,19 +407,17 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         //Atualizando ou editando a op
         cU(op,edit,id);
         
-        //adicionando os pedidos da op na tabela
-        PedidoOpDAO pedidoopdao = new PedidoOpDAO();
-        for (PedidoOp pedidoop : listPedidoOp) {
+            //adicionando os pedidos da op na tabela
+            PedidoOpDAO pedidoopdao = new PedidoOpDAO();
+            for (PedidoOp pedidoop : listPedidoOp) {
+                pedidoopdao.insertPedidoOp(pedidoop,edit);
+            }
             
-            pedidoopdao.insertPedidoOp(pedidoop,edit);
             
-        }
-        
-        
-        JFrame window = new ROrdemProducaoGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        dispose();
+            ROrdemProducaoGUI ropgui = ControllerOP.getrOrdemProducaoGUI();
+            ropgui.tabelaPedidosOp();
+                        
+            dispose();
         }
 
     }//GEN-LAST:event_button_confirmActionPerformed

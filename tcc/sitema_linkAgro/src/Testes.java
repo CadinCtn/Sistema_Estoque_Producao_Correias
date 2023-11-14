@@ -1,34 +1,63 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
-public class Testes {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Exemplo JOptionPane com Ícone Personalizado");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 150);
+public class Testes extends JFrame {
 
-        JButton showDialogButton = new JButton("Mostrar JOptionPane");
-        showDialogButton.addActionListener(new ActionListener() {
+    private JTable tabela;
+    private DefaultTableModel modelo;
+
+    public Testes() {
+        // Criar uma tabela com alguns dados de exemplo
+        modelo = new DefaultTableModel();
+        modelo.addColumn("Nome");
+        modelo.addColumn("Valor");
+
+        // Adicionar alguns dados de exemplo
+        modelo.addRow(new Object[]{"Item 1", 10});
+        modelo.addRow(new Object[]{"Item 2", 20});
+        modelo.addRow(new Object[]{"Item 3", 30});
+
+        tabela = new JTable(modelo);
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite apenas uma seleção por vez
+
+        // Adicionar o ListSelectionListener para a tabela
+        tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarJOptionPaneComIconePersonalizado(frame);
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    // A ação que você quer realizar quando um item é selecionado vai aqui
+                    int linhaSelecionada = tabela.getSelectedRow();
+                    if (linhaSelecionada != -1) {
+                        String nome = (String) tabela.getValueAt(linhaSelecionada, 0);
+                        int valor = (int) tabela.getValueAt(linhaSelecionada, 1);
+                        System.out.println("Item selecionado: " + nome + ", Valor: " + valor);
+                        // Faça o que você quiser com os dados selecionados
+                    }
+                }
             }
         });
 
-        frame.add(showDialogButton);
-        frame.setVisible(true);
+        // Adicionar a tabela a um JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tabela);
+
+        // Configuração básica do JFrame
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 200);
+        setLocationRelativeTo(null);
+
+        // Adicionar o JScrollPane ao JFrame
+        getContentPane().add(scrollPane);
+
+        // Exibir o JFrame
+        setVisible(true);
     }
 
-    public static void mostrarJOptionPaneComIconePersonalizado(JFrame parentFrame) {
-        // Crie um JPanel personalizado com um ícone e texto
-        JPanel panel = new JPanel(new FlowLayout());
-        ImageIcon icon = new ImageIcon("/icons/icon_clipboard.png"); // Substitua pelo caminho do seu ícone
-        JLabel label = new JLabel("Esta é uma mensagem com um ícone personalizado", icon, SwingConstants.LEFT);
-        panel.add(label);
-
-        // Mostre o JOptionPane com o JPanel personalizado
-        JOptionPane.showOptionDialog(parentFrame, panel, "Título do Diálogo", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, new Object[]{}, null);
+    public static void main(String[] args) {
+        new Testes();
     }
 }

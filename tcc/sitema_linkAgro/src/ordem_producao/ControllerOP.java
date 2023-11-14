@@ -6,15 +6,27 @@ package ordem_producao;
 
 
 
-public class Controller {
+public class ControllerOP {
     private static CUOrdemProducaoGUI cuOrdemProducaoGui;
+    private static ROrdemProducaoGUI rOrdemProducaoGUI;
+
+    
+    public static ROrdemProducaoGUI getrOrdemProducaoGUI() {
+        return rOrdemProducaoGUI;
+    }
+
+    public static void setrOrdemProducaoGUI(ROrdemProducaoGUI rOrdemProducaoGUI) {
+        ControllerOP.rOrdemProducaoGUI = rOrdemProducaoGUI;
+    }
+    
 
     public static void setCUOrdemProducao(CUOrdemProducaoGUI cuOrdemProducaoGui) {
-        Controller.cuOrdemProducaoGui = cuOrdemProducaoGui;
+        ControllerOP.cuOrdemProducaoGui = cuOrdemProducaoGui;
     }
 
     public static CUOrdemProducaoGUI getCUOrdemProducao() {
         return cuOrdemProducaoGui;
     }
+    
 }
 
