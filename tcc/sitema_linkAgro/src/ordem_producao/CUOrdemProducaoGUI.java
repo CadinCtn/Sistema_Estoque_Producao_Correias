@@ -40,7 +40,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     
     //array com todos os pedidos da opmpara adicionar a tabela no banco de dados
     List<PedidoOp> listPedidoOp = new ArrayList<>();
-    
+
     //Adicionando linha a tabela tab_pedidosOp e no array
    public void addRow(PedidoOp pedidoop){
        
@@ -394,8 +394,8 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         if(field_length.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Preencha todos os campos necessários para gerar a Ordem de Produção","Aviso",JOptionPane.WARNING_MESSAGE);
         } else {
-        
-            //Adicionando ao obj da clase modelo 
+            
+        //Adicionando ao obj da clase modelo 
         OrdemProducao op = new OrdemProducao();
         op.setCategoria(String.valueOf(box_category.getSelectedItem()));
         op.setEe(Integer.valueOf(String.valueOf(box_ee.getSelectedItem())));
@@ -407,6 +407,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         //Atualizando ou editando a op
         cU(op,edit,id);
         
+        //Calculando estoque
+        OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+        opdao.estoquePend(op,listPedidoOp);
+        
+        
             //adicionando os pedidos da op na tabela
             PedidoOpDAO pedidoopdao = new PedidoOpDAO();
             for (PedidoOp pedidoop : listPedidoOp) {
@@ -415,6 +420,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             
             
             ROrdemProducaoGUI ropgui = ControllerOP.getrOrdemProducaoGUI();
+            ropgui.tabela();
             ropgui.tabelaPedidosOp();
                         
             dispose();

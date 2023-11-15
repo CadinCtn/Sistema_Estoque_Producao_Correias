@@ -5,6 +5,7 @@
  */
 package ordem_producao;
 
+import estoque.EstoquePendente;
 import factory.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -135,4 +136,92 @@ public class OrdemProducaoDAO {
         }
         
     }
+
+    //Calcular estoque
+    public List estoquePend(OrdemProducao op, List<PedidoOp> listPedido){
+        
+        List<EstoquePendente> listEstPendente = new ArrayList();
+        
+        float larguraTecido = op.getLarguraTecido();
+        float metragemTecido = op.getMetragemTecido();
+        float mpTecido = larguraTecido * metragemTecido;
+        float mpPedidos = 0;
+        
+        List<Float> larguraPedidos = new ArrayList();
+        List<Float> metragemPedidos = new ArrayList();  
+        
+        for(PedidoOp pedidoop : listPedido){
+            larguraPedidos.add(pedidoop.getLargura());
+            metragemPedidos.add(pedidoop.getMetragem());
+            mpPedidos += pedidoop.getLargura() * pedidoop.getMetragem();
+        }
+        
+        float largPedTotal =  (float) larguraPedidos.stream().mapToDouble(Float::doubleValue).sum();
+        float metPedTotal = (float) metragemPedidos.stream().mapToDouble(Float::doubleValue).sum();
+        
+        
+        
+        // verificando se vai sobrar algum estoque
+        if(mpPedidos > mpTecido){
+            return null;
+        } else if(mpPedidos == mpTecido){
+            return null;
+        } else { // se a area dos pedidos for menor que a area da bobina sobrará estoque
+            int i = 0;
+            while(i < listPedido.size()){//percorrendo os pedidos a serem adicionados a op
+                EstoquePendente estpend = new EstoquePendente(); 
+                estpend.setId(op.getId());
+                estpend.setCategoria(op.getCategoria());
+                estpend.setLonas(op.getLonas());
+            
+                    if(largPedTotal <= larguraTecido){ // verificando a forma que será cortado da bobina
+
+                        // Se a METRAGEM e a LARGURA de todos forem iguais, o estoque a ser retornado é maior
+                        if(larguraPedidos.stream().distinct().count() == 1 && metragemPedidos.stream().distinct().count() == 1){
+                            estpend.setLargura(largPedTotal);
+                            estpend.setMetragem(metragemTecido - metragemPedidos.get(i));
+                            //adicionado a lista de estoque pendente
+                            listEstPendente.add(estpend);
+                            
+                        break;
+
+                    } else{ 
+                        estpend.setLargura(larguraPedidos.get(i));
+                        estpend.setMetragem(metragemTecido - metragemPedidos.get(i));   
+                    }
+                } else {
+                    estpend.setLargura(larguraTecido - larguraPedidos.get(i));
+                    estpend.setMetragem(metragemPedidos.get(i));
+                }
+                
+                
+                listEstPendente.add(estpend);
+                i++;
+            }
+            
+            
+            EstoquePendente estpend = new EstoquePendente();
+            estpend.setId(op.getId());
+            estpend.setCategoria(op.getCategoria());
+            estpend.setLonas(op.getLonas());
+            if(largPedTotal < larguraTecido){
+                estpend.setLargura(larguraTecido - largPedTotal);
+                estpend.setMetragem(metragemTecido);
+            } else {
+                estpend.setLargura(larguraTecido);
+                estpend.setMetragem(metragemTecido - metPedTotal);
+            }
+            
+            listEstPendente.add(estpend);
+            
+            for(EstoquePendente ep : listEstPendente){
+                System.out.print("\n\nID: " + ep.getId() + "\nCategoria: " + ep.getCategoria() + "Lonas: " + ep.getLonas() + "\nLargura: " + ep.getLargura() + "\nMetragem: " + ep.getMetragem());
+            }
+            return listEstPendente;    
+        }
+        
+    }
+    
+
+
 }

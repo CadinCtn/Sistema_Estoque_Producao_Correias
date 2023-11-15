@@ -235,9 +235,6 @@ public class CUsuarioGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_editUserActionPerformed
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
-        MenuGUI menugui = new MenuGUI();
-        menugui.setVisible(true);
-        menugui.setExtendedState(MAXIMIZED_BOTH);
         dispose();
     }//GEN-LAST:event_btn_backActionPerformed
 
