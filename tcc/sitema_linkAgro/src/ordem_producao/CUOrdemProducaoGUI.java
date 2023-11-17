@@ -5,6 +5,7 @@
  */
 package ordem_producao;
 
+import estoque.EstoquePendente;
 import java.util.ArrayList;
 import produtos.ProdutoDAO;
 import java.util.List;
@@ -38,24 +39,37 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     }
     
     
-    //array com todos os pedidos da opmpara adicionar a tabela no banco de dados
-    List<PedidoOp> listPedidoOp = new ArrayList<>();
-
+    ///////// Array com todos os pedidos da opmpara adicionar a tabela no banco de dados
+   
+    
     //Adicionando linha a tabela tab_pedidosOp e no array
-   public void addRow(PedidoOp pedidoop){
+    public void addRow(PedidoOp pedidoop){
        
         //adiciona na tabela
        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosOp.getModel();
        Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),null};
        modelo.addRow(line);
        
-       //adiciona no array
-       listPedidoOp.add(pedidoop);
-       
-   }
+    }
     
+    // Adicionando itens da tabela no List
+    public List<PedidoOp> addList(){
+        List<PedidoOp> listPedidoOp = new ArrayList<>();
+        
+        for(int i = 0; i < tab_pedidosOp.getRowCount(); i++){
+            PedidoOp pedidoop = new PedidoOp();
+            pedidoop.setId((int) tab_pedidosOp.getValueAt(i,0));
+            pedidoop.setNome_cliente((String) tab_pedidosOp.getValueAt(i,1));
+            pedidoop.setLargura((float) tab_pedidosOp.getValueAt(i,2));
+            pedidoop.setMetragem((float) tab_pedidosOp.getValueAt(i,3));
+            listPedidoOp.add(pedidoop);
+        }
+        
+        return listPedidoOp;
+    }
+   
     
-    
+    // Gerando itens da combobox
     public void categoriaBox(){
         ProdutoDAO produtodao = new ProdutoDAO();
         
@@ -138,6 +152,8 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         button_removePedidoOp = new javax.swing.JButton();
         button_return = new javax.swing.JButton();
         idText = new javax.swing.JLabel();
+        field_mtsExtra = new javax.swing.JTextField();
+        label_lonas1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerar ordem de produção");
@@ -272,6 +288,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
 
         idText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
+        field_mtsExtra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        label_lonas1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label_lonas1.setText("+mts");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -280,54 +301,59 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(label_sector)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addComponent(field_sector, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(label_category)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(button_addCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                    .addComponent(box_category, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(label_ee)
-                                                    .addComponent(box_ee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(box_width, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(label_width)))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(button_return)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(label_length)
-                                            .addComponent(field_length, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(box_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(label_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(label_obs)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 74, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(label_sector)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(field_sector, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(label_category)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(button_addCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addComponent(box_category, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGap(18, 18, 18)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(label_ee)
+                                                .addComponent(box_ee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(18, 18, 18)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(box_width, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(label_width)))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(button_return)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(label_length)
+                                        .addComponent(field_length, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(11, 11, 11)
+                                            .addComponent(field_mtsExtra, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(box_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(label_lonas1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(label_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(label_obs)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(button_addPedOp)
                         .addGap(18, 18, 18)
                         .addComponent(button_removePedidoOp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_confirm)
-                        .addGap(48, 48, 48))))
+                        .addGap(20, 20, 20))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,7 +370,8 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     .addComponent(label_length)
                     .addComponent(button_addCategory)
                     .addComponent(label_lonas)
-                    .addComponent(label_obs))
+                    .addComponent(label_obs)
+                    .addComponent(label_lonas1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -362,7 +389,8 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                             .addComponent(box_ee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(box_width, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(field_length, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(box_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(box_lonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(field_mtsExtra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(label_sector)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -404,27 +432,51 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         op.setLonas(Integer.valueOf(String.valueOf(box_lonas.getSelectedItem())));
         op.setSetor(field_sector.getText());
         op.setObservacao(field_observation.getText());
-        //Atualizando ou editando a op
-        cU(op,edit,id);
         
-        //Calculando estoque
-        OrdemProducaoDAO opdao = new OrdemProducaoDAO();
-        opdao.estoquePend(op,listPedidoOp);
+        // Verificando se a op pode atender aos pedidos calculando estoque
+            OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+            List <EstoquePendente> estPendList = opdao.estoquePend(op, addList());
+            List<EstoquePendente> est = opdao.estoquePendAlt(op, addList());
+            if (estPendList == null){
+                JOptionPane.showMessageDialog(null,"Essa Ordem de Produção não pode atender os pedidos adicionados","AVISO!",JOptionPane.WARNING_MESSAGE);
+            } else {
+                
+                // Criando ou editando a op
+                cU(op,edit,id);
         
         
-            //adicionando os pedidos da op na tabela
-            PedidoOpDAO pedidoopdao = new PedidoOpDAO();
-            for (PedidoOp pedidoop : listPedidoOp) {
-                pedidoopdao.insertPedidoOp(pedidoop,edit);
-            }
-            
-            
-            ROrdemProducaoGUI ropgui = ControllerOP.getrOrdemProducaoGUI();
-            ropgui.tabela();
-            ropgui.tabelaPedidosOp();
+                //adicionando os pedidos da op na tabela do banco de dados
+                PedidoOpDAO pedidoopdao = new PedidoOpDAO();
+                for (PedidoOp pedidoop : addList()) {
+                    pedidoopdao.insertPedidoOp(pedidoop,edit);
+                }
+                
+                    // Adicionando estoque pendente ao banco de dados
+                    for(EstoquePendente estpend : estPendList){
+                        // Se houver estoque adiciona ao estoque pendente
+                        if(estpend.getLargura() != 0 && estpend.getMetragem() != 0){
+                            System.out.println("\n\nID: " + estpend.getId() + "\nCategoria: " + estpend.getCategoria() + "\nLonas: " + estpend.getLonas() + "\nLargura: " + estpend.getLargura() + "\nMetragem: " + estpend.getMetragem());
+                        }
+                    }
+                    
+                    
+                    for(EstoquePendente estpend : est){
+                        // Se houver estoque adiciona ao estoque pendente
+                        if(estpend.getLargura() != 0 && estpend.getMetragem() != 0){
+                            System.out.println("\n\nID: " + estpend.getId() + "\nCategoria: " + estpend.getCategoria() + "\nLonas: " + estpend.getLonas() + "\nLargura: " + estpend.getLargura() + "\nMetragem: " + estpend.getMetragem());
+                        }
+                    }
+
+                
+                //Atualizando a tabela de op GUI
+                ROrdemProducaoGUI ropgui = ControllerOP.getrOrdemProducaoGUI();
+                ropgui.tabela();
+                ropgui.tabelaPedidosOp();
                         
-            dispose();
-        }
+                dispose();
+                }
+            
+            }
 
     }//GEN-LAST:event_button_confirmActionPerformed
 
@@ -512,6 +564,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JButton button_removePedidoOp;
     private javax.swing.JButton button_return;
     private javax.swing.JTextField field_length;
+    private javax.swing.JTextField field_mtsExtra;
     private javax.swing.JTextArea field_observation;
     private javax.swing.JTextField field_sector;
     private javax.swing.JLabel idText;
@@ -522,6 +575,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JLabel label_ee;
     private javax.swing.JLabel label_length;
     private javax.swing.JLabel label_lonas;
+    private javax.swing.JLabel label_lonas1;
     private javax.swing.JLabel label_obs;
     private javax.swing.JLabel label_sector;
     private javax.swing.JLabel label_width;

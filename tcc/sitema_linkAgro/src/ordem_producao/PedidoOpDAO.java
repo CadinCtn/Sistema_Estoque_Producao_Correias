@@ -25,7 +25,7 @@ public class PedidoOpDAO {
         this.connection = new ConnectionFactory().getConnection();
     }
     
-    //ultimo id inserido da OP
+    // Último valor inserido na tabela
     public int lastId(String column,String table){
         String sql = "SELECT MAX(" + column + ") FROM " +  table;
         int lastId;
