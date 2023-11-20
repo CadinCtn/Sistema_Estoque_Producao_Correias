@@ -358,7 +358,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                         .addComponent(button_removePedidoOp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_confirm)
-                        .addGap(36, 36, 36))))
+                        .addGap(187, 187, 187))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,8 +384,8 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(button_addPedOp)
-                            .addComponent(button_confirm)
-                            .addComponent(button_removePedidoOp))
+                            .addComponent(button_removePedidoOp)
+                            .addComponent(button_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -427,6 +427,8 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         if(field_length.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Preencha todos os campos necessários para gerar a Ordem de Produção","Aviso",JOptionPane.WARNING_MESSAGE);
         } else {
+            VEstoquePendenteGUI vestpendg = new VEstoquePendenteGUI();
+            
             
         //Adicionando ao obj da clase modelo 
         OrdemProducao op = new OrdemProducao();
@@ -440,9 +442,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         
         // Verificando se a op pode atender aos pedidos calculando estoque
             OrdemProducaoDAO opdao = new OrdemProducaoDAO();
-            List <EstoquePendente> estPendList = opdao.estoquePend(op, addPedList());
-            List<EstoquePendente> est = opdao.estoquePendAlt(op, addPedList());
-            if (estPendList == null){
+            List <EstoquePendente> estPendListHori = opdao.estoquePend(op, addPedList());
+            List<EstoquePendente> estPendListVert = opdao.estoquePendAlt(op, addPedList());
+            if (estPendListHori == null || estPendListHori == null){
                 JOptionPane.showMessageDialog(null,"Essa Ordem de Produção não pode atender os pedidos adicionados","AVISO!",JOptionPane.WARNING_MESSAGE);
             } else {
                 
@@ -456,21 +458,13 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     pedidoopdao.insertPedidoOp(pedidoop,edit);
                 }
                 
-                    // Adicionando estoque pendente ao banco de dados
-                    for(EstoquePendente estpend : estPendList){
-                        // Se houver estoque adiciona ao estoque pendente
-                        if(estpend.getLargura() != 0 && estpend.getMetragem() != 0){
-                            System.out.println("\n\nID: " + estpend.getId() + "\nCategoria: " + estpend.getCategoria() + "\nLonas: " + estpend.getLonas() + "\nLargura: " + estpend.getLargura() + "\nMetragem: " + estpend.getMetragem());
-                        }
-                    }
+                    // passando para a tabela para visualização do usuário
+                    vestpendg.tabelaHori(estPendListHori);
+                    vestpendg.tabelaVert(estPendListVert);
+                    vestpendg.setVisible(true);
+                    vestpendg.setLocationRelativeTo(null);
                     
                     
-                    for(EstoquePendente estpend : est){
-                        // Se houver estoque adiciona ao estoque pendente
-                        if(estpend.getLargura() != 0 && estpend.getMetragem() != 0){
-                            System.out.println("\n\nID: " + estpend.getId() + "\nCategoria: " + estpend.getCategoria() + "\nLonas: " + estpend.getLonas() + "\nLargura: " + estpend.getLargura() + "\nMetragem: " + estpend.getMetragem());
-                        }
-                    }
 
                 
                 //Atualizando a tabela de op GUI
