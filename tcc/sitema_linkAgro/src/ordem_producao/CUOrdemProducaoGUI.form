@@ -71,9 +71,9 @@
                                                   <Component id="box_ee" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="box_width" min="-2" pref="103" max="-2" attributes="0"/>
-                                                  <Component id="label_width" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="label_width" max="32767" attributes="0"/>
+                                                  <Component id="box_largTecido" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
@@ -82,7 +82,7 @@
                                               <Component id="idText" min="-2" pref="65" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="label_length" min="-2" max="-2" attributes="0"/>
                                           <Component id="field_length" alignment="0" min="-2" pref="119" max="-2" attributes="0"/>
@@ -117,7 +117,7 @@
                           <Component id="button_removePedidoOp" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="button_confirm" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -159,10 +159,10 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="box_category" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="box_ee" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="box_width" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="field_length" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="box_lonas" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="field_mtsExtra" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="box_largTecido" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="label_sector" min="-2" max="-2" attributes="0"/>
@@ -308,24 +308,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="box_eeActionPerformed"/>
           </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="box_width">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="16"/>
-                <StringItem index="1" value="20"/>
-                <StringItem index="2" value="24"/>
-                <StringItem index="3" value="28"/>
-              </StringArray>
-            </Property>
-          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -494,6 +476,27 @@
             </Property>
             <Property name="text" type="java.lang.String" value="+mts"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="box_largTecido">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="16.0"/>
+                <StringItem index="1" value="20.0"/>
+                <StringItem index="2" value="24.0"/>
+                <StringItem index="3" value="28.0"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="box_largTecidoActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

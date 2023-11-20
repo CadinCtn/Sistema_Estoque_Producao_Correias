@@ -140,26 +140,36 @@ public class OrdemProducaoDAO {
     }
 
     
-    public int nextEqualValue(List<Float> list, float itemAtual){
-        
-            int cont = 1;
+    public int nextEqualValue(List<Float> list, float itemAtual, int index){
+            
+            
+            System.out.println(itemAtual);
+            int cont = 0;
+            
             // Loop para contar itens iguais após o item atual
-            for (int i = 0; i < list.size(); i++) {
-                if (itemAtual == list.get(i +1)) {
-                    cont++;
-                } else {
-                    break; // Se encontrar um valor diferente, encerra o loop
+            for(int i = index ; i <= list.size(); i++) {
+                System.out.println("index: "+i);
+                try{//try para quando chegar ao fim da lista encerrar o for
+                        if (itemAtual == list.get(i +1)) {
+                            cont++;
+                        } else {    
+                            break; // Se encontrar um valor diferente, encerra o loop
+                        }
+                    }
+                catch(Exception e){
+                    break;
                 }
             }
           
-        
         return cont;
     }
     
     
-          //Calcular estoque
+    //Calcular estoque
     public List estoquePend(OrdemProducao op, List<PedidoOp> listPedido){
-
+        
+        Collections.sort(listPedido, Comparator.comparing(PedidoOp::getLargura).reversed());
+        
         List<EstoquePendente> listEstPendente = new ArrayList();
 
         float larguraTecido = op.getLarguraTecido();
@@ -203,13 +213,31 @@ public class OrdemProducaoDAO {
 
                         break;
 
-                    } else{ 
-                        estpend.setLargura(larguraPedidos.get(i));
-                        estpend.setMetragem(metragemTecido - metragemPedidos.get(i));   
-                    }
-                } else {
-                    estpend.setLargura(larguraTecido - larguraPedidos.get(i));
-                    estpend.setMetragem(metragemPedidos.get(i));
+                        } else { 
+                            estpend.setLargura(larguraPedidos.get(i));
+                            estpend.setMetragem(metragemTecido - metragemPedidos.get(i));   
+                        }
+                    } else {
+                        int qtdEqualLarg = nextEqualValue(larguraPedidos, larguraPedidos.get(i),i);
+                        System.out.println(qtdEqualLarg);
+                        if(qtdEqualLarg != 0){
+                        
+                        float somaMet = metragemPedidos.get(i);
+                        
+                        for(int index = 0; index < qtdEqualLarg; index++){
+                            somaMet += metragemPedidos.get(i + index + 1);
+                        }
+                        
+                        estpend.setLargura(larguraTecido - larguraPedidos.get(i));
+                        estpend.setMetragem(somaMet);
+                        i+= qtdEqualLarg;
+                        
+                        } else {
+                     
+                            estpend.setLargura(larguraTecido - larguraPedidos.get(i));
+                            estpend.setMetragem(metragemPedidos.get(i));
+                   
+                        }
                 }
 
 
@@ -301,7 +329,7 @@ public class OrdemProducaoDAO {
                         }
                         
                     } else { 
-                        try{
+                        try{ // try para quando chegar ao fim do array
                             
                             estpend.setLargura(larguraPedidos.get(i) - larguraPedidos.get(i+1));
                             mtsAtual -= metragemPedidos.get(i);
@@ -312,14 +340,10 @@ public class OrdemProducaoDAO {
                         catch(Exception e){
                             System.out.println("\n\n" + e + "\n\n");
                             
-                            estpend.setLargura(larguraPedidos.get(i));
                             mtsAtual -= metragemPedidos.get(i);
-                            System.out.println(metragemPedidos.get(i));
-                            System.out.println(mtsAtual);
+                            estpend.setLargura(larguraPedidos.get(i));
                             estpend.setMetragem(mtsAtual);
-                            System.out.println(metragemPedidos.get(i));
-                            System.out.println(estpend.getMetragem());
-                            }
+                        }
                     }
                 
                     //adicionado a lista de estoque pendente
