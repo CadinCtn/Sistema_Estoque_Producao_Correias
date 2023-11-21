@@ -50,9 +50,6 @@ public class VEstoquePendenteGUI extends javax.swing.JFrame {
     
     
     
-    
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -114,6 +111,11 @@ public class VEstoquePendenteGUI extends javax.swing.JFrame {
         jLabel2.setText("Corte Horizontal");
 
         btn_confirm.setText("Confirmar");
+        btn_confirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_confirmActionPerformed(evt);
+            }
+        });
 
         btn_confirm1.setText("Personalizar");
 
@@ -179,6 +181,12 @@ public class VEstoquePendenteGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_confirmActionPerformed
+        //Adicionando Estoque Pendente ao banco de dados
+        
+        
+    }//GEN-LAST:event_btn_confirmActionPerformed
 
     /**
      * @param args the command line arguments
