@@ -139,9 +139,19 @@ public class OrdemProducaoDAO {
         
     }
 
+    //Função para verificar se uma lista está ordenada
+    private static boolean estaOrdenada(List<PedidoOp> lista, Comparator<PedidoOp> comparator) {
+        for (int i = 0; i < lista.size() - 1; i++) {
+            if (comparator.compare(lista.get(i), lista.get(i + 1)) > 0) {
+                // Elementos não estão em ordem de acordo com o comparator
+                return false;
+            }
+        }
+        return true;
+    }
     
     public List<PedidoOp> organize(List<PedidoOp> listPedidoOp, float larguraTecido){
-                
+        
         Collections.sort(listPedidoOp, Comparator
                 .comparing(PedidoOp::getLargura)
                 .reversed()
@@ -154,8 +164,8 @@ public class OrdemProducaoDAO {
                     
                     int qtdEqualLarg = nextEqualLarg(listPedidoOp, pedidoop.getLargura(),i);
                     int qtdEqualMet = nextEqualMet(listPedidoOp, pedidoop.getMetragem(), i);
-                    System.out.println("largura" + qtdEqualLarg + i);
-                    System.out.println("metragem" + qtdEqualMet + i);
+                    System.out.println("\nEquallargura: " + qtdEqualLarg + " Index: " + i);
+                    System.out.println("Equalmetragem: " + qtdEqualMet + " Index: "+ i);
                     
                     if(qtdEqualLarg != 0 && qtdEqualMet != 0){
                         float newLarg = pedidoop.getLargura();
@@ -166,7 +176,7 @@ public class OrdemProducaoDAO {
                                 meQTecido = true;
                             } 
                         }
-                    System.out.println("FUNCIONA: "+newLarg);
+                        
                     pedidoop.setLargura(newLarg);
                     if(meQTecido){
                         for( int in = 1; in <= qtdEqualLarg; in++){
@@ -181,15 +191,16 @@ public class OrdemProducaoDAO {
                 }
                 ////////////////////////////////////////
                 
-                Collections.sort(listPedidoOp, Comparator
+                if(estaOrdenada(listPedidoOp, Comparator
                 .comparing(PedidoOp::getLargura)
                 .reversed()
-                .thenComparing(PedidoOp::getMetragem, Comparator.reverseOrder()));
-        
+                .thenComparing(PedidoOp::getMetragem, Comparator.reverseOrder()))){
+            
+                    return listPedidoOp;
+                }
                 
                 
-                return listPedidoOp;
-                
+                return organize(listPedidoOp, larguraTecido);                
     }
     
 
@@ -321,19 +332,13 @@ public class OrdemProducaoDAO {
     
     
     
-    
     //Calcular outra possibilidade de estoque (Corte Vertical)
     public List estoquePendAlt(OrdemProducao op, List<PedidoOp> listPedido){
         // id da ordem de produção que irá sobrar do estoque
         PedidoOpDAO pedidoopdao = new PedidoOpDAO();
         int id_op = pedidoopdao.lastId("id", "ordem_producao") + 1;
         
-        //Ordenando em ordem decrescente com base na largura e metragem
-        Collections.sort(listPedido, Comparator
-                .comparing(PedidoOp::getLargura)
-                .reversed()
-                .thenComparing(PedidoOp::getMetragem, Comparator.reverseOrder()));
-
+        
         
         // lista para guardar o estoque pendente
         List<EstoquePendente> listEstPendente = new ArrayList();
@@ -344,16 +349,19 @@ public class OrdemProducaoDAO {
         float mpPedidos = 0;
         float mtsAtual = metragemTecido;
         
-        List<Float> larguraPedidos = new ArrayList();
-        List<Float> metragemPedidos = new ArrayList();  
         
+        float largPedTotal = 0;
         for(PedidoOp pedidoop : listPedido){
-            larguraPedidos.add(pedidoop.getLargura());
-            metragemPedidos.add(pedidoop.getMetragem());
+            largPedTotal += pedidoop.getLargura();
             mpPedidos += pedidoop.getLargura() * pedidoop.getMetragem();
         }
         
-        float largPedTotal =  (float) larguraPedidos.stream().mapToDouble(Float::doubleValue).sum();
+        
+        
+        // ordenando lista de pedidos 
+        listPedido = organize(listPedido, larguraTecido);
+        
+        
         
         // verificando se vai sobrar algum estoque
         if(mpPedidos > mpTecido){
@@ -367,28 +375,18 @@ public class OrdemProducaoDAO {
                 estpend.setId(id_op);
                 estpend.setCategoria(op.getCategoria());
                 estpend.setLonas(op.getLonas());
-            
+                PedidoOp pedidoop = listPedido.get(i);
+                
                 // verificando a forma que será cortado da bobina
                     if(largPedTotal <= larguraTecido){ 
-
-                        // Se a METRAGEM e a LARGURA de todos forem iguais, o estoque a ser retornado é maior
-                        if(larguraPedidos.stream().distinct().count() == 1 && metragemPedidos.stream().distinct().count() == 1){
-                            estpend.setLargura(largPedTotal);
-                            estpend.setMetragem(metragemTecido - metragemPedidos.get(i));
-                                
-                                //adicionado a lista de estoque pendente
-                                listEstPendente.add(estpend);
-                            break;
-                        } else { 
-                            estpend.setLargura(larguraPedidos.get(i));
-                            estpend.setMetragem(metragemTecido - metragemPedidos.get(i));   
-                        }
+                        estpend.setLargura(pedidoop.getLargura());
+                        estpend.setMetragem(metragemTecido - pedidoop.getMetragem());   
                         
                     } else { 
                         try{ // try para quando chegar ao fim do array
                             
-                            estpend.setLargura(larguraPedidos.get(i) - larguraPedidos.get(i+1));
-                            mtsAtual -= metragemPedidos.get(i);
+                            estpend.setLargura(pedidoop.getLargura() - listPedido.get(i+1).getLargura());
+                            mtsAtual -= pedidoop.getMetragem();
                             estpend.setMetragem(mtsAtual);
                             System.out.println("Try 1");
                             
@@ -396,8 +394,8 @@ public class OrdemProducaoDAO {
                         catch(Exception e){
                             System.out.println("\n\n" + e + "\n\n");
                             
-                            mtsAtual -= metragemPedidos.get(i);
-                            estpend.setLargura(larguraPedidos.get(i));
+                            mtsAtual -= pedidoop.getMetragem();
+                            estpend.setLargura(pedidoop.getLargura());
                             estpend.setMetragem(mtsAtual);
                         }
                     }
@@ -414,7 +412,7 @@ public class OrdemProducaoDAO {
             estpend.setCategoria(op.getCategoria());
             estpend.setLonas(op.getLonas());
             if(largPedTotal > larguraTecido){
-                estpend.setLargura(larguraTecido - larguraPedidos.get(0));
+                estpend.setLargura(larguraTecido - listPedido.get(0).getLargura());
                 estpend.setMetragem(metragemTecido);
             } else {
                 estpend.setLargura(larguraTecido - largPedTotal);
