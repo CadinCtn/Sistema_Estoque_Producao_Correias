@@ -3,7 +3,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import ordem_producao.PedidoOp;
 
 class RectanglePanel extends JPanel {
     private Rectangle bigRectangle;
@@ -13,38 +12,6 @@ class RectanglePanel extends JPanel {
         bigRectangle = new Rectangle(50, 50, bigWidth, bigHeight);
         smallRectangles = new ArrayList<>();
     }
-    
-    
-    // Em RectanglePanel
-public List<Rectangle> calculateRemainingRectangles() {
-    List<Rectangle> remainingRectangles = new ArrayList<>();
-
-    int remainingWidth = bigRectangle.width;
-    int remainingHeight = bigRectangle.height;
-
-    for (Rectangle smallRect : smallRectangles) {
-        remainingWidth -= smallRect.width;
-        remainingHeight -= smallRect.height;
-    }
-
-    int newX = bigRectangle.x + bigRectangle.width - remainingWidth;
-    int newY = bigRectangle.y;
-
-    // Se houver espaço restante na largura
-    if (remainingWidth > 0) {
-        Rectangle remainingRectWidth = new Rectangle(newX, newY, remainingWidth, bigRectangle.height);
-        remainingRectangles.add(remainingRectWidth);
-    }
-
-    // Se houver espaço restante na altura
-    if (remainingHeight > 0) {
-        Rectangle remainingRectHeight = new Rectangle(bigRectangle.x, newY + bigRectangle.height, bigRectangle.width, remainingHeight);
-        remainingRectangles.add(remainingRectHeight);
-    }
-
-    return remainingRectangles;
-}
-
 
     private boolean canDraw(Rectangle newRect) {
         for (Rectangle existingRect : smallRectangles) {
@@ -55,7 +22,7 @@ public List<Rectangle> calculateRemainingRectangles() {
         return bigRectangle.contains(newRect); // Permite sobreposição com o retângulo grande
     }
 
-    public void drawRectangles(int numRectangles, float bigWidth, float bigHeight) {
+    public void drawRectangles(int numRectangles, float largBob, float metBob) {
         smallRectangles.clear(); // Limpa os retângulos existentes
 
         Scanner scanner = new Scanner(System.in);
@@ -86,11 +53,11 @@ public List<Rectangle> calculateRemainingRectangles() {
             System.out.print("Digite o comprimento do retângulo " + (i + 1) + " em pixels: ");
             int smallHeight = scanner.nextInt();
 
-            int intLarg = Math.round(bigWidth);
-            int intMet = Math.round(bigHeight);
-
-            newWidth = (int) smallWidth * bigRectangle.width / intLarg;
-            newHeight = (int) smallHeight * bigRectangle.height / intMet;
+            int intLarg = Math.round(largBob);
+            int intMet = Math.round(metBob);
+            
+            newWidth = (int) smallWidth * 200 / intLarg;
+            newHeight = (int) smallHeight * 300 / intMet;
 
             Rectangle newRect = new Rectangle(newX, newY, newWidth, newHeight);
 
@@ -101,13 +68,8 @@ public List<Rectangle> calculateRemainingRectangles() {
                 //i--; // Reduz o índice para tentar novamente com o mesmo número de retângulos
             }
         }
-        repaint();
 
-    List<Rectangle> remainingRectangles = calculateRemainingRectangles();
-    System.out.println("\nMedidas dos retângulos restantes:");
-    for (Rectangle rect : remainingRectangles) {
-        System.out.println("X: " + rect.x + ", Y: " + rect.y + ", Largura: " + rect.width + ", Altura: " + rect.height);
-    }
+        repaint();
     }
 
     @Override
@@ -121,10 +83,10 @@ public List<Rectangle> calculateRemainingRectangles() {
     }
 }
 
-public class Testes extends JFrame {
+public class RectangleDrawer extends JFrame {
     private RectanglePanel rectanglePanel;
 
-    public Testes(int bigWidth, int bigHeight) {
+    public RectangleDrawer(int bigWidth, int bigHeight) {
         rectanglePanel = new RectanglePanel(bigWidth, bigHeight);
 
         setTitle("Rectangle Drawer");
@@ -136,27 +98,24 @@ public class Testes extends JFrame {
         add(rectanglePanel);
     }
 
-    public void runRectangleDrawer() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Digite a largura do retângulo maior em pixels: ");
-        int bigWidth = scanner.nextInt();
-
-        System.out.print("Digite a altura do retângulo maior em pixels: ");
-        int bigHeight = scanner.nextInt();
-
-        System.out.print("Digite o número de retângulos menores: ");
-        int numRectangles = scanner.nextInt();
-
-        
-        rectanglePanel.drawRectangles(numRectangles, bigWidth, bigHeight);
-    }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Testes testes = new Testes(200, 300);
-            testes.setVisible(true);
-            testes.runRectangleDrawer();
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.print("Digite a largura do retângulo maior em pixels: ");
+            int bigWidth = scanner.nextInt();
+
+            System.out.print("Digite a altura do retângulo maior em pixels: ");
+            int bigHeight = scanner.nextInt();
+
+            System.out.print("Digite o número de retângulos menores: ");
+            int numRectangles = scanner.nextInt();
+            
+            
+            RectangleDrawer drawer = new RectangleDrawer(200, 300);
+            drawer.setVisible(true);
+
+            drawer.rectanglePanel.drawRectangles(numRectangles, bigWidth, bigHeight);
         });
     }
 }

@@ -140,17 +140,86 @@ public class OrdemProducaoDAO {
     }
 
     
-    public int nextEqualValue(List<Float> list, float itemAtual, int index){
-            
-            
-            System.out.println(itemAtual);
+    public List<PedidoOp> organize(List<PedidoOp> listPedidoOp, float larguraTecido){
+                
+        Collections.sort(listPedidoOp, Comparator
+                .comparing(PedidoOp::getLargura)
+                .reversed()
+                .thenComparing(PedidoOp::getMetragem, Comparator.reverseOrder()));
+                
+                ///////////////////////////////////////
+                int qtdListDel = 0;
+                for(int i = 0; i < listPedidoOp.size(); i++){
+                    PedidoOp pedidoop = listPedidoOp.get(i);
+                    
+                    int qtdEqualLarg = nextEqualLarg(listPedidoOp, pedidoop.getLargura(),i);
+                    int qtdEqualMet = nextEqualMet(listPedidoOp, pedidoop.getMetragem(), i);
+                    System.out.println("largura" + qtdEqualLarg + i);
+                    System.out.println("metragem" + qtdEqualMet + i);
+                    
+                    if(qtdEqualLarg != 0 && qtdEqualMet != 0){
+                        float newLarg = pedidoop.getLargura();
+                        boolean meQTecido = false;
+                        for( int in = 1; in <= qtdEqualLarg; in++){
+                            if(newLarg + listPedidoOp.get(i+in).getLargura() <= larguraTecido){
+                                newLarg += listPedidoOp.get(i+in).getLargura();
+                                meQTecido = true;
+                            } 
+                        }
+                    System.out.println("FUNCIONA: "+newLarg);
+                    pedidoop.setLargura(newLarg);
+                    if(meQTecido){
+                        for( int in = 1; in <= qtdEqualLarg; in++){
+                        listPedidoOp.remove(i+in);
+                        qtdListDel++;
+                        }
+                    }
+                    i += qtdListDel;
+                }
+                
+                
+                }
+                ////////////////////////////////////////
+                
+                Collections.sort(listPedidoOp, Comparator
+                .comparing(PedidoOp::getLargura)
+                .reversed()
+                .thenComparing(PedidoOp::getMetragem, Comparator.reverseOrder()));
+        
+                
+                
+                return listPedidoOp;
+                
+    }
+    
+
+    public int nextEqualMet(List<PedidoOp> list, float itemAtual, int index){        
             int cont = 0;
             
             // Loop para contar itens iguais após o item atual
             for(int i = index ; i <= list.size(); i++) {
-                System.out.println("index: "+i);
                 try{//try para quando chegar ao fim da lista encerrar o for
-                        if (itemAtual == list.get(i +1)) {
+                        if (itemAtual == list.get(i +1).getMetragem()) {
+                            cont++;
+                        } else {    
+                            break; // Se encontrar um valor diferente, encerra o loop
+                        }
+                    }
+                catch(Exception e){
+                    break;
+                }
+            }
+          
+        return cont;
+    }
+    
+    public int nextEqualLarg(List<PedidoOp> list, float itemAtual, int index){        
+            int cont = 0;
+            
+            // Loop para contar itens iguais após o item atual
+            for(int i = index ; i <= list.size(); i++) {
+                try{//try para quando chegar ao fim da lista encerrar o for
+                        if (itemAtual == list.get(i +1).getLargura()) {
                             cont++;
                         } else {    
                             break; // Se encontrar um valor diferente, encerra o loop
@@ -167,79 +236,66 @@ public class OrdemProducaoDAO {
     
     //Calcular estoque
     public List estoquePend(OrdemProducao op, List<PedidoOp> listPedido){
-        
-        Collections.sort(listPedido, Comparator.comparing(PedidoOp::getLargura).reversed());
-        
-        List<EstoquePendente> listEstPendente = new ArrayList();
 
         float larguraTecido = op.getLarguraTecido();
         float metragemTecido = op.getMetragemTecido();
+        float metPedTotal = 0;
         float mpTecido = larguraTecido * metragemTecido;
         float mpPedidos = 0;
-
-        List<Float> larguraPedidos = new ArrayList();
-        List<Float> metragemPedidos = new ArrayList();  
-
+        // calculando a área total dos pedidos
         for(PedidoOp pedidoop : listPedido){
-            larguraPedidos.add(pedidoop.getLargura());
-            metragemPedidos.add(pedidoop.getMetragem());
             mpPedidos += pedidoop.getLargura() * pedidoop.getMetragem();
         }
+        
+        
+        // ordenando lista de pedidos 
+        listPedido = organize(listPedido, larguraTecido);
+        
+        for(PedidoOp pdop : listPedido){
+            metPedTotal += pdop.getMetragem();
+            System.out.println(metPedTotal);
+        }
+        
+        
+        // criando lista que retorna o estoque pendente
+        List<EstoquePendente> listEstPendente = new ArrayList();
 
-        float largPedTotal =  (float) larguraPedidos.stream().mapToDouble(Float::doubleValue).sum();
-        float metPedTotal = (float) metragemPedidos.stream().mapToDouble(Float::doubleValue).sum();
-
-
-
+        
         // verificando se vai sobrar algum estoque
         if(mpPedidos > mpTecido){
             return null;
         } else { // se a area dos pedidos for menor que a area da bobina sobrará estoque
             int i = 0;
             while(i < listPedido.size()){//percorrendo os pedidos a serem adicionados a op
+                PedidoOp pedidoop = listPedido.get(i);
+                
                 EstoquePendente estpend = new EstoquePendente(); 
                 estpend.setId(op.getId());
                 estpend.setCategoria(op.getCategoria());
                 estpend.setLonas(op.getLonas());
-
-                    if(largPedTotal <= larguraTecido){ // verificando a forma que será cortado da bobina
-
-                        // Se a METRAGEM e a LARGURA de todos forem iguais, o estoque a ser retornado é maior
-                        if(larguraPedidos.stream().distinct().count() == 1 && metragemPedidos.stream().distinct().count() == 1){
-                            estpend.setLargura(largPedTotal);
-                            estpend.setMetragem(metragemTecido - metragemPedidos.get(i));
-                            //adicionado a lista de estoque pendente
-                            listEstPendente.add(estpend);
-
-                        break;
-
-                        } else { 
-                            estpend.setLargura(larguraPedidos.get(i));
-                            estpend.setMetragem(metragemTecido - metragemPedidos.get(i));   
-                        }
-                    } else {
-                        int qtdEqualLarg = nextEqualValue(larguraPedidos, larguraPedidos.get(i),i);
-                        System.out.println(qtdEqualLarg);
+                        
+                
+                        int qtdEqualLarg = nextEqualLarg(listPedido, pedidoop.getLargura(),i);
                         if(qtdEqualLarg != 0){
                         
-                        float somaMet = metragemPedidos.get(i);
+                        // somando a metragem dos pedidos que tem a mesma largura
+                        float somaMet = pedidoop.getMetragem();
                         
                         for(int index = 0; index < qtdEqualLarg; index++){
-                            somaMet += metragemPedidos.get(i + index + 1);
+                            somaMet += listPedido.get(i + index + 1).getMetragem();
                         }
                         
-                        estpend.setLargura(larguraTecido - larguraPedidos.get(i));
+                        estpend.setLargura(larguraTecido - pedidoop.getLargura());
                         estpend.setMetragem(somaMet);
+                        
                         i+= qtdEqualLarg;
                         
                         } else {
                      
-                            estpend.setLargura(larguraTecido - larguraPedidos.get(i));
-                            estpend.setMetragem(metragemPedidos.get(i));
+                            estpend.setLargura(larguraTecido - pedidoop.getLargura());
+                            estpend.setMetragem(pedidoop.getMetragem());
                    
                         }
-                }
-
 
                 listEstPendente.add(estpend);
                 i++;
@@ -250,10 +306,7 @@ public class OrdemProducaoDAO {
             estpend.setId(op.getId());
             estpend.setCategoria(op.getCategoria());
             estpend.setLonas(op.getLonas());
-            if(largPedTotal < larguraTecido){
-                estpend.setLargura(larguraTecido - largPedTotal);
-                estpend.setMetragem(metragemTecido);
-            } else {
+            if(metPedTotal < metragemTecido){
                 estpend.setLargura(larguraTecido);
                 estpend.setMetragem(metragemTecido - metPedTotal);
             }
@@ -275,9 +328,12 @@ public class OrdemProducaoDAO {
         PedidoOpDAO pedidoopdao = new PedidoOpDAO();
         int id_op = pedidoopdao.lastId("id", "ordem_producao") + 1;
         
-        // Ordenando pedidos com base na largura do maior para o menor
-        Collections.sort(listPedido, Comparator.comparing(PedidoOp::getLargura).reversed());
-        
+        //Ordenando em ordem decrescente com base na largura e metragem
+        Collections.sort(listPedido, Comparator
+                .comparing(PedidoOp::getLargura)
+                .reversed()
+                .thenComparing(PedidoOp::getMetragem, Comparator.reverseOrder()));
+
         
         // lista para guardar o estoque pendente
         List<EstoquePendente> listEstPendente = new ArrayList();
