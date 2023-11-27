@@ -5,6 +5,7 @@
  */
 package ordem_producao;
 
+import estoque.BackEstoquePendente;
 import estoque.EstoquePendente;
 import java.util.ArrayList;
 import produtos.ProdutoDAO;
@@ -382,10 +383,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(button_addPedOp)
-                            .addComponent(button_removePedidoOp)
-                            .addComponent(button_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(button_addPedOp)
+                                .addComponent(button_removePedidoOp)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -419,7 +421,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_returnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_returnActionPerformed
-        
         dispose();
     }//GEN-LAST:event_button_returnActionPerformed
 
@@ -441,9 +442,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         op.setObservacao(field_observation.getText());
         
         // Verificando se a op pode atender aos pedidos calculando estoque
-            OrdemProducaoDAO opdao = new OrdemProducaoDAO();
-            List <EstoquePendente> estPendListHori = opdao.estoquePend(op, addPedList());
-            List<EstoquePendente> estPendListVert = opdao.estoquePendAlt(op, addPedList());
+            BackEstoquePendente backEstPend = new BackEstoquePendente();
+            List <EstoquePendente> estPendListHori = backEstPend.estoquePend(op, addPedList());
+            List<EstoquePendente> estPendListVert = backEstPend.estoquePendAlt(op, addPedList());
             if (estPendListHori == null || estPendListHori == null){
                 JOptionPane.showMessageDialog(null,"Essa Ordem de Produção não pode atender os pedidos adicionados","AVISO!",JOptionPane.WARNING_MESSAGE);
             } else {
@@ -465,8 +466,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     vestpendg.setLocationRelativeTo(null);
                     
                     
-
-                
                 //Atualizando a tabela de op GUI
                 ROrdemProducaoGUI ropgui = ControllerOP.getrOrdemProducaoGUI();
                 ropgui.tabela();
