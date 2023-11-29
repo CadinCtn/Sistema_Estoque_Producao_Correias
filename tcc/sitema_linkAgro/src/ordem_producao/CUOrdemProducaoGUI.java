@@ -7,6 +7,7 @@ package ordem_producao;
 
 import estoque.BackEstoquePendente;
 import estoque.EstoquePendente;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import produtos.ProdutoDAO;
 import java.util.List;
@@ -443,8 +444,8 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         
         // Verificando se a op pode atender aos pedidos calculando estoque
             BackEstoquePendente backEstPend = new BackEstoquePendente();
-            List <EstoquePendente> estPendListHori = backEstPend.estoquePend(op, addPedList());
-            List<EstoquePendente> estPendListVert = backEstPend.estoquePendAlt(op, addPedList());
+            List <EstoquePendente> estPendListHori = backEstPend.estoquePendHori(op, addPedList());
+            List<EstoquePendente> estPendListVert = backEstPend.estoquePendVert(op, addPedList());
             if (estPendListHori == null || estPendListHori == null){
                 JOptionPane.showMessageDialog(null,"Essa Ordem de Produção não pode atender os pedidos adicionados","AVISO!",JOptionPane.WARNING_MESSAGE);
             } else {
@@ -520,12 +521,22 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                 
                 case JOptionPane.YES_OPTION:    
                     if(edit){
-                        //Deleta o pedido que está cadastrado no banco de dados
-                        int cod = (int) tab_pedidosOp.getValueAt(selectedRow, 4);
-                        PedidoOpDAO pedidoopdao = new PedidoOpDAO();
-                        pedidoopdao.deletePedidoOp(cod);
+                        //try para remover pedido que não esta no banco de dados ainda
+                        try{
+                            //Deleta o pedido que está cadastrado no banco de dados
+                            int cod = (int) tab_pedidosOp.getValueAt(selectedRow, 4);
+                            PedidoOpDAO pedidoopdao = new PedidoOpDAO();
+                            pedidoopdao.deletePedidoOp(cod);
+                            ((DefaultTableModel) tab_pedidosOp.getModel()).removeRow(selectedRow);  
                         
-                        ((DefaultTableModel) tab_pedidosOp.getModel()).removeRow(selectedRow);  
+                        }
+                        catch(Exception e){
+                            ((DefaultTableModel) tab_pedidosOp.getModel()).removeRow(selectedRow);  
+                        
+                        }
+                            
+                         
+                        
                         
                     } else {
                         ((DefaultTableModel) tab_pedidosOp.getModel()).removeRow(selectedRow);   
