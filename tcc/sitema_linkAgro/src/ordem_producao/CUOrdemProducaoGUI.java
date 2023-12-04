@@ -7,7 +7,6 @@ package ordem_producao;
 
 import estoque.BackEstoquePendente;
 import estoque.EstoquePendente;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import produtos.ProdutoDAO;
 import java.util.List;
@@ -446,9 +445,14 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             BackEstoquePendente backEstPend = new BackEstoquePendente();
             List <EstoquePendente> estPendListHori = backEstPend.estoquePendHori(op, addPedList());
             List<EstoquePendente> estPendListVert = backEstPend.estoquePendVert(op, addPedList());
-            if (estPendListHori == null || estPendListHori == null){
-                JOptionPane.showMessageDialog(null,"Essa Ordem de Produção não pode atender os pedidos adicionados","AVISO!",JOptionPane.WARNING_MESSAGE);
+            if (estPendListHori == null || estPendListVert == null){
+                vestpendg.erroText.setText("Corte complexo detectado, utilize o modo personalizado.");
             } else {
+                // passando para a tabela para visualização do usuário
+                vestpendg.tabelaHori(estPendListHori);
+                vestpendg.tabelaVert(estPendListVert);
+                  
+            }
                 
                 // Criando ou editando a op
                 cU(op,edit,id);
@@ -460,9 +464,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     pedidoopdao.insertPedidoOp(pedidoop,edit);
                 }
                 
-                    // passando para a tabela para visualização do usuário
-                    vestpendg.tabelaHori(estPendListHori);
-                    vestpendg.tabelaVert(estPendListVert);
+                    
                     vestpendg.setVisible(true);
                     vestpendg.setLocationRelativeTo(null);
                     
@@ -475,7 +477,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                 dispose();
                 }
             
-            }
+            
 
     }//GEN-LAST:event_button_confirmActionPerformed
 

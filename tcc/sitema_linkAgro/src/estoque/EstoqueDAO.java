@@ -78,7 +78,7 @@ public class EstoqueDAO {
         
         
    
-        switch (JOptionPane.showConfirmDialog(null, paneJOP, "Adicionar Pedido", JOptionPane.OK_CANCEL_OPTION)) {
+        switch (JOptionPane.showConfirmDialog(null, paneJOP, "Adicionar Estoque", JOptionPane.OK_CANCEL_OPTION)) {
             case JOptionPane.OK_OPTION : 
                 
                 //if para impedir que seja cadastrado como null

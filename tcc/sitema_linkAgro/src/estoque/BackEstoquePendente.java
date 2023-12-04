@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.swing.JOptionPane;
 import ordem_producao.OrdemProducao;
 import ordem_producao.PedidoOp;
 
@@ -180,7 +181,7 @@ public class BackEstoquePendente {
     
     //Calcular estoque
     public List estoquePendHori(OrdemProducao op, List<PedidoOp> listPedido){
-
+    try{
         float larguraTecido = op.getLarguraTecido();
         float metragemTecido = op.getMetragemTecido();
         float largAtual = 0;
@@ -208,7 +209,8 @@ public class BackEstoquePendente {
         
         // verificando se vai sobrar algum estoque
         if(mpPedidos > mpTecido){
-            return null;
+             JOptionPane.showMessageDialog(null,"Essa Ordem de Produção não pode atender os pedidos adicionados","AVISO!",JOptionPane.WARNING_MESSAGE);
+            
         } else { // se a area dos pedidos for menor que a area da bobina sobrará estoque
 
             int i = 0;
@@ -259,7 +261,7 @@ public class BackEstoquePendente {
                                 metPedTotal += pedidoop.getMetragem();
                             }
                             
-                            // O next index serve para retornar o index para ser igual o index i do pedido atual,
+//nextIndex ->  ////////////// O next index serve para retornar o index para ser igual o index i do pedido atual,
                             // se o index for diferente de 0 entao existe um pedido preenchendo um dos limites da bobina.
                             // Nesse caso como o estoque desse pedido não foi adicionado a lista estoque pendente, os index não estão iguais.
                             // o nextIndex serve para igualar os index.
@@ -298,22 +300,26 @@ public class BackEstoquePendente {
                 listEstPendente.add(estpend);
 
             }
-
-           
-            return listEstPendente;    
+        
         }
-
+        return listEstPendente;
+    } catch(Exception e){
+        return null;
+    }
     }
     
     
     
     //Calcular outra possibilidade de estoque (Corte Vertical)
     public List estoquePendVert(OrdemProducao op, List<PedidoOp> listPedido){
+    try{
+        System.out.println("\n\n///////////////////\nCorte Vertical\n");
         
         float larguraTecido = op.getLarguraTecido();
         float metragemTecido = op.getMetragemTecido();
+        float largTecAtual = op.getLarguraTecido();
+        float mtsTecAtual = op.getMetragemTecido();
         float largAtual = 0;
-        float mtsAtual = 0;
         float largPedTotal = 0;
         float mpTecido = larguraTecido * metragemTecido;
         float mpPedidos = 0;
@@ -321,7 +327,10 @@ public class BackEstoquePendente {
         for(PedidoOp pedidoop : listPedido){
             mpPedidos += pedidoop.getLargura() * pedidoop.getMetragem();
         }
+        // criando lista que retorna o estoque pendente
+        List<EstoquePendente> listEstPendente = new ArrayList();
         
+
         // ordenando lista de pedidos 
         listPedido = somaMet(organize(listPedido, larguraTecido), larguraTecido,metragemTecido);
 
@@ -332,13 +341,10 @@ public class BackEstoquePendente {
         System.out.println("//////////");
 
 
-        // criando lista que retorna o estoque pendente
-        List<EstoquePendente> listEstPendente = new ArrayList();
-
-        
         // verificando se é possivel atender os pedidos com essa ordem de produção
         if(mpPedidos > mpTecido){
-            return null;
+             JOptionPane.showMessageDialog(null,"Essa Ordem de Produção não pode atender os pedidos adicionados","AVISO!",JOptionPane.WARNING_MESSAGE);
+            
         } else { 
             
             int i = 0;
@@ -373,29 +379,29 @@ public class BackEstoquePendente {
                         estpend.setLargura(pedidoop.getLargura());
                         estpend.setMetragem(metragemTecido - pedidoop.getMetragem());   
                         
-                    } else { 
+                        /////////////Verificar a sobra da bobina//////////////
                         
+                    } else { 
+                        // incrementando na largAtual a largura de cada pedido
                         largAtual += pedidoop.getLargura();
-                        if(largAtual > larguraTecido){
-                            ///////////////////////////////////
-                        } else {
-                            //Resetando larguraAtual
-                            largAtual = pedidoop.getLargura();
-                            try{ // try para quando chegar ao fim do array
-                                estpend.setLargura(pedidoop.getLargura() - listPedido.get(i+1).getLargura());
-                                mtsAtual -= pedidoop.getMetragem();
-                                estpend.setMetragem(mtsAtual);
-                                System.out.println("Try 1");
+                        //Verificando se é possivel posicionar outro pedido horizontalmente
+                        if(largTecAtual < largAtual + listPedido.get(i+1).getLargura()){
+                            // resetando largAtual
+                            largAtual = 0;
+                            // definindo estoque pendente
+                            estpend.setLargura(largTecAtual - pedidoop.getLargura());
+                            estpend.setMetragem(mtsTecAtual);
+                            // delimitando área da bobina
+                            largTecAtual -= larguraTecido - pedidoop.getLargura();
+                            mtsTecAtual -= pedidoop.getMetragem();
                             
-                            }
-                            catch(Exception e){ // try catch para quando chegar ao fim do array
-                                System.out.println("\n\n" + e + "\n\n");
-
-                                mtsAtual -= pedidoop.getMetragem();
-                                estpend.setLargura(pedidoop.getLargura());
-                                estpend.setMetragem(mtsAtual);
-                            }
+                        } else {
+                            
+                            
+                            
                         }
+                        
+                        
                         
                     }
                 
@@ -425,10 +431,12 @@ public class BackEstoquePendente {
                 listEstPendente.add(estpend);
             
             
-            
-            return listEstPendente;    
         }
+        return listEstPendente;    
         
+    } catch(Exception e){
+        return null;
     }
-    
+ 
+    }
 }
