@@ -306,7 +306,7 @@ public class BackEstoquePendente {
     
     //Calcular outra possibilidade de estoque (Corte Vertical)
     public List estoquePendVert(OrdemProducao op, List<PedidoOp> listPedido){
-  //  try{
+    try{
         System.out.println("\n\n///////////////////\nCorte Vertical\n");
         
         float larguraTecido = op.getLarguraTecido();
@@ -418,9 +418,10 @@ public class BackEstoquePendente {
                                 // delimitando área restante da bobina
                                 largTecAtual = pedidoop.getLargura();
                                 metTecAtual -= pedidoop.getMetragem();
-                                indexLargTec = i;
                                 
                             }
+                               indexLargTec = i;
+                             
                         } catch(Exception e){
                            
                         }
@@ -463,9 +464,9 @@ public class BackEstoquePendente {
         }
         return listEstPendente;    
         
- //   } catch(Exception e){
-   //     return null;
-    //}
+    } catch(Exception e){
+        return null;
+    }
  
     }
 }

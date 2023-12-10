@@ -445,11 +445,17 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             BackEstoquePendente backEstPend = new BackEstoquePendente();
             List <EstoquePendente> estPendListHori = backEstPend.estoquePendHori(op, addPedList());
             List<EstoquePendente> estPendListVert = backEstPend.estoquePendVert(op, addPedList());
-            if (estPendListHori == null || estPendListVert == null){
+            if (estPendListHori == null){
                 vestpendg.erroText.setText("Corte complexo detectado, utilize o modo personalizado.");
             } else {
                 // passando para a tabela para visualização do usuário
                 vestpendg.tabelaHori(estPendListHori);
+            }
+            
+            if (estPendListVert == null){
+                vestpendg.erroText.setText("Corte complexo detectado, utilize o modo personalizado.");
+            } else {
+                // passando para a tabela para visualização do usuário
                 vestpendg.tabelaVert(estPendListVert);
                   
             }

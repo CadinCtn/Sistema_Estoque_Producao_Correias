@@ -27,7 +27,7 @@ public class VEstoquePendenteGUI extends javax.swing.JFrame {
         
         for (EstoquePendente estpend : listEstPend) {
             // Se houver estoque adiciona a tabela para visualização
-            if(estpend.getLargura() != 0 && estpend.getMetragem() != 0){
+            if(estpend.getLargura() > 0 && estpend.getMetragem() > 0){
                 Object[] line = {estpend.getLargura(),estpend.getMetragem()};
                 modelo.addRow(line);
             
@@ -66,6 +66,7 @@ public class VEstoquePendenteGUI extends javax.swing.JFrame {
         erroText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Estoque Pendente");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -119,6 +120,11 @@ public class VEstoquePendenteGUI extends javax.swing.JFrame {
         });
 
         btn_confirm1.setText("Personalizar");
+        btn_confirm1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_confirm1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -194,6 +200,12 @@ public class VEstoquePendenteGUI extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btn_confirmActionPerformed
+
+    private void btn_confirm1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_confirm1ActionPerformed
+    PEstoquePendente window = new PEstoquePendente();
+    window.setVisible(true);
+    window.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btn_confirm1ActionPerformed
 
     /**
      * @param args the command line arguments
