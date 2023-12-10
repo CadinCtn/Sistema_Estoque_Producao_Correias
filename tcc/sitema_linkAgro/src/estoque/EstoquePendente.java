@@ -17,7 +17,14 @@ public class EstoquePendente {
     float largura;
     float metragem;
     
-    
+    public EstoquePendente(int id, String categoria, int lonas, float largura, float metragem){
+        this.id = id;
+        this.categoria = categoria;
+        this.lonas = lonas;
+        this.largura = largura;
+        this.metragem = metragem;
+        
+    }
     
     public int getId() {
         return id;

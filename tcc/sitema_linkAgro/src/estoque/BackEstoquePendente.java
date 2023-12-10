@@ -232,10 +232,7 @@ public class BackEstoquePendente {
             while(i < listPedido.size()){
                 PedidoOp pedidoop = listPedido.get(i);//pedido atual
                 
-                EstoquePendente estpend = new EstoquePendente(); 
-                estpend.setId(op.getId());
-                estpend.setCategoria(op.getCategoria());
-                estpend.setLonas(op.getLonas());
+                EstoquePendente estpend = new EstoquePendente(op.getId(),op.getCategoria(),op.getLonas(),0,0); 
                     
                     //incrementando largura para posicionamento do pedido na bobina
                     largAtual += pedidoop.getLargura();
@@ -288,10 +285,8 @@ public class BackEstoquePendente {
             }
             
             if(metPedTotal < metragemTecido){
-                EstoquePendente estpend = new EstoquePendente();
-                estpend.setId(op.getId());
-                estpend.setCategoria(op.getCategoria());
-                estpend.setLonas(op.getLonas());
+                EstoquePendente estpend = new EstoquePendente(op.getId(),op.getCategoria(),op.getLonas(),0,0);
+                
                 //Definindo largura e metragem que sobraram na bobina após os pedidos
                 estpend.setLargura(larguraTecido);
                 estpend.setMetragem(metragemTecido - metPedTotal);
@@ -322,6 +317,8 @@ public class BackEstoquePendente {
         float largPedTotal = 0;
         float mpTecido = larguraTecido * metragemTecido;
         float mpPedidos = 0;
+        int indexLargTec = 0;
+        
         // calculando a área total dos pedidos
         for(PedidoOp pedidoop : listPedido){
             mpPedidos += pedidoop.getLargura() * pedidoop.getMetragem();
@@ -366,10 +363,7 @@ public class BackEstoquePendente {
             
            
             while(i < listPedido.size()){//percorrendo os pedidos a serem adicionados a op
-                EstoquePendente estpend = new EstoquePendente(); 
-                estpend.setId(op.getId());
-                estpend.setCategoria(op.getCategoria());
-                estpend.setLonas(op.getLonas());
+                EstoquePendente estpend = new EstoquePendente(op.getId(),op.getCategoria(),op.getLonas(),0,0); 
                 PedidoOp pedidoop = listPedido.get(i);//Pedido atual do loop
                 
                     
@@ -379,9 +373,10 @@ public class BackEstoquePendente {
                         estpend.setMetragem(metragemTecido - pedidoop.getMetragem());   
                         
                     } else { 
-                        
+                        int in = 1;
                         ///////////////////////                        
                         try{
+                            
                             // largura do pedido atual
                             largAtual = pedidoop.getLargura();
                             System.out.println(pedidoop.getLargura() + " index: " + i);
@@ -399,19 +394,21 @@ public class BackEstoquePendente {
                             } else {
                                 
                                 // setando largura e calculando metragem dos pedidos posicionados horizontalmente
-                                int in  = 1;
+                                
                                 System.out.println("LargTec Atual: " + largTecAtual);
                                 while(largTecAtual > largAtual + listPedido.get(i+in).getLargura()){
                                     System.out.println("largAtual: " + largAtual);
+                                   // System.out.println("Teste: " + listPedido.get(i+in).getLargura() + " x " + listPedido.get(i+in).getMetragem());
                                     
                                     estpend.setLargura(listPedido.get(i+in).getLargura());
                                     estpend.setMetragem(metTecAtual - listPedido.get(i+in).getMetragem());
                                     
                                     System.out.println(estpend.getLargura() + " x " + estpend.getMetragem());
-                                    listEstPendente.add(estpend);
+                                    listEstPendente.add(new EstoquePendente(op.getId(),op.getCategoria(),op.getLonas(),estpend.getLargura(),estpend.getMetragem()));
                                     
                                     largAtual += listPedido.get(i+in).getLargura();
                                     in++;
+                                    
                                 }
                                 i+=in;
                                 // definindo estoque pendente
@@ -421,14 +418,11 @@ public class BackEstoquePendente {
                                 // delimitando área restante da bobina
                                 largTecAtual = pedidoop.getLargura();
                                 metTecAtual -= pedidoop.getMetragem();
-                                
+                                indexLargTec = i;
                                 
                             }
                         } catch(Exception e){
-                           // e.printStackTrace();
-                            estpend.setLargura(pedidoop.getLargura());
-                            estpend.setMetragem(metTecAtual - pedidoop.getMetragem());
-                            
+                           
                         }
                         ///////////////////////
                         
@@ -445,15 +439,20 @@ public class BackEstoquePendente {
           
             
             // Verificando o que sobrará do restante da bobina
-            EstoquePendente estpend = new EstoquePendente();
-            estpend.setId(op.getId());
-            estpend.setCategoria(op.getCategoria());
-            estpend.setLonas(op.getLonas());
+            EstoquePendente estpend = new EstoquePendente(op.getId(),op.getCategoria(),op.getLonas(),0,0);
             if(largPedTotal <= larguraTecido){
                 estpend.setLargura(larguraTecido - largPedTotal);
                 estpend.setMetragem(metragemTecido);
-            } else{
-                System.out.println("Largura Atual Sobra: " + largAtual + "LargTec: " + largTecAtual);
+            } else {
+                //Resetando largura atual
+                largAtual = 0;
+                while(indexLargTec <= listPedido.size()-1){
+                    
+                    largAtual += listPedido.get(indexLargTec).getLargura();
+                    System.out.println("Largura Atual Sobra: " + largAtual + "LargTec: " + largTecAtual + " index: " + indexLargTec);
+                    listEstPendente.add(new EstoquePendente(op.getId(),op.getCategoria(),op.getLonas(),listPedido.get(indexLargTec).getLargura(),metTecAtual - listPedido.get(indexLargTec).getMetragem()));
+                    indexLargTec++;
+                }
                 estpend.setLargura(largTecAtual - largAtual);
                 estpend.setMetragem(metTecAtual);
             }
