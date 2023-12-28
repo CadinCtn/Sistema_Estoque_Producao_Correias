@@ -30,7 +30,7 @@ public class OrdemProducaoDAO {
     
      //Insert
     public void insertOrdemProducao(OrdemProducao op){
-        String sql = "INSERT INTO ordem_producao (categoria,EE,largura_tecido,metragem_tecido, met_extra,lonas, espessura,setor,observacao) VALUES (?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO ordem_producao (categoria,EE,largura_tecido,metragem_tecido, met_extra,lonas, espessura,setor,observacao,status) VALUES (?,?,?,?,?,?,?,?,?,'produção');";
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -76,7 +76,7 @@ public class OrdemProducaoDAO {
     
     //Select
     public List<OrdemProducao> selectOrdemProducao(){
-        String sql = "SELECT * FROM ordem_producao";
+        String sql = "SELECT * FROM ordem_producao WHERE status = 'produção'";
         
         List<OrdemProducao> opList = new ArrayList();
         
@@ -143,7 +143,7 @@ public class OrdemProducaoDAO {
             
         }
         catch(SQLException e){
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         
         

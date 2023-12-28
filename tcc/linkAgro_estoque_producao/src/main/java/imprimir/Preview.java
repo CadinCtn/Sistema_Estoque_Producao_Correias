@@ -38,8 +38,7 @@ public class Preview extends JPanel {
             this.ee = String.valueOf(op.getEe());
             this.lonas = String.valueOf(op.getLonas());
             this.larg = String.valueOf(op.getLarguraTecido());
-            this.met = String.valueOf(op.getMetragemTecido());
-            this.mtsExtra = String.valueOf(op.getMetExtra());
+            this.met = String.valueOf(op.getMetragemTecido() + op.getMetExtra());
             this.espessura = op.getEspessura();
             this.obs = op.getObservacao();
             
@@ -56,7 +55,6 @@ public class Preview extends JPanel {
          String lonas = "";
          String larg = "";
          String met = "";
-         String mtsExtra = "";
          String espessura = "";
          String obs = "";
          List<PedidoOp> listPed = new ArrayList<>();
@@ -100,7 +98,7 @@ public class Preview extends JPanel {
             g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD
             g2d.drawString("Medida:", 155, 110);
             g2d.setFont(new Font("Arial", Font.PLAIN,16)); //Arial Normal/PLAIN
-            g2d.drawString(larg+"\" X " + met + "+"+mtsExtra + "mts",220,110);
+            g2d.drawString(larg+"\" X " + met + "mts",220,110);
         //
         //Espesura
             g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD

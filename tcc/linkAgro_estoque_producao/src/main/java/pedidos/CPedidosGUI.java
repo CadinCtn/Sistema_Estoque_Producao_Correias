@@ -5,6 +5,7 @@
 package pedidos;
 
 
+import doc_arquivados.ArqvOrdemProducaoGUI;
 import estoque.CEstoqueGUI;
 import help.HPedidos;
 import java.util.List;
@@ -77,6 +78,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         submenu_users = new javax.swing.JMenu();
         submenu_newop = new javax.swing.JMenuItem();
+        submenu_oparqv = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
         submenu_estoque = new javax.swing.JMenuItem();
         submenu_pedidos = new javax.swing.JMenuItem();
@@ -202,7 +204,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
         submenu_users.setText("Menu");
         submenu_users.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
-        submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
+        submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
         submenu_newop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,6 +212,15 @@ public class CPedidosGUI extends javax.swing.JFrame {
             }
         });
         submenu_users.add(submenu_newop);
+
+        submenu_oparqv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/file.png"))); // NOI18N
+        submenu_oparqv.setText("OPs Arquivadas");
+        submenu_oparqv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_oparqvActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_oparqv);
 
         submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
         submenu_newproduct.setText("Produtos");
@@ -249,9 +260,9 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(submenu_users);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_help.png"))); // NOI18N
         jMenu2.setText("Ajuda");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_help.png"))); // NOI18N
         jMenuItem1.setText("Sobre Pedidos");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -395,6 +406,13 @@ public class CPedidosGUI extends javax.swing.JFrame {
         window.setLocationRelativeTo(null);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void submenu_oparqvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_oparqvActionPerformed
+        ArqvOrdemProducaoGUI window = new ArqvOrdemProducaoGUI();
+        window.setVisible(true);
+        window.setExtendedState(MAXIMIZED_BOTH);
+        dispose();
+    }//GEN-LAST:event_submenu_oparqvActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -442,6 +460,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem submenu_estoque;
     private javax.swing.JMenuItem submenu_newop;
     private javax.swing.JMenuItem submenu_newproduct;
+    private javax.swing.JMenuItem submenu_oparqv;
     private javax.swing.JMenuItem submenu_pedidos;
     private javax.swing.JMenuItem submenu_user;
     private javax.swing.JMenu submenu_users;

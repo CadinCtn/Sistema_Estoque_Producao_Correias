@@ -33,7 +33,6 @@ class Layout implements Printable{
          String lonas = print.lonas;
          String larg = print.larg;
          String met = print.met;
-         String mtsExtra = print.mtsExtra;
          String espessura = print.espessura;
          String obs = print.obs;
          List<PedidoOp> listPed = print.listPed;
@@ -73,7 +72,7 @@ class Layout implements Printable{
             g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD
             g2d.drawString("Medida:", 155, 110);
             g2d.setFont(new Font("Arial", Font.PLAIN,16)); //Arial Normal/PLAIN
-            g2d.drawString(larg+"\" X " + met + "+"+mtsExtra + "mts",220,110);
+            g2d.drawString(larg+"\" X " + met + "mts",220,110);
         //
         //Espesura
             g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD

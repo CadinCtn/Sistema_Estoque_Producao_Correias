@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ordem_producao;
+package doc_arquivados;
 
 
-import doc_arquivados.ArqvOrdemProducaoGUI;
-import doc_arquivados.CArqvOrdemProducaoGUI;
+import ordem_producao.*;
 import estoque.CEstoqueGUI;
 import imprimir.ControllerPrint;
 import imprimir.Preview;
@@ -30,12 +29,12 @@ import usuarios.LoginGUI;
  *
  * @author aluno
  */
-public class ROrdemProducaoGUI extends javax.swing.JFrame {
+public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form ROrdemProducaoGUI
      */
-    public ROrdemProducaoGUI() {
+    public ArqvOrdemProducaoGUI() {
         initComponents();
         tabela();
         tabelaPedidosOp();
@@ -43,7 +42,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
 
     //Gerando tabela de ordem de producao
     public void tabela(){
-        OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+        OpArqvDAO dao = new OpArqvDAO();
         DefaultTableModel modelo = (DefaultTableModel) tab_ordemProducao.getModel();
         
         
@@ -51,7 +50,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             ((DefaultTableModel) tab_ordemProducao.getModel()).removeRow(0);
         }
         
-        List<OrdemProducao> opList = opdao.selectOrdemProducao();
+        List<OrdemProducao> opList = dao.selectArchivedOrdemProducao();
         for (OrdemProducao op : opList) {
             
             Object[] line = {op.getId(), op.getCategoria(), op.getEe(), op.getLarguraTecido(), op.getMetragemTecido(), op.getMetExtra(),op.getLonas(), op.getEspessura(),op.getSetor(),op.getObservacao()};
@@ -62,7 +61,6 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         
         ProdutoDAO produtodao = new ProdutoDAO();
         produtodao.paintCat(tab_ordemProducao, 1);
-        
         
     }
     
@@ -112,39 +110,37 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        button_createOp = new javax.swing.JButton();
+        button_relatorio = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tab_ordemProducao = new javax.swing.JTable();
-        button_update = new javax.swing.JButton();
         button_delete = new javax.swing.JButton();
         button_return = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tab_rPedidosOp = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        button_printer = new javax.swing.JButton();
-        button_aqv = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         submenu_users1 = new javax.swing.JMenu();
         submenu_newop1 = new javax.swing.JMenuItem();
-        submenu_oparqv = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         submenu_newproduct1 = new javax.swing.JMenuItem();
         submenu_estoque1 = new javax.swing.JMenuItem();
         submenu_pedidos1 = new javax.swing.JMenuItem();
         submenu_user1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Ordem de Produção");
+        setTitle("Ordem de Produção Arquivadas");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        button_createOp.setBackground(new java.awt.Color(255, 255, 255));
-        button_createOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_createOp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar.png"))); // NOI18N
-        button_createOp.setText("Gerar Ordem de Produção");
-        button_createOp.addActionListener(new java.awt.event.ActionListener() {
+        button_relatorio.setBackground(new java.awt.Color(255, 255, 255));
+        button_relatorio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_relatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/relatorio.png"))); // NOI18N
+        button_relatorio.setText("Exibir Relatório");
+        button_relatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_createOpActionPerformed(evt);
+                button_relatorioActionPerformed(evt);
             }
         });
 
@@ -167,16 +163,6 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         });
         tab_ordemProducao.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane1.setViewportView(tab_ordemProducao);
-
-        button_update.setBackground(new java.awt.Color(255, 255, 255));
-        button_update.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/editar (2).png"))); // NOI18N
-        button_update.setText("Editar Ordem de Produção");
-        button_update.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_updateActionPerformed(evt);
-            }
-        });
 
         button_delete.setBackground(new java.awt.Color(255, 255, 255));
         button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -222,27 +208,10 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         jLabel1.setText("Pedidos da Ordem de Produção");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Ordem de Produção");
+        jLabel2.setText("Ordem de Produção Arquivadas");
 
-        button_printer.setBackground(new java.awt.Color(255, 255, 255));
-        button_printer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_printer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/impressora.png"))); // NOI18N
-        button_printer.setText("Imprimir");
-        button_printer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_printerActionPerformed(evt);
-            }
-        });
-
-        button_aqv.setBackground(new java.awt.Color(255, 255, 255));
-        button_aqv.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        button_aqv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedido.png"))); // NOI18N
-        button_aqv.setText("Arquivar");
-        button_aqv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_aqvActionPerformed(evt);
-            }
-        });
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setText("Relatórios de Produção");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -254,25 +223,20 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+                        .addComponent(button_relatorio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_delete))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                                .addComponent(button_return)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                        .addComponent(button_createOp)
-                        .addGap(18, 18, 18)
-                        .addComponent(button_update)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(button_aqv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(button_printer))
-                            .addComponent(button_delete))))
+                                .addComponent(button_return)
+                                .addGap(28, 28, 28)
+                                .addComponent(jLabel3)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -280,18 +244,15 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addGap(70, 70, 70)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(button_printer)
-                            .addComponent(button_aqv))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(button_createOp)
-                            .addComponent(button_update)
+                            .addComponent(button_relatorio)
                             .addComponent(button_delete)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(button_return)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button_return)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -307,7 +268,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         submenu_users1.setText("Menu");
         submenu_users1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
-        submenu_newop1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard.png"))); // NOI18N
+        submenu_newop1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
         submenu_newop1.setText("Ordem de produção");
         submenu_newop1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,14 +277,14 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         });
         submenu_users1.add(submenu_newop1);
 
-        submenu_oparqv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/file.png"))); // NOI18N
-        submenu_oparqv.setText("OPs Arquivadas");
-        submenu_oparqv.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedido.png"))); // NOI18N
+        jMenuItem1.setText("OPs Arquivadas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_oparqvActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        submenu_users1.add(submenu_oparqv);
+        submenu_users1.add(jMenuItem1);
 
         submenu_newproduct1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
         submenu_newproduct1.setText("Produtos");
@@ -379,16 +340,6 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    //Gerar nova OP
-    private void button_createOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_createOpActionPerformed
-        // TODO add your handling code here:
-        CUOrdemProducaoGUI window = new CUOrdemProducaoGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        ControllerOP.setCUOrdemProducao(window);
-        
-    }//GEN-LAST:event_button_createOpActionPerformed
-
     private void button_returnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_returnActionPerformed
         MenuGUI menugui = new MenuGUI();
         menugui.setVisible(true);
@@ -428,44 +379,6 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_button_deleteActionPerformed
-
-    //Atualizar OP
-    private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_updateActionPerformed
-        // TODO add your handling code here:
-        OrdemProducao op = new OrdemProducao();
-        
-        int selectedRow = -1;
-        selectedRow = tab_ordemProducao.getSelectedRow();
-        
-        if(selectedRow >= 0){
-            CUOrdemProducaoGUI cuopg = new CUOrdemProducaoGUI();
-            
-            int id = Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0)));
-            String categoria = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 1));
-            String ee = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 2));
-            String width = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 3));
-            String length = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 4));
-            String metExtra = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 5));
-            String lonas = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 6));
-            String espessura = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 7));
-            String setor = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 8));
-            String observacao = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 9));
-            op.setEdit(true);
-            
-            cuopg.fillFields(op.getEdit(), id, categoria, ee, width, length, metExtra,lonas, espessura,setor, observacao);
-            
-            
-            
-            cuopg.setVisible(true);
-            cuopg.setLocationRelativeTo(null);
-            ControllerOP.setCUOrdemProducao(cuopg);
-            
-            
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja editar.");
-        }
-        
-    }//GEN-LAST:event_button_updateActionPerformed
 
     private void submenu_newop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newop1ActionPerformed
 
@@ -512,27 +425,8 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_submenu_user1ActionPerformed
 
-    private void button_printerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_printerActionPerformed
-        
-        int selectedRow = -1;
-        selectedRow = tab_ordemProducao.getSelectedRow();
-        
-        if(selectedRow >=0){
-            int idOp = (int) tab_ordemProducao.getValueAt(selectedRow, 0);
-            PedidoOpDAO pedidoopdao = new PedidoOpDAO();
-            OrdemProducaoDAO opdao = new OrdemProducaoDAO();
-            Preview print = new Preview();
-            print.frame(pedidoopdao.selectPedidoOp(idOp), opdao.selectOrdemProducaoById(idOp),print);
-            ControllerPrint.setPreview(print);
-           
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja imprimir.");
-        }
-        
-    }//GEN-LAST:event_button_printerActionPerformed
-
-    private void button_aqvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_aqvActionPerformed
-        
+    //Gerar nova OP
+    private void button_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_relatorioActionPerformed
         int selectedRow = -1;
         selectedRow = tab_ordemProducao.getSelectedRow();
         if(selectedRow >= 0){
@@ -543,17 +437,15 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             
             
         }else{
-            JOptionPane.showMessageDialog(null, "Selecione uma ordem de produção para arquivar");
+            JOptionPane.showMessageDialog(null, "Selecione uma Ordem de Produção");
         }
-        
-    }//GEN-LAST:event_button_aqvActionPerformed
+    }//GEN-LAST:event_button_relatorioActionPerformed
 
-    private void submenu_oparqvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_oparqvActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         ArqvOrdemProducaoGUI window = new ArqvOrdemProducaoGUI();
         window.setVisible(true);
         window.setExtendedState(MAXIMIZED_BOTH);
-        dispose();
-    }//GEN-LAST:event_submenu_oparqvActionPerformed
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -572,14 +464,18 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ROrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArqvOrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ROrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArqvOrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ROrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArqvOrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ROrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ArqvOrdemProducaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -594,22 +490,20 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button_aqv;
-    private javax.swing.JButton button_createOp;
     private javax.swing.JButton button_delete;
-    private javax.swing.JButton button_printer;
+    private javax.swing.JButton button_relatorio;
     private javax.swing.JButton button_return;
-    private javax.swing.JButton button_update;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem submenu_estoque1;
     private javax.swing.JMenuItem submenu_newop1;
     private javax.swing.JMenuItem submenu_newproduct1;
-    private javax.swing.JMenuItem submenu_oparqv;
     private javax.swing.JMenuItem submenu_pedidos1;
     private javax.swing.JMenuItem submenu_user1;
     private javax.swing.JMenu submenu_users1;

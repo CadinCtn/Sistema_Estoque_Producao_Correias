@@ -49,8 +49,8 @@ public class PedidoDAO {
         JPanel paneJOP = new JPanel();
 
         //Campos para digitalizar o texto
-        JTextField idField = new JTextField(7);
-        JTextField nomeField = new JTextField(10);
+        JTextField idField = new JTextField(5);
+        JTextField nomeField = new JTextField(17);
         JDateChooser fechamentoDate = new JDateChooser();
         JDateChooser embarqueDate = new JDateChooser();
         fechamentoDate.setPreferredSize(new Dimension(150, 19));
@@ -78,7 +78,7 @@ public class PedidoDAO {
         //Formato da data
         SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
         
-        try {
+        try { //para setar nos campos de data a data anterior que for editada
             Date fech = dateForm.parse(fechamento);
             fechamentoDate.setDate(fech);
             
@@ -87,7 +87,7 @@ public class PedidoDAO {
             
         
         } catch (Exception ex) {
-            Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoDAO.class.getName()).log(Level.FINE, null, ex);
         }
         
         obsField.setText(obs);
@@ -147,7 +147,7 @@ public class PedidoDAO {
     //Adicionando pedido
     public void insertPedido(Pedido pedido){
     
-        String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao)VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao,status)VALUES(?, ?, ?, ?, ?, 'produção')";
 
 
         try {
@@ -231,7 +231,7 @@ public class PedidoDAO {
     
     //Select Pedidos
     public List<Pedido> selectPedidos(){
-        String sql = "SELECT * FROM pedidos";
+        String sql = "SELECT * FROM pedidos WHERE status = 'produção'";
         
         List<Pedido> pedidoList = new ArrayList();
         
