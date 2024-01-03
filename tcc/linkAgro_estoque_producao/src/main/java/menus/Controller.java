@@ -5,6 +5,8 @@
  */
 package menus;
 
+import doc_arquivados.ArqvPedido;
+import doc_arquivados.CArqvOrdemProducaoGUI;
 import imprimir.Preview;
 import ordem_producao.CUOrdemProducaoGUI;
 import ordem_producao.ROrdemProducaoGUI;
@@ -20,15 +22,31 @@ import usuarios.Usuario;
  */
 public class Controller {
     
+    //Usuários
     private static CUsuarioGUI cUsuarioGUI;
     private static Usuario usuario;
     private static LoginGUI logingui;
     
+    //Ordem de Producao
     private static CUOrdemProducaoGUI cuOrdemProducaoGui;
     private static ROrdemProducaoGUI rOrdemProducaoGUI;
     
+    //Imprimir
     private static Preview preview;
 
+    //Arquivar
+    private static CArqvOrdemProducaoGUI cArqvOrdemProducaoGUI;
+
+    
+    
+    public static CArqvOrdemProducaoGUI getcArqvOrdemProducaoGUI() {
+        return cArqvOrdemProducaoGUI;
+    }
+
+    public static void setcArqvOrdemProducaoGUI(CArqvOrdemProducaoGUI cArqvOrdemProducaoGUI) {
+        Controller.cArqvOrdemProducaoGUI = cArqvOrdemProducaoGUI;
+    }
+    
 
     public static CUsuarioGUI getcUsuarioGUI() {
         return cUsuarioGUI;

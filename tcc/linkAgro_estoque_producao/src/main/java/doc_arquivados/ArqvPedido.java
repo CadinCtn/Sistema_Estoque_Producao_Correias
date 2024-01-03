@@ -3,11 +3,12 @@ package doc_arquivados;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import menus.Controller;
 import ordem_producao.PedidoOp;
 import ordem_producao.PedidoOpDAO;
 import pedidos.Pedido;
-import pedidos.PedidoDAO;
 
 /**
  *
@@ -21,32 +22,29 @@ public class ArqvPedido extends javax.swing.JFrame {
     public ArqvPedido() {
         initComponents();
     }
-
+    boolean edit = false;
     
     
-    public void tabela(int id){
+    public void tabela(int id, List<Pedido> listArch){
         PedidoOpDAO pedidodao = new PedidoOpDAO();
         DefaultTableModel modeloArch = (DefaultTableModel) tab_pedidos.getModel();
         
         OpArqvDAO dao = new OpArqvDAO();
-        List<Pedido> listPedidos = new ArrayList<>();
         
         List<PedidoOp> pedidoOpList = pedidodao.selectPedidoOp(id);
         for (PedidoOp pedidoop : pedidoOpList) {
             
             Pedido pedido = dao.selectPedidobyId(pedidoop.getId());
-            if(!listPedidos.contains(pedido)){
-                listPedidos.add(pedido);
+            if(!listArch.contains(pedido)){
                     Object[] lineArch = {pedido.getId(),pedido.getNomeCliente(),pedido.getFechamento(),pedido.getEmbarque(),pedido.getObservacao()};
                     modeloArch.addRow(lineArch);
-            
+                    listArch.add(pedido);
             }
             
         }
         
     }
-    
-    
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,9 +53,10 @@ public class ArqvPedido extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tab_pedidos = new javax.swing.JTable();
         button_return = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        button_confirm = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pedidos");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -91,9 +90,14 @@ public class ArqvPedido extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("Confirmar");
+        button_confirm.setBackground(new java.awt.Color(255, 255, 255));
+        button_confirm.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_confirm.setText("Confirmar");
+        button_confirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_confirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,7 +113,7 @@ public class ArqvPedido extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(219, 219, 219)
-                .addComponent(jButton1)
+                .addComponent(button_confirm)
                 .addGap(219, 219, 219))
         );
         jPanel1Layout.setVerticalGroup(
@@ -120,7 +124,7 @@ public class ArqvPedido extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(button_confirm)
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -142,44 +146,38 @@ public class ArqvPedido extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_button_returnActionPerformed
 
+    private void button_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_confirmActionPerformed
+        
+        int selectedRow = -1;
+        selectedRow = tab_pedidos.getSelectedRow();
+        if(selectedRow>=0){
+            if(edit){
+                DefaultTableModel modelo = (DefaultTableModel) Controller.getcArqvOrdemProducaoGUI().tab_pedidos.getModel();
+                modelo.removeRow(Controller.getcArqvOrdemProducaoGUI().selectedRow);
+                
+                Object[] line = {tab_pedidos.getValueAt(selectedRow, 0),tab_pedidos.getValueAt(selectedRow, 1), tab_pedidos.getValueAt(selectedRow, 2), tab_pedidos.getValueAt(selectedRow, 3), tab_pedidos.getValueAt(selectedRow, 4)};
+                Controller.getcArqvOrdemProducaoGUI().addRow(line);
+            
+            }else{
+                Object[] line = {tab_pedidos.getValueAt(selectedRow, 0),tab_pedidos.getValueAt(selectedRow, 1), tab_pedidos.getValueAt(selectedRow, 2), tab_pedidos.getValueAt(selectedRow, 3), tab_pedidos.getValueAt(selectedRow, 4)};
+                Controller.getcArqvOrdemProducaoGUI().addRow(line);
+            
+            }
+            dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um pedido");
+        }
+        
+    }//GEN-LAST:event_button_confirmActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ArqvPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ArqvPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ArqvPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ArqvPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ArqvPedido().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton button_confirm;
     private javax.swing.JButton button_return;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable tab_pedidos;

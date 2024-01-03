@@ -29,7 +29,7 @@ public class OpArqvDAO {
     }
     
     //Criando Relatorio
-    public void insertRelatorio(List<Pedido> listPedidos, OrdemProducao op, List<PedidoOp> listPedidoOp, RelatorioOp relatorio){
+    public void insertRelatorio(List<Pedido> listPedidos, int id_op, RelatorioOp relatorio){
         
         String criaRelatorio = "INSERT INTO relatorios_op (id, cal_dataInicio, cal_horaInicio, cal_horaFim, cal_dataFim, cal_espessura, cal_responsavel, cal_obs,pre_dataInicio, pre_horaInicio, pre_horaFim, pre_dataFim, pre_tempo, pre_responsavel, pre_obs, cor_dataInicio, cor_horaInicio, cor_horaFim, cor_dataFim, cor_concerto, cor_responsavel, cor_obs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         
@@ -38,7 +38,7 @@ public class OpArqvDAO {
             
             //Criando Relatório da Ordem de produção
             PreparedStatement stmt = connection.prepareStatement(criaRelatorio);
-                stmt.setInt(1, op.getId());
+                stmt.setInt(1, id_op);
                 
                 stmt.setString(2, relatorio.getCal_dataInicio());
                 stmt.setString(3, relatorio.getCal_horaInicio());
@@ -67,6 +67,13 @@ public class OpArqvDAO {
                     stmt.execute();
                     stmt.close();
             
+            //Arquivando Ordem de Produção        
+            archiveOp(id_op);
+            //Arquivando pedidos
+            for(Pedido pedido : listPedidos){
+                archivePedidos(pedido.getId());
+            }
+            
                 
         } catch(SQLException e){
             e.printStackTrace();
@@ -74,6 +81,39 @@ public class OpArqvDAO {
         
         
     }
+    
+    //Arquivando Ordem de Produção        
+    public void archiveOp(int id){
+        String sql = "UPDATE ordem_producao SET status = ? WHERE id = " + id;
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, "arquivada");
+            stmt.execute();
+            stmt.close();
+            
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    //Arquivando Pedidos
+    public void archivePedidos(int id){
+        String sql = "UPDATE pedidos SET status = ? WHERE id = " + id;
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, "arquivado");
+            stmt.execute();
+            stmt.close();
+            
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
     
     
     //Select Ordem de Produção arquivada
@@ -143,6 +183,18 @@ public class OpArqvDAO {
     }
     
     
-    
+    public void deleteRelatorio(int id){
+        String sql = "DELETE FROM relatorios_op WHERE id = " + id;
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.execute();
+            stmt.close();
+            
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     
 }

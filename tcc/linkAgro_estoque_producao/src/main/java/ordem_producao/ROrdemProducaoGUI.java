@@ -539,7 +539,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             CArqvOrdemProducaoGUI window = new CArqvOrdemProducaoGUI(opdao.selectOrdemProducaoById(Integer.parseInt(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0)))));
             window.setVisible(true);
             window.setExtendedState(MAXIMIZED_BOTH);
-            
+            Controller.setcArqvOrdemProducaoGUI(window);
             
         }else{
             JOptionPane.showMessageDialog(null, "Selecione uma ordem de produção para arquivar");

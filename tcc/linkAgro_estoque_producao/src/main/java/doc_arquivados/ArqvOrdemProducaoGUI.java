@@ -8,7 +8,6 @@ package doc_arquivados;
 
 import ordem_producao.*;
 import estoque.CEstoqueGUI;
-import imprimir.Preview;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -36,7 +35,6 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
     public ArqvOrdemProducaoGUI() {
         initComponents();
         tabela();
-        tabelaPedidosOp();
     }
 
     //Gerando tabela de ordem de producao
@@ -63,40 +61,7 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
         
     }
     
-    //Gerando tabela de pedidos da ordem de producao selecionada
-    public void tabelaPedidosOp(){
-        tab_ordemProducao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  // Permite apenas uma seleção por vez
-        
-        // Adicionar o ListSelectionListener para a tabela
-        tab_ordemProducao.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt){
-                if(!evt.getValueIsAdjusting()){
-                    
-                    //Limpando tabela
-                        while(tab_rPedidosOp.getModel().getRowCount() > 0 ){
-                        ((DefaultTableModel) tab_rPedidosOp.getModel()).removeRow(0);
-                        }
-                        
-                    //Verificando a linha selecionada
-                    int selectedRow = -1;
-                    selectedRow = tab_ordemProducao.getSelectedRow();
-                    if(selectedRow >= 0){
-                        
-                        //Buscando por pedidos vinculados a ordem de produção
-                        PedidoOpDAO pedidodao = new PedidoOpDAO();
-                        DefaultTableModel modelo = (DefaultTableModel) tab_rPedidosOp.getModel();
-                        //Adicionando a tabela os pedidos para visualizar
-                        List<PedidoOp> pedidoOpList = pedidodao.selectPedidoOp((int) tab_ordemProducao.getValueAt(selectedRow, 0));
-                            for (PedidoOp pedidoop : pedidoOpList) {
-                                Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),pedidoop.getCod()};
-                                modelo.addRow(line);
-            
-                            }
-                    }
-                }
-            }
-        });
-    }
+   
     
     
     /**
@@ -114,9 +79,6 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
         tab_ordemProducao = new javax.swing.JTable();
         button_delete = new javax.swing.JButton();
         button_return = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tab_rPedidosOp = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -183,29 +145,6 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
             }
         });
 
-        tab_rPedidosOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tab_rPedidosOp.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nome do Cliente", "Largura ", "Metragem"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tab_rPedidosOp.setSelectionBackground(new java.awt.Color(153, 153, 153));
-        jScrollPane2.setViewportView(tab_rPedidosOp);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Pedidos da Ordem de Produção");
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Ordem de Produção Arquivadas");
 
@@ -220,7 +159,6 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
@@ -228,13 +166,10 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_delete))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(button_return)
-                                .addGap(28, 28, 28)
-                                .addComponent(jLabel3)))
+                        .addGap(8, 8, 8)
+                        .addComponent(button_return)
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -256,18 +191,14 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addGap(2, 2, 2)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(209, 209, 209))
         );
 
         submenu_users1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_plus.png"))); // NOI18N
         submenu_users1.setText("Menu");
         submenu_users1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
-        submenu_newop1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
+        submenu_newop1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard.png"))); // NOI18N
         submenu_newop1.setText("Ordem de produção");
         submenu_newop1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,7 +207,7 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
         });
         submenu_users1.add(submenu_newop1);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedido.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/file.png"))); // NOI18N
         jMenuItem1.setText("OPs Arquivadas");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -361,11 +292,12 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
                 case JOptionPane.YES_OPTION:    
                     PedidoOpDAO pedidoopdao = new PedidoOpDAO();
                     OrdemProducaoDAO opdao = new OrdemProducaoDAO(); 
+                    OpArqvDAO opArqvDAO = new OpArqvDAO();
                     
                     op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0))));
+                    opArqvDAO.deleteRelatorio(op.getId());
                     pedidoopdao.deleteAllPedidosOfOp(op.getId());
                     opdao.deleteOrdemProducao(op.getId());
-                    
                     
                     
                     tabela();
@@ -492,14 +424,12 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JButton button_delete;
     private javax.swing.JButton button_relatorio;
     private javax.swing.JButton button_return;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem submenu_estoque1;
     private javax.swing.JMenuItem submenu_newop1;
     private javax.swing.JMenuItem submenu_newproduct1;
@@ -507,6 +437,5 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem submenu_user1;
     private javax.swing.JMenu submenu_users1;
     private javax.swing.JTable tab_ordemProducao;
-    public javax.swing.JTable tab_rPedidosOp;
     // End of variables declaration//GEN-END:variables
 }

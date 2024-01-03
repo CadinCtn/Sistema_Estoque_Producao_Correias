@@ -4,9 +4,12 @@
  */
 package doc_arquivados;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import menus.Controller;
 import ordem_producao.OrdemProducao;
 import ordem_producao.PedidoOp;
 import ordem_producao.PedidoOpDAO;
@@ -23,9 +26,15 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
      */
     public CArqvOrdemProducaoGUI(OrdemProducao op) {
         initComponents();
-        
         fillFilds(op);
         
+    }
+    int id_op;
+    public int selectedRow = -1;
+
+     public void addRow(Object[] line){
+        DefaultTableModel modeloArch = (DefaultTableModel) tab_pedidos.getModel();
+        modeloArch.addRow(line);
     }
     
     
@@ -41,7 +50,7 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
         field_observation.setText(op.getObservacao());
         
         tabelas(op.getId());
-        
+        this.id_op = op.getId();
     }
     
     
@@ -537,33 +546,35 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_return, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(button_return)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3))
-                .addGap(93, 93, 93))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(62, 62, 62))
         );
 
         jPanel5.setBackground(new java.awt.Color(236, 236, 236));
@@ -690,6 +701,11 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
         del_pedido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         del_pedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
         del_pedido.setText("Excluir");
+        del_pedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                del_pedidoActionPerformed(evt);
+            }
+        });
 
         add_pedido.setBackground(new java.awt.Color(255, 255, 255));
         add_pedido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -852,7 +868,66 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_cor_btnConcertoActionPerformed
 
     private void button_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_confirmActionPerformed
-       
+
+        
+        if( cal_dataInicio.getDateFormatString().isEmpty() || cal_horaInicio.getText().isEmpty() || cal_horaFim.getText().isEmpty() || cal_dataFim.getDateFormatString().isEmpty() ||cal_espessura.getText().isEmpty() || cal_resp.getText().isEmpty() ||
+            pre_dataInicio.getDateFormatString().isEmpty() || pre_horaInicio.getText().isEmpty() || pre_horaFim.getText().isEmpty() || pre_dataFim.getDateFormatString().isEmpty() || pre_tempo.getText().isEmpty()    || pre_resp.getText().isEmpty() ||
+            cor_dataInicio.getDateFormatString().isEmpty() || cor_horaInicio.getText().isEmpty() || cor_horaFim.getText().isEmpty() || cor_dataFim.getDateFormatString().isEmpty() || cor_resp.getText().isEmpty() ){
+                
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios.");
+
+        } else {
+                
+                RelatorioOp relatorio = new RelatorioOp();
+                //Formato da data
+                SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
+
+                    //calandra
+                    relatorio.setCal_dataInicio(dateForm.format(cal_dataInicio.getDate()));
+                    relatorio.setCal_horaInicio(cal_horaInicio.getText());
+                    relatorio.setCal_horaFim(cal_horaFim.getText());
+                    relatorio.setCal_dataFim(dateForm.format(cal_dataFim.getDate()));
+                    relatorio.setCal_espessura(cal_espessura.getText());
+                    relatorio.setCal_resp(cal_resp.getText());
+                    relatorio.setObs_cal(obs_cal.getText());
+
+                    //prensa
+                    relatorio.setPre_dataInicio(dateForm.format(pre_dataInicio.getDate()));
+                    relatorio.setPre_horaInicio(pre_horaInicio.getText());
+                    relatorio.setPre_horaFim(pre_horaFim.getText());
+                    relatorio.setPre_dataFim(dateForm.format(pre_dataFim.getDate()));
+                    relatorio.setPre_tempo(pre_tempo.getText());
+                    relatorio.setPre_resp(pre_resp.getText());
+                    relatorio.setObs_pre(obs_pre.getText());
+
+
+                    //corte
+                    relatorio.setCor_dataInicio(dateForm.format(cor_dataInicio.getDate()));
+                    relatorio.setCor_horaInicio(cor_horaInicio.getText());
+                    relatorio.setCor_horaFim(cor_horaFim.getText());
+                    relatorio.setCor_dataFim(dateForm.format(cor_dataFim.getDate()));
+                    relatorio.setCor_concerto(cor_btnConcerto.getText());
+                    relatorio.setCor_resp(cor_resp.getText());
+                    relatorio.setObs_cor(obs_cor.getText());
+                    
+                    List<Pedido> listPedArch = new ArrayList<>();
+                    for(int i = 0; i < tab_pedidos.getRowCount(); i++){
+                        Pedido pedido = new Pedido();
+                        pedido.setId(Integer.valueOf(String.valueOf(tab_pedidos.getValueAt(i, 0))));
+                        pedido.setNomeCliente(String.valueOf(tab_pedidos.getValueAt(i,1)));
+                        pedido.setFechamento(String.valueOf(tab_pedidos.getValueAt(i,2)));
+                        pedido.setEmbarque(String.valueOf(tab_pedidos.getValueAt(i, 3)));
+                        pedido.setObservacao(String.valueOf(tab_pedidos.getValueAt(i, 4)));
+                        listPedArch.add(pedido);
+                    }
+                    
+                    OpArqvDAO oparqvDAO = new OpArqvDAO();
+                    oparqvDAO.insertRelatorio(listPedArch, id_op, relatorio);
+                    Controller.getrOrdemProducaoGUI().tabela();
+                    dispose();
+        }
+        
+        
     }//GEN-LAST:event_button_confirmActionPerformed
 
     private void box_largTecidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_largTecidoActionPerformed
@@ -868,12 +943,61 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_box_categoryActionPerformed
 
     private void add_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_pedidoActionPerformed
-      
+        ArqvPedido arqvPedido = new ArqvPedido();
+        arqvPedido.setVisible(true);
+        arqvPedido.setLocationRelativeTo(null);
+        List<Pedido> listArch = new ArrayList<>();
+        for(int i = 0; i < tab_pedidos.getRowCount(); i++){
+            Pedido pedido = new Pedido();
+            pedido.setId(Integer.valueOf(String.valueOf(tab_pedidos.getValueAt(i, 0))));
+            pedido.setNomeCliente(String.valueOf(tab_pedidos.getValueAt(i,1)));
+            pedido.setFechamento(String.valueOf(tab_pedidos.getValueAt(i,2)));
+            pedido.setEmbarque(String.valueOf(tab_pedidos.getValueAt(i, 3)));
+            pedido.setObservacao(String.valueOf(tab_pedidos.getValueAt(i, 4)));
+            listArch.add(pedido);
+        }
+        
+        arqvPedido.tabela(id_op, listArch);
     }//GEN-LAST:event_add_pedidoActionPerformed
 
     private void upd_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoActionPerformed
   
+        selectedRow = tab_pedidos.getSelectedRow();
+        if(selectedRow>=0){
+            ArqvPedido arqvPedido = new ArqvPedido();
+            arqvPedido.setVisible(true);
+            arqvPedido.setLocationRelativeTo(null);
+            List<Pedido> listArch = new ArrayList<>();
+            for(int i = 0; i < tab_pedidos.getRowCount(); i++){
+                Pedido pedido = new Pedido();
+                pedido.setId(Integer.valueOf(String.valueOf(tab_pedidos.getValueAt(i, 0))));
+                pedido.setNomeCliente(String.valueOf(tab_pedidos.getValueAt(i,1)));
+                pedido.setFechamento(String.valueOf(tab_pedidos.getValueAt(i,2)));
+                pedido.setEmbarque(String.valueOf(tab_pedidos.getValueAt(i, 3)));
+                pedido.setObservacao(String.valueOf(tab_pedidos.getValueAt(i, 4)));
+                listArch.add(pedido);
+        }
+        
+        arqvPedido.tabela(id_op, listArch);
+        arqvPedido.edit = true;
+            
+        }else{
+            JOptionPane.showMessageDialog(null,"Selecione um pedido");
+        }
+        
     }//GEN-LAST:event_upd_pedidoActionPerformed
+
+    private void del_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_pedidoActionPerformed
+        
+        int selectedRow = -1;
+        selectedRow = tab_pedidos.getSelectedRow();
+        if(selectedRow>=0){
+            DefaultTableModel modelo = (DefaultTableModel) tab_pedidos.getModel();
+            modelo.removeRow(selectedRow);
+        }else{
+            JOptionPane.showMessageDialog(null,"Selecione um pedido");
+        }
+    }//GEN-LAST:event_del_pedidoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -957,7 +1081,7 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField pre_horaInicio;
     private javax.swing.JTextField pre_resp;
     private javax.swing.JFormattedTextField pre_tempo;
-    private javax.swing.JTable tab_pedidos;
+    public javax.swing.JTable tab_pedidos;
     private javax.swing.JTable tab_pedidosOp;
     private javax.swing.JButton upd_pedido;
     // End of variables declaration//GEN-END:variables
