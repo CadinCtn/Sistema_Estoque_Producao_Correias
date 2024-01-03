@@ -10,9 +10,6 @@ import ordem_producao.*;
 import estoque.CEstoqueGUI;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import menus.MenuGUI;
 import pedidos.CPedidosGUI;
@@ -124,6 +121,14 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
         });
         tab_ordemProducao.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane1.setViewportView(tab_ordemProducao);
+        if (tab_ordemProducao.getColumnModel().getColumnCount() > 0) {
+            tab_ordemProducao.getColumnModel().getColumn(4).setHeaderValue("Metragem");
+            tab_ordemProducao.getColumnModel().getColumn(5).setHeaderValue("+Mts");
+            tab_ordemProducao.getColumnModel().getColumn(6).setHeaderValue("Lonas");
+            tab_ordemProducao.getColumnModel().getColumn(7).setHeaderValue("Espessura");
+            tab_ordemProducao.getColumnModel().getColumn(8).setHeaderValue("Setor");
+            tab_ordemProducao.getColumnModel().getColumn(9).setHeaderValue("Observação");
+        }
 
         button_delete.setBackground(new java.awt.Color(255, 255, 255));
         button_delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -161,7 +166,7 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
                         .addComponent(button_relatorio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_delete))
@@ -190,8 +195,8 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                .addGap(209, 209, 209))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         submenu_users1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_plus.png"))); // NOI18N

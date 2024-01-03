@@ -598,6 +598,20 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
         });
         tab_pedidosOp.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane4.setViewportView(tab_pedidosOp);
+        if (tab_pedidosOp.getColumnModel().getColumnCount() > 0) {
+            tab_pedidosOp.getColumnModel().getColumn(0).setMinWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(0).setMaxWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(2).setMinWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(2).setMaxWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(3).setMinWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(3).setMaxWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(4).setMinWidth(40);
+            tab_pedidosOp.getColumnModel().getColumn(4).setPreferredWidth(40);
+            tab_pedidosOp.getColumnModel().getColumn(4).setMaxWidth(40);
+        }
 
         box_category.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         box_category.setEditable(false);
@@ -684,6 +698,17 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
         });
         tab_pedidos.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane6.setViewportView(tab_pedidos);
+        if (tab_pedidos.getColumnModel().getColumnCount() > 0) {
+            tab_pedidos.getColumnModel().getColumn(0).setMinWidth(100);
+            tab_pedidos.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab_pedidos.getColumnModel().getColumn(0).setMaxWidth(100);
+            tab_pedidos.getColumnModel().getColumn(2).setMinWidth(100);
+            tab_pedidos.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tab_pedidos.getColumnModel().getColumn(2).setMaxWidth(100);
+            tab_pedidos.getColumnModel().getColumn(3).setMinWidth(100);
+            tab_pedidos.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tab_pedidos.getColumnModel().getColumn(3).setMaxWidth(100);
+        }
 
         button_confirm.setBackground(new java.awt.Color(255, 255, 255));
         button_confirm.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -784,12 +809,12 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
                                 .addComponent(label_obs1)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(19, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(button_confirm))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 663, Short.MAX_VALUE))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

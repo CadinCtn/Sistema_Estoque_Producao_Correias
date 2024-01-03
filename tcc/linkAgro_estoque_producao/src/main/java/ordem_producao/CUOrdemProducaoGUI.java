@@ -242,6 +242,15 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         tab_pedidosOp.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane2.setViewportView(tab_pedidosOp);
         if (tab_pedidosOp.getColumnModel().getColumnCount() > 0) {
+            tab_pedidosOp.getColumnModel().getColumn(0).setMinWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(0).setMaxWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(2).setMinWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(2).setMaxWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(3).setMinWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(3).setMaxWidth(100);
             tab_pedidosOp.getColumnModel().getColumn(4).setMinWidth(40);
             tab_pedidosOp.getColumnModel().getColumn(4).setPreferredWidth(40);
             tab_pedidosOp.getColumnModel().getColumn(4).setMaxWidth(40);

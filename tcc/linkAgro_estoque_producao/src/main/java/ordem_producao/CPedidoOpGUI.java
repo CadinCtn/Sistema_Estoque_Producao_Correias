@@ -11,10 +11,7 @@ import menus.Controller;
 import pedidos.Pedido;
 import pedidos.PedidoDAO;
 
-/**
- *
- * @author Lenovo
- */
+
 public class CPedidoOpGUI extends javax.swing.JFrame {
 
     /**
@@ -111,6 +108,17 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
         });
         tab_pedidos.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_pedidos);
+        if (tab_pedidos.getColumnModel().getColumnCount() > 0) {
+            tab_pedidos.getColumnModel().getColumn(0).setMinWidth(100);
+            tab_pedidos.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab_pedidos.getColumnModel().getColumn(0).setMaxWidth(100);
+            tab_pedidos.getColumnModel().getColumn(2).setMinWidth(100);
+            tab_pedidos.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tab_pedidos.getColumnModel().getColumn(2).setMaxWidth(100);
+            tab_pedidos.getColumnModel().getColumn(3).setMinWidth(100);
+            tab_pedidos.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tab_pedidos.getColumnModel().getColumn(3).setMaxWidth(100);
+        }
 
         button_return.setBackground(new java.awt.Color(255, 255, 255));
         button_return.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
