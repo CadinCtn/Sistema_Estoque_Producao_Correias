@@ -5,14 +5,13 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import menus.MenuGUI;
-import ordem_producao.ControllerOP;
 import ordem_producao.ROrdemProducaoGUI;
 import pedidos.CPedidosGUI;
 import produtos.Produto;
 import produtos.ProdutoDAO;
 import produtos.ProdutosGUI;
 import usuarios.CUsuarioGUI;
-import usuarios.Controller;
+import menus.Controller;
 import usuarios.LoginGUI;
 
 
@@ -537,7 +536,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         ROrdemProducaoGUI window = new ROrdemProducaoGUI();
         window.setVisible(true);
         window.setExtendedState(MAXIMIZED_BOTH);
-        ControllerOP.setrOrdemProducaoGUI(window);
+        Controller.setrOrdemProducaoGUI(window);
         dispose();
     }//GEN-LAST:event_submenu_newop1ActionPerformed
 

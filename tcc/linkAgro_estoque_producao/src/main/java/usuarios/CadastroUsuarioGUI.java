@@ -4,6 +4,7 @@
  */
 package usuarios;
 
+import menus.Controller;
 import javax.swing.JOptionPane;
 
 /**

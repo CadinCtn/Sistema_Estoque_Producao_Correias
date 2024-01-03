@@ -6,7 +6,7 @@
 package com.mycompany.linkagro_estoque_producao;
 
 import usuarios.LoginGUI;
-import usuarios.Controller;
+import menus.Controller;
 
 /**
  *

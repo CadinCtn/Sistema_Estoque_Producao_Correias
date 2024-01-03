@@ -7,6 +7,7 @@ package ordem_producao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import menus.Controller;
 import pedidos.Pedido;
 import pedidos.PedidoDAO;
 
@@ -223,7 +224,7 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Preencha a largura e a metragem!");
             } else {
                 if(edit){
-                    CUOrdemProducaoGUI cuopgui = ControllerOP.getCUOrdemProducao();
+                    CUOrdemProducaoGUI cuopgui = Controller.getCuOrdemProducaoGui();
 
                     PedidoOp pedidoop = new PedidoOp();
                     pedidoop.setId((int) tab_pedidos.getValueAt(selectedLine,0));
@@ -259,7 +260,7 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
                         pedidoop.setMetragem(Float.valueOf(metField.getText()));
 
                         //Adicionando o pedido com as medidas especificadas a tabela do CUOrdemProducaoGUI
-                        CUOrdemProducaoGUI cuopgui = ControllerOP.getCUOrdemProducao();
+                        CUOrdemProducaoGUI cuopgui = Controller.getCuOrdemProducaoGui();
                         cuopgui.addRow(pedidoop,edit, indexRow);
 
                         

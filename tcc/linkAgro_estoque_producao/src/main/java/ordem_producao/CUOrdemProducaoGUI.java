@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import menus.Controller;
 import produtos.Produto;
 
 public class CUOrdemProducaoGUI extends javax.swing.JFrame {
@@ -464,7 +465,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                 
                     
                 //Atualizando a tabela de op GUI
-                ROrdemProducaoGUI ropgui = ControllerOP.getrOrdemProducaoGUI();
+                ROrdemProducaoGUI ropgui = Controller.getrOrdemProducaoGUI();
                 ropgui.tabela();
                 ropgui.tabelaPedidosOp();
                         

@@ -8,7 +8,6 @@ package doc_arquivados;
 
 import ordem_producao.*;
 import estoque.CEstoqueGUI;
-import imprimir.ControllerPrint;
 import imprimir.Preview;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,7 +21,7 @@ import produtos.Produto;
 import produtos.ProdutoDAO;
 import produtos.ProdutosGUI;
 import usuarios.CUsuarioGUI;
-import usuarios.Controller;
+import menus.Controller;
 import usuarios.LoginGUI;
 
 /**
@@ -385,7 +384,7 @@ public class ArqvOrdemProducaoGUI extends javax.swing.JFrame {
         ROrdemProducaoGUI window = new ROrdemProducaoGUI();
         window.setVisible(true);
         window.setExtendedState(MAXIMIZED_BOTH);
-        ControllerOP.setrOrdemProducaoGUI(window);
+        Controller.setrOrdemProducaoGUI(window);
         dispose();
     }//GEN-LAST:event_submenu_newop1ActionPerformed
 

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import menus.Controller;
 
 /**
  *
@@ -49,7 +50,7 @@ public class PedidoOpDAO {
         
         int id_op;
         if(edit){
-            CUOrdemProducaoGUI cuopgui = ControllerOP.getCUOrdemProducao();
+            CUOrdemProducaoGUI cuopgui = Controller.getCuOrdemProducaoGui();
             id_op = cuopgui.id;
         } else {
             id_op = lastId("id","ordem_producao");

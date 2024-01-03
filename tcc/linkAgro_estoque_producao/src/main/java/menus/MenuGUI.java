@@ -3,13 +3,11 @@ package menus;
 import doc_arquivados.ArqvOrdemProducaoGUI;
 import estoque.CEstoqueGUI;
 import ordem_producao.ROrdemProducaoGUI;
-import ordem_producao.ControllerOP;
 import produtos.ProdutosGUI;
 import javax.swing.JOptionPane;
 import pedidos.CPedidosGUI;
 import produtos.Produto;
 import usuarios.CUsuarioGUI;
-import usuarios.Controller;
 import usuarios.LoginGUI;
 
 
@@ -182,7 +180,7 @@ public class MenuGUI extends javax.swing.JFrame {
         ROrdemProducaoGUI window = new ROrdemProducaoGUI();
         window.setVisible(true);
         window.setExtendedState(MAXIMIZED_BOTH);
-        ControllerOP.setrOrdemProducaoGUI(window);
+        Controller.setrOrdemProducaoGUI(window);
         dispose();
     }//GEN-LAST:event_submenu_newopActionPerformed
 

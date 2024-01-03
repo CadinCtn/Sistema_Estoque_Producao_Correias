@@ -9,7 +9,6 @@ package ordem_producao;
 import doc_arquivados.ArqvOrdemProducaoGUI;
 import doc_arquivados.CArqvOrdemProducaoGUI;
 import estoque.CEstoqueGUI;
-import imprimir.ControllerPrint;
 import imprimir.Preview;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -23,7 +22,7 @@ import produtos.Produto;
 import produtos.ProdutoDAO;
 import produtos.ProdutosGUI;
 import usuarios.CUsuarioGUI;
-import usuarios.Controller;
+import menus.Controller;
 import usuarios.LoginGUI;
 
 /**
@@ -385,7 +384,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         CUOrdemProducaoGUI window = new CUOrdemProducaoGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-        ControllerOP.setCUOrdemProducao(window);
+        Controller.setCuOrdemProducaoGui(window);
         
     }//GEN-LAST:event_button_createOpActionPerformed
 
@@ -458,7 +457,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             
             cuopg.setVisible(true);
             cuopg.setLocationRelativeTo(null);
-            ControllerOP.setCUOrdemProducao(cuopg);
+            Controller.setCuOrdemProducaoGui(cuopg);
             
             
         } else {
@@ -472,7 +471,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         ROrdemProducaoGUI window = new ROrdemProducaoGUI();
         window.setVisible(true);
         window.setExtendedState(MAXIMIZED_BOTH);
-        ControllerOP.setrOrdemProducaoGUI(window);
+        Controller.setrOrdemProducaoGUI(window);
         dispose();
     }//GEN-LAST:event_submenu_newop1ActionPerformed
 
@@ -523,7 +522,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             OrdemProducaoDAO opdao = new OrdemProducaoDAO();
             Preview print = new Preview();
             print.frame(pedidoopdao.selectPedidoOp(idOp), opdao.selectOrdemProducaoById(idOp),print);
-            ControllerPrint.setPreview(print);
+            Controller.setPreview(print);
            
         } else {
             JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja imprimir.");

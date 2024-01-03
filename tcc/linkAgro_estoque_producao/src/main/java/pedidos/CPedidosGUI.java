@@ -12,12 +12,12 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import menus.MenuGUI;
-import ordem_producao.ControllerOP;
+import menus.Controller;
 import ordem_producao.ROrdemProducaoGUI;
 import produtos.Produto;
 import produtos.ProdutosGUI;
 import usuarios.CUsuarioGUI;
-import usuarios.Controller;
+import menus.Controller;
 import usuarios.LoginGUI;
 
 
@@ -359,7 +359,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
         ROrdemProducaoGUI window = new ROrdemProducaoGUI();
         window.setVisible(true);
         window.setExtendedState(MAXIMIZED_BOTH);
-        ControllerOP.setrOrdemProducaoGUI(window);
+        Controller.setrOrdemProducaoGUI(window);
         dispose();
     }//GEN-LAST:event_submenu_newopActionPerformed
 

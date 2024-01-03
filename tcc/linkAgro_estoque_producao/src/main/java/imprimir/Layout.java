@@ -10,6 +10,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.util.List;
+import menus.Controller;
 import ordem_producao.PedidoOp;
 
 class Layout implements Printable{
@@ -25,7 +26,7 @@ class Layout implements Printable{
         
         Graphics2D g2d = (Graphics2D) graphics;
         
-        Preview print = ControllerPrint.getPreview();
+        Preview print = Controller.getPreview();
         
          String op = print.op;
          String categoria = print.categoria;
