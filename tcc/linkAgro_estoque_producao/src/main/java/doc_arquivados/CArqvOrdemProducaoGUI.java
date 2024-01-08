@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import menus.Controller;
 import ordem_producao.OrdemProducao;
@@ -24,22 +25,24 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
     /**
      * Creates new form CArqvOrdemProducaoGUI
      */
-    public CArqvOrdemProducaoGUI(OrdemProducao op) {
+    public CArqvOrdemProducaoGUI(OrdemProducao op, RelatorioOp relatorio, boolean edit) {
         initComponents();
-        fillFilds(op);
+        fillFilds(op,relatorio, edit);
         
     }
     int id_op;
     public int selectedRow = -1;
-
+    boolean edit = false;
+    
      public void addRow(Object[] line){
         DefaultTableModel modeloArch = (DefaultTableModel) tab_pedidos.getModel();
         modeloArch.addRow(line);
     }
     
     
-    public void fillFilds(OrdemProducao op){
+    public void fillFilds(OrdemProducao op, RelatorioOp relatorio, boolean edit) {
         idText.setText("OP: " + op.getId());
+        
         box_category.addItem(op.getCategoria());
         box_ee.addItem(String.valueOf(op.getEe()));
         box_largTecido.addItem(String.valueOf(op.getLarguraTecido()));
@@ -49,8 +52,56 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
         field_espessura.setText(op.getEspessura());
         field_observation.setText(op.getObservacao());
         
-        tabelas(op.getId());
         this.id_op = op.getId();
+        if(edit){
+            this.edit = edit;
+            button_confirm.setText("Atualizar");
+            
+            try{
+                
+            //Formato da data
+            SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
+            
+            cal_dataInicio.setDate(dateForm.parse(relatorio.getCal_dataInicio()));
+            cal_horaInicio.setText(relatorio.getCal_horaInicio());
+            cal_horaFim.setText(relatorio.getCal_horaFim());
+            cal_dataFim.setDate(dateForm.parse(relatorio.getCal_dataFim()));
+            cal_espessura.setText(relatorio.getCal_espessura());
+            cal_resp.setText(relatorio.getCal_resp());
+            obs_cal.setText(relatorio.getObs_cal());
+            
+            pre_dataInicio.setDate(dateForm.parse(relatorio.getPre_dataInicio()));
+            pre_horaInicio.setText(relatorio.getPre_horaInicio());
+            pre_horaFim.setText(relatorio.getPre_horaFim());
+            pre_dataFim.setDate(dateForm.parse(relatorio.getPre_dataFim()));
+            pre_tempo.setText(relatorio.getPre_tempo());
+            pre_resp.setText(relatorio.getPre_resp());
+            obs_pre.setText(relatorio.getObs_pre());
+            
+            cor_dataInicio.setDate(dateForm.parse(relatorio.getCor_dataInicio()));
+            cor_horaInicio.setText(relatorio.getCor_horaInicio());
+            cor_horaFim.setText(relatorio.getCor_horaFim());
+            cor_dataFim.setDate(dateForm.parse(relatorio.getCor_dataFim()));
+            if("SIM".equals(relatorio.getCor_concerto())){
+                cor_btnConcerto.setSelected(true);
+                cor_btnConcerto.setText("SIM");
+            } else {
+                cor_btnConcerto.setSelected(false);
+                cor_btnConcerto.setText("NÃO");
+            }
+            cor_resp.setText(relatorio.getCor_resp());
+            obs_cor.setText(relatorio.getObs_cor());
+            
+            
+            
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        }
+        
+        tabelas(op.getId());
+        
     }
     
     
@@ -69,8 +120,8 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
             Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),pedidoop.getCod()};
             modeloOp.addRow(line);
             
-            Pedido pedido = dao.selectPedidobyId(pedidoop.getId());
-            if(!listPedidos.contains(pedido)){
+            Pedido pedido = dao.selectPedidobyId(pedidoop.getId(), edit);
+            if(!listPedidos.contains(pedido) && pedido.getId() != 0){
                 listPedidos.add(pedido);
                     Object[] lineArch = {pedido.getId(),pedido.getNomeCliente(),pedido.getFechamento(),pedido.getEmbarque(),pedido.getObservacao()};
                     modeloArch.addRow(lineArch);
@@ -597,17 +648,24 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
             }
         });
         tab_pedidosOp.setSelectionBackground(new java.awt.Color(153, 153, 153));
+        //Centralizando valores nas celulas das colunas 0, 2, 3 e 4
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        tab_pedidosOp.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tab_pedidosOp.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tab_pedidosOp.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tab_pedidosOp.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         jScrollPane4.setViewportView(tab_pedidosOp);
         if (tab_pedidosOp.getColumnModel().getColumnCount() > 0) {
-            tab_pedidosOp.getColumnModel().getColumn(0).setMinWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(0).setPreferredWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(0).setMaxWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(2).setMinWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(2).setPreferredWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(2).setMaxWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(3).setMinWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(3).setPreferredWidth(100);
-            tab_pedidosOp.getColumnModel().getColumn(3).setMaxWidth(100);
+            tab_pedidosOp.getColumnModel().getColumn(0).setMinWidth(50);
+            tab_pedidosOp.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tab_pedidosOp.getColumnModel().getColumn(0).setMaxWidth(50);
+            tab_pedidosOp.getColumnModel().getColumn(2).setMinWidth(75);
+            tab_pedidosOp.getColumnModel().getColumn(2).setPreferredWidth(75);
+            tab_pedidosOp.getColumnModel().getColumn(2).setMaxWidth(75);
+            tab_pedidosOp.getColumnModel().getColumn(3).setMinWidth(75);
+            tab_pedidosOp.getColumnModel().getColumn(3).setPreferredWidth(75);
+            tab_pedidosOp.getColumnModel().getColumn(3).setMaxWidth(75);
             tab_pedidosOp.getColumnModel().getColumn(4).setMinWidth(40);
             tab_pedidosOp.getColumnModel().getColumn(4).setPreferredWidth(40);
             tab_pedidosOp.getColumnModel().getColumn(4).setMaxWidth(40);
@@ -697,11 +755,14 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
             }
         });
         tab_pedidos.setSelectionBackground(new java.awt.Color(153, 153, 153));
+        tab_pedidos.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tab_pedidos.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tab_pedidos.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         jScrollPane6.setViewportView(tab_pedidos);
         if (tab_pedidos.getColumnModel().getColumnCount() > 0) {
-            tab_pedidos.getColumnModel().getColumn(0).setMinWidth(100);
-            tab_pedidos.getColumnModel().getColumn(0).setPreferredWidth(100);
-            tab_pedidos.getColumnModel().getColumn(0).setMaxWidth(100);
+            tab_pedidos.getColumnModel().getColumn(0).setMinWidth(50);
+            tab_pedidos.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tab_pedidos.getColumnModel().getColumn(0).setMaxWidth(50);
             tab_pedidos.getColumnModel().getColumn(2).setMinWidth(100);
             tab_pedidos.getColumnModel().getColumn(2).setPreferredWidth(100);
             tab_pedidos.getColumnModel().getColumn(2).setMaxWidth(100);
@@ -947,8 +1008,14 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
                     }
                     
                     OpArqvDAO oparqvDAO = new OpArqvDAO();
+                    if(edit){
+                        oparqvDAO.updateRelatorio(listPedArch, id_op, relatorio);
+                    }else{
                     oparqvDAO.insertRelatorio(listPedArch, id_op, relatorio);
-                    Controller.getrOrdemProducaoGUI().tabela();
+                    }
+                    Controller.getrOrdemProducaoGUI().tabelaProd();
+                    Controller.getrOrdemProducaoGUI().tabelaArch();
+                    
                     dispose();
         }
         
@@ -1018,7 +1085,12 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
         selectedRow = tab_pedidos.getSelectedRow();
         if(selectedRow>=0){
             DefaultTableModel modelo = (DefaultTableModel) tab_pedidos.getModel();
+            //Desarquivando Pedido
+            OpArqvDAO oparqvDAO = new OpArqvDAO();
+            oparqvDAO.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidos.getValueAt(selectedRow, 0))), false);
+                
             modelo.removeRow(selectedRow);
+            
         }else{
             JOptionPane.showMessageDialog(null,"Selecione um pedido");
         }

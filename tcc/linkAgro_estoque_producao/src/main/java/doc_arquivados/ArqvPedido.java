@@ -34,7 +34,7 @@ public class ArqvPedido extends javax.swing.JFrame {
         List<PedidoOp> pedidoOpList = pedidodao.selectPedidoOp(id);
         for (PedidoOp pedidoop : pedidoOpList) {
             
-            Pedido pedido = dao.selectPedidobyId(pedidoop.getId());
+            Pedido pedido = dao.selectPedidobyId(pedidoop.getId(), false);
             if(!listArch.contains(pedido)){
                     Object[] lineArch = {pedido.getId(),pedido.getNomeCliente(),pedido.getFechamento(),pedido.getEmbarque(),pedido.getObservacao()};
                     modeloArch.addRow(lineArch);

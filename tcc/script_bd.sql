@@ -67,41 +67,6 @@ CREATE TABLE pedidos_op (
 
 
 
-
-CREATE TABLE op_arquivadas(
-  id int,
-  categoria varchar(50) NOT NULL,
-  EE int NOT NULL,
-  largura_tecido float(4,2) NOT NULL,
-  metragem_tecido float(5,2) NOT NULL,
-  lonas int NOT NULL,
-  setor varchar(20) DEFAULT NULL,
-  observacao varchar(500) DEFAULT NULL,
-  espessura varchar(50) DEFAULT NULL,
-  met_extra float(4,2) DEFAULT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (categoria) REFERENCES produtos (produto)
-);
-
-CREATE TABLE pedidos_arquivados (
-  id int NOT NULL,
-  nome_cliente varchar(255) NOT NULL,
-  data_fechamento varchar(10) DEFAULT NULL,
-  data_embarque varchar(10) DEFAULT NULL,
-  observacao varchar(500) DEFAULT NULL,
-  PRIMARY KEY (id)
-); 
-
-CREATE TABLE pedidos_op_arquivadas (
-  id_op int NOT NULL,
-  id_pedido int NOT NULL,
-  nome_cliente varchar(255) NOT NULL,
-  largura float(4,2) DEFAULT NULL,
-  metragem float(5,2) DEFAULT NULL,
-  FOREIGN KEY (id_op) REFERENCES op_arquivadas (id),
-  foreign key (id_pedido) REFERENCES pedidos_arquivados(id)
-); 
-
 Create Table relatorios_op(
   id int not null,
   
@@ -130,7 +95,7 @@ Create Table relatorios_op(
   cor_obs varchar(500),
   
   primary key(id),
-  foreign key(id) references op_arquivadas(id)
+  foreign key(id) references ordem_producao(id)
 );
 
 

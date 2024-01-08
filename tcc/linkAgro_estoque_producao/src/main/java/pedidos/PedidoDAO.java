@@ -264,5 +264,38 @@ public class PedidoDAO {
     }
     
     
+    public List<Pedido> selectPedidosArquivados(){
+        String sql = "SELECT * FROM pedidos WHERE status = 'arquivado'";
+        
+        List<Pedido> pedidoList = new ArrayList();
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Pedido pedido = new Pedido();
+                pedido.setId(rs.getInt("id"));
+                pedido.setNomeCliente(rs.getString("nome_cliente"));
+                pedido.setFechamento(rs.getString("data_fechamento"));
+                pedido.setEmbarque(rs.getString("data_embarque"));
+                pedido.setObservacao(rs.getString("observacao"));
+                
+                pedidoList.add(pedido);
+            }
+            
+            stmt.close();
+            rs.close();
+                    
+            
+        }
+        catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        
+        
+        return pedidoList;
+    }
+    
     
 }

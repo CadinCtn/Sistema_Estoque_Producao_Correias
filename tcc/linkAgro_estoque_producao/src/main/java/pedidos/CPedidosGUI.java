@@ -5,14 +5,12 @@
 package pedidos;
 
 
-import doc_arquivados.ArqvOrdemProducaoGUI;
 import estoque.CEstoqueGUI;
 import help.HPedidos;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import menus.MenuGUI;
-import menus.Controller;
 import ordem_producao.ROrdemProducaoGUI;
 import produtos.Produto;
 import produtos.ProdutosGUI;
@@ -32,18 +30,19 @@ public class CPedidosGUI extends javax.swing.JFrame {
      */
     public CPedidosGUI() {
         initComponents();
-        tabela();
+        tabelaProd();
+        tabelaArch();
     }
 
     
     //Gerando tabela de pedidos
-    public void tabela(){
+    public void tabelaProd(){
         PedidoDAO pedidodao = new PedidoDAO();
-        DefaultTableModel modelo = (DefaultTableModel) tab_pedidos.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosProd.getModel();
         
         //limpando tabela
-        while(tab_pedidos.getModel().getRowCount() > 0 ){
-            ((DefaultTableModel) tab_pedidos.getModel()).removeRow(0);
+        while(tab_pedidosProd.getModel().getRowCount() > 0 ){
+            ((DefaultTableModel) tab_pedidosProd.getModel()).removeRow(0);
         }
         
         
@@ -56,7 +55,25 @@ public class CPedidosGUI extends javax.swing.JFrame {
         }
         
     }
-    
+    public void tabelaArch(){
+        PedidoDAO pedidodao = new PedidoDAO();
+        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosArch.getModel();
+        
+        //limpando tabela
+        while(tab_pedidosArch.getModel().getRowCount() > 0 ){
+            ((DefaultTableModel) tab_pedidosArch.getModel()).removeRow(0);
+        }
+        
+        
+        List<Pedido> pedidoList = pedidodao.selectPedidosArquivados();
+        for (Pedido pedido : pedidoList) {
+            
+            Object[] line = {pedido.getId(), pedido.getNomeCliente(), pedido.getFechamento(),pedido.getEmbarque(),pedido.getObservacao()};
+            modelo.addRow(line);
+            
+        }
+        
+    }
     
     
     /**
@@ -69,16 +86,22 @@ public class CPedidosGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tab_pedidos = new javax.swing.JTable();
-        add_pedido = new javax.swing.JButton();
-        upd_pedido = new javax.swing.JButton();
-        del_pedido = new javax.swing.JButton();
         btn_back = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tab_pedidosProd = new javax.swing.JTable();
+        upd_pedidoProd = new javax.swing.JButton();
+        del_pedidoProd = new javax.swing.JButton();
+        add_pedido = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tab_pedidosArch = new javax.swing.JTable();
+        upd_pedidoArch = new javax.swing.JButton();
+        del_pedidoArch = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         submenu_users = new javax.swing.JMenu();
         submenu_newop = new javax.swing.JMenuItem();
-        submenu_oparqv = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
         submenu_estoque = new javax.swing.JMenuItem();
         submenu_pedidos = new javax.swing.JMenuItem();
@@ -91,8 +114,17 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        tab_pedidos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tab_pedidos.setModel(new javax.swing.table.DefaultTableModel(
+        btn_back.setBackground(new java.awt.Color(255, 255, 255));
+        btn_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/botao-voltar (1).png"))); // NOI18N
+        btn_back.setBorder(null);
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
+
+        tab_pedidosProd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_pedidosProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -108,23 +140,28 @@ public class CPedidosGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tab_pedidos.setSelectionBackground(new java.awt.Color(153, 153, 153));
-        jScrollPane5.setViewportView(tab_pedidos);
-        if (tab_pedidos.getColumnModel().getColumnCount() > 0) {
-            tab_pedidos.getColumnModel().getColumn(0).setMinWidth(100);
-            tab_pedidos.getColumnModel().getColumn(0).setPreferredWidth(100);
-            tab_pedidos.getColumnModel().getColumn(0).setMaxWidth(100);
-            tab_pedidos.getColumnModel().getColumn(1).setMinWidth(250);
-            tab_pedidos.getColumnModel().getColumn(1).setPreferredWidth(250);
-            tab_pedidos.getColumnModel().getColumn(2).setMinWidth(125);
-            tab_pedidos.getColumnModel().getColumn(2).setPreferredWidth(125);
-            tab_pedidos.getColumnModel().getColumn(2).setMaxWidth(125);
-            tab_pedidos.getColumnModel().getColumn(3).setMinWidth(125);
-            tab_pedidos.getColumnModel().getColumn(3).setPreferredWidth(125);
-            tab_pedidos.getColumnModel().getColumn(3).setMaxWidth(125);
-            tab_pedidos.getColumnModel().getColumn(4).setMinWidth(150);
-            tab_pedidos.getColumnModel().getColumn(4).setPreferredWidth(150);
-        }
+        tab_pedidosProd.setSelectionBackground(new java.awt.Color(153, 153, 153));
+        jScrollPane6.setViewportView(tab_pedidosProd);
+
+        upd_pedidoProd.setBackground(new java.awt.Color(255, 255, 255));
+        upd_pedidoProd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        upd_pedidoProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/editar (2).png"))); // NOI18N
+        upd_pedidoProd.setText("Editar");
+        upd_pedidoProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upd_pedidoProdActionPerformed(evt);
+            }
+        });
+
+        del_pedidoProd.setBackground(new java.awt.Color(255, 255, 255));
+        del_pedidoProd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        del_pedidoProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
+        del_pedidoProd.setText("Excluir");
+        del_pedidoProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                del_pedidoProdActionPerformed(evt);
+            }
+        });
 
         add_pedido.setBackground(new java.awt.Color(255, 255, 255));
         add_pedido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -136,34 +173,99 @@ public class CPedidosGUI extends javax.swing.JFrame {
             }
         });
 
-        upd_pedido.setBackground(new java.awt.Color(255, 255, 255));
-        upd_pedido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        upd_pedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/editar (2).png"))); // NOI18N
-        upd_pedido.setText("Editar");
-        upd_pedido.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(434, Short.MAX_VALUE)
+                .addComponent(add_pedido)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(upd_pedidoProd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(del_pedidoProd)
+                .addContainerGap())
+            .addComponent(jScrollPane6)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(upd_pedidoProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(del_pedidoProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(add_pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Pedidos em Produção", jPanel2);
+
+        tab_pedidosArch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tab_pedidosArch.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Pedido", "Nome Cliente", "Data Fechamento", "Data Embarque", "OBS"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tab_pedidosArch.setSelectionBackground(new java.awt.Color(153, 153, 153));
+        jScrollPane5.setViewportView(tab_pedidosArch);
+
+        upd_pedidoArch.setBackground(new java.awt.Color(255, 255, 255));
+        upd_pedidoArch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        upd_pedidoArch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/editar (2).png"))); // NOI18N
+        upd_pedidoArch.setText("Editar");
+        upd_pedidoArch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                upd_pedidoActionPerformed(evt);
+                upd_pedidoArchActionPerformed(evt);
             }
         });
 
-        del_pedido.setBackground(new java.awt.Color(255, 255, 255));
-        del_pedido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        del_pedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
-        del_pedido.setText("Excluir");
-        del_pedido.addActionListener(new java.awt.event.ActionListener() {
+        del_pedidoArch.setBackground(new java.awt.Color(255, 255, 255));
+        del_pedidoArch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        del_pedidoArch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excluir.png"))); // NOI18N
+        del_pedidoArch.setText("Excluir");
+        del_pedidoArch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                del_pedidoActionPerformed(evt);
+                del_pedidoArchActionPerformed(evt);
             }
         });
 
-        btn_back.setBackground(new java.awt.Color(255, 255, 255));
-        btn_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/botao-voltar (1).png"))); // NOI18N
-        btn_back.setBorder(null);
-        btn_back.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_backActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(558, Short.MAX_VALUE)
+                .addComponent(upd_pedidoArch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(del_pedidoArch)
+                .addContainerGap())
+            .addComponent(jScrollPane5)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(upd_pedidoArch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(del_pedidoArch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Pedidos Arquivados", jPanel3);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -171,33 +273,17 @@ public class CPedidosGUI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_back)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(add_pedido)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(upd_pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(del_pedido)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(btn_back)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(btn_back)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(add_pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(upd_pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(del_pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1))
         );
 
         submenu_users.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_plus.png"))); // NOI18N
@@ -212,15 +298,6 @@ public class CPedidosGUI extends javax.swing.JFrame {
             }
         });
         submenu_users.add(submenu_newop);
-
-        submenu_oparqv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/file.png"))); // NOI18N
-        submenu_oparqv.setText("OPs Arquivadas");
-        submenu_oparqv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_oparqvActionPerformed(evt);
-            }
-        });
-        submenu_users.add(submenu_oparqv);
 
         submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
         submenu_newproduct.setText("Produtos");
@@ -290,63 +367,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
 
-    //Adicionando novo pedido
-    private void add_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_pedidoActionPerformed
-        PedidoDAO pedidodao = new PedidoDAO();
-        pedidodao.insertPedido(pedidodao.paneJOP(null,null,null,null,null));
-        JOptionPane.showMessageDialog(null,"Pedido adicionado com sucesso!");
-        tabela();
-    }//GEN-LAST:event_add_pedidoActionPerformed
-
-    //Atualizando pedido
-    private void upd_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoActionPerformed
-      int linhaSelecionada = -1;
-    linhaSelecionada = tab_pedidos.getSelectedRow();
-        if(linhaSelecionada >=0){
-            int id = (int) tab_pedidos.getValueAt(linhaSelecionada, 0);
-            
-            PedidoDAO pedidodao = new PedidoDAO();
-            
-            String Id =  tab_pedidos.getValueAt(linhaSelecionada, 0).toString();
-            String nome = (String) tab_pedidos.getValueAt(linhaSelecionada, 1);
-            String fechamento = (String) tab_pedidos.getValueAt(linhaSelecionada, 2);
-            String embarque = (String) tab_pedidos.getValueAt(linhaSelecionada, 3);
-            String obs = (String) tab_pedidos.getValueAt(linhaSelecionada, 4);
-          
-            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
-            tabela();
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
-        }
-        
-
-            
-    }//GEN-LAST:event_upd_pedidoActionPerformed
-
     
-    //Deletando Pedido
-    private void del_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_pedidoActionPerformed
-    int linhaSelecionada = -1;
-    linhaSelecionada = tab_pedidos.getSelectedRow();
-        if(linhaSelecionada >=0){
-            
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
-                case JOptionPane.YES_OPTION:    
-                PedidoDAO pedidodao = new PedidoDAO(); 
-                int id = (int) tab_pedidos.getValueAt(linhaSelecionada, 0);
-                pedidodao.deletePedido(id);
-                tabela();
-                
-            break;
-            }
-            
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
-        }
-        
-
-    }//GEN-LAST:event_del_pedidoActionPerformed
-
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
         MenuGUI menugui = new MenuGUI();
         menugui.setVisible(true);
@@ -406,12 +427,99 @@ public class CPedidosGUI extends javax.swing.JFrame {
         window.setLocationRelativeTo(null);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void submenu_oparqvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_oparqvActionPerformed
-        ArqvOrdemProducaoGUI window = new ArqvOrdemProducaoGUI();
-        window.setVisible(true);
-        window.setExtendedState(MAXIMIZED_BOTH);
-        dispose();
-    }//GEN-LAST:event_submenu_oparqvActionPerformed
+    private void upd_pedidoArchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoArchActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = tab_pedidosArch.getSelectedRow();
+        if(linhaSelecionada >=0){
+            int id = (int) tab_pedidosArch.getValueAt(linhaSelecionada, 0);
+
+            PedidoDAO pedidodao = new PedidoDAO();
+
+            String Id =  tab_pedidosArch.getValueAt(linhaSelecionada, 0).toString();
+            String nome = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 1);
+            String fechamento = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 2);
+            String embarque = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 3);
+            String obs = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 4);
+
+            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
+            tabelaArch();
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
+        }
+
+    }//GEN-LAST:event_upd_pedidoArchActionPerformed
+
+    private void del_pedidoArchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_pedidoArchActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = tab_pedidosArch.getSelectedRow();
+        if(linhaSelecionada >=0){
+
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                PedidoDAO pedidodao = new PedidoDAO();
+                int id = (int) tab_pedidosArch.getValueAt(linhaSelecionada, 0);
+                pedidodao.deletePedido(id);
+                tabelaProd();
+
+                break;
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
+        }
+
+    }//GEN-LAST:event_del_pedidoArchActionPerformed
+
+    private void upd_pedidoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoProdActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = -1;
+        linhaSelecionada = tab_pedidosProd.getSelectedRow();
+        if(linhaSelecionada >=0){
+            int id = (int) tab_pedidosProd.getValueAt(linhaSelecionada, 0);
+
+            PedidoDAO pedidodao = new PedidoDAO();
+
+            String Id =  tab_pedidosProd.getValueAt(linhaSelecionada, 0).toString();
+            String nome = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 1);
+            String fechamento = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 2);
+            String embarque = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 3);
+            String obs = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 4);
+
+            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
+            tabelaProd();
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
+        }
+    }//GEN-LAST:event_upd_pedidoProdActionPerformed
+
+    private void del_pedidoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_pedidoProdActionPerformed
+       
+        int linhaSelecionada = -1;
+        linhaSelecionada = tab_pedidosProd.getSelectedRow();
+        if(linhaSelecionada >=0){
+
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                PedidoDAO pedidodao = new PedidoDAO();
+                int id = (int) tab_pedidosProd.getValueAt(linhaSelecionada, 0);
+                pedidodao.deletePedido(id);
+                tabelaProd();
+
+                break;
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
+        }
+
+    }//GEN-LAST:event_del_pedidoProdActionPerformed
+
+    private void add_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_pedidoActionPerformed
+        PedidoDAO pedidodao = new PedidoDAO();
+        pedidodao.insertPedido(pedidodao.paneJOP(null,null,null,null,null));
+        JOptionPane.showMessageDialog(null,"Pedido adicionado com sucesso!");
+        tabelaProd();
+    }//GEN-LAST:event_add_pedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -439,6 +547,9 @@ public class CPedidosGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(CPedidosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -451,20 +562,26 @@ public class CPedidosGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_pedido;
     private javax.swing.JButton btn_back;
-    private javax.swing.JButton del_pedido;
+    private javax.swing.JButton del_pedidoArch;
+    private javax.swing.JButton del_pedidoProd;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    public javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    public javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem submenu_estoque;
     private javax.swing.JMenuItem submenu_newop;
     private javax.swing.JMenuItem submenu_newproduct;
-    private javax.swing.JMenuItem submenu_oparqv;
     private javax.swing.JMenuItem submenu_pedidos;
     private javax.swing.JMenuItem submenu_user;
     private javax.swing.JMenu submenu_users;
-    private javax.swing.JTable tab_pedidos;
-    private javax.swing.JButton upd_pedido;
+    private javax.swing.JTable tab_pedidosArch;
+    private javax.swing.JTable tab_pedidosProd;
+    private javax.swing.JButton upd_pedidoArch;
+    private javax.swing.JButton upd_pedidoProd;
     // End of variables declaration//GEN-END:variables
 }

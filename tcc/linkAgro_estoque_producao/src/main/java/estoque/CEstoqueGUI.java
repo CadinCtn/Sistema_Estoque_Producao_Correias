@@ -1,6 +1,5 @@
 package estoque;
 
-import doc_arquivados.ArqvOrdemProducaoGUI;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -161,7 +160,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         submenu_users1 = new javax.swing.JMenu();
         submenu_newop1 = new javax.swing.JMenuItem();
-        submenu_oparqv = new javax.swing.JMenuItem();
         submenu_newproduct1 = new javax.swing.JMenuItem();
         submenu_estoque1 = new javax.swing.JMenuItem();
         submenu_pedidos1 = new javax.swing.JMenuItem();
@@ -375,15 +373,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         });
         submenu_users1.add(submenu_newop1);
 
-        submenu_oparqv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/file.png"))); // NOI18N
-        submenu_oparqv.setText("OPs Arquivadas");
-        submenu_oparqv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_oparqvActionPerformed(evt);
-            }
-        });
-        submenu_users1.add(submenu_oparqv);
-
         submenu_newproduct1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
         submenu_newproduct1.setText("Produtos");
         submenu_newproduct1.addActionListener(new java.awt.event.ActionListener() {
@@ -576,13 +565,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_submenu_user1ActionPerformed
 
-    private void submenu_oparqvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_oparqvActionPerformed
-        ArqvOrdemProducaoGUI window = new ArqvOrdemProducaoGUI();
-        window.setVisible(true);
-        window.setExtendedState(MAXIMIZED_BOTH);
-        dispose();
-    }//GEN-LAST:event_submenu_oparqvActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -639,7 +621,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem submenu_estoque1;
     private javax.swing.JMenuItem submenu_newop1;
     private javax.swing.JMenuItem submenu_newproduct1;
-    private javax.swing.JMenuItem submenu_oparqv;
     private javax.swing.JMenuItem submenu_pedidos1;
     private javax.swing.JMenuItem submenu_user1;
     private javax.swing.JMenu submenu_users1;

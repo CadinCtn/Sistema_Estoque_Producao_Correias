@@ -108,6 +108,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             this.id = id;
             this.edit = edit;
                   
+            button_confirm.setText("Atualizar");
         }
     }
     
@@ -475,7 +476,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     
                 //Atualizando a tabela de op GUI
                 ROrdemProducaoGUI ropgui = Controller.getrOrdemProducaoGUI();
-                ropgui.tabela();
+                ropgui.tabelaProd();
                 ropgui.tabelaPedidosOp();
                         
                 dispose();

@@ -1,6 +1,5 @@
 package menus;
 
-import doc_arquivados.ArqvOrdemProducaoGUI;
 import estoque.CEstoqueGUI;
 import ordem_producao.ROrdemProducaoGUI;
 import produtos.ProdutosGUI;
@@ -36,7 +35,6 @@ public class MenuGUI extends javax.swing.JFrame {
         menubar = new javax.swing.JMenuBar();
         submenu_users = new javax.swing.JMenu();
         submenu_newop = new javax.swing.JMenuItem();
-        submenu_oparqv = new javax.swing.JMenuItem();
         submenu_newproduct = new javax.swing.JMenuItem();
         submenu_estoque = new javax.swing.JMenuItem();
         submenu_pedidos = new javax.swing.JMenuItem();
@@ -96,15 +94,6 @@ public class MenuGUI extends javax.swing.JFrame {
             }
         });
         submenu_users.add(submenu_newop);
-
-        submenu_oparqv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/file.png"))); // NOI18N
-        submenu_oparqv.setText("OPs Arquivadas");
-        submenu_oparqv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_oparqvActionPerformed(evt);
-            }
-        });
-        submenu_users.add(submenu_oparqv);
 
         submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
         submenu_newproduct.setText("Produtos");
@@ -220,13 +209,6 @@ public class MenuGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_submenu_userActionPerformed
 
-    private void submenu_oparqvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_oparqvActionPerformed
-        ArqvOrdemProducaoGUI window = new ArqvOrdemProducaoGUI();
-        window.setVisible(true);
-        window.setExtendedState(MAXIMIZED_BOTH);
-        dispose();
-    }//GEN-LAST:event_submenu_oparqvActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -238,7 +220,6 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem submenu_estoque;
     private javax.swing.JMenuItem submenu_newop;
     private javax.swing.JMenuItem submenu_newproduct;
-    private javax.swing.JMenuItem submenu_oparqv;
     private javax.swing.JMenuItem submenu_pedidos;
     private javax.swing.JMenuItem submenu_user;
     private javax.swing.JMenu submenu_users;
