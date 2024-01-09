@@ -158,6 +158,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         tab_opArch = new javax.swing.JTable();
         button_relatorio = new javax.swing.JButton();
         button_delete1 = new javax.swing.JButton();
+        button_reativarOp = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         submenu_users1 = new javax.swing.JMenu();
@@ -329,7 +330,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Em Produção", jPanel2);
+        jTabbedPane1.addTab("OPs em Produção", jPanel2);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Relatórios de Produção");
@@ -374,6 +375,16 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             }
         });
 
+        button_reativarOp.setBackground(new java.awt.Color(255, 255, 255));
+        button_reativarOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_reativarOp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/file.png"))); // NOI18N
+        button_reativarOp.setText("Reativar OP");
+        button_reativarOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_reativarOpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -387,6 +398,8 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_relatorio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_reativarOp)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_delete1)))
                 .addContainerGap())
         );
@@ -397,14 +410,15 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(button_relatorio)
-                        .addComponent(button_delete1))
+                        .addComponent(button_delete1)
+                        .addComponent(button_reativarOp))
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Arquivadas", jPanel3);
+        jTabbedPane1.addTab("OPs Arquivadas", jPanel3);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
@@ -713,7 +727,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja excluir.");
+            JOptionPane.showMessageDialog(null,"Selecione a Ordem de Produção que deseja excluir.");
         }
 
     }//GEN-LAST:event_button_delete1ActionPerformed
@@ -723,6 +737,43 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
         tabelaPedidosOp();
         tabelaArch();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void button_reativarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_reativarOpActionPerformed
+        int selectedRow = -1;
+        selectedRow = tab_opArch.getSelectedRow();
+        if(selectedRow >= 0){
+            boolean reatPed = false;
+            
+            switch(JOptionPane.showConfirmDialog(null,"Deseja também reativar os pedidos dessa Ordem de Produção?","Reativar Pedidos",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                    reatPed = true;
+            }
+            
+            switch(JOptionPane.showConfirmDialog(null, "ATENÇÃO!\nApós reativar a Ordem de Produção o relatório será excluído.","AVISO",JOptionPane.WARNING_MESSAGE)){
+                case JOptionPane.OK_OPTION: 
+                    OpArqvDAO opArqvDAO = new OpArqvDAO();
+                    int id = Integer.valueOf(String.valueOf(tab_opArch.getValueAt(selectedRow, 0)));
+                    opArqvDAO.deleteRelatorio(id);
+                    opArqvDAO.archiveOp(id, false);
+                    
+                    //Reativando pedidos vinculados a ordem de produção
+                    PedidoOpDAO pedidoOpDAO = new PedidoOpDAO();
+                    if(reatPed){
+                        for(PedidoOp pedidoop : pedidoOpDAO.selectPedidoOp(id)){
+                            opArqvDAO.archivePedidos(pedidoop.getId(), false);
+                        }
+                    }
+
+            }
+            tabelaArch();
+            
+            
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione a Ordem de Produção que deseja reativar");
+        }
+
+        
+    }//GEN-LAST:event_button_reativarOpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -780,6 +831,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JButton button_delete;
     private javax.swing.JButton button_delete1;
     private javax.swing.JButton button_printer;
+    private javax.swing.JButton button_reativarOp;
     private javax.swing.JButton button_relatorio;
     private javax.swing.JButton button_return;
     private javax.swing.JButton button_update;

@@ -192,6 +192,11 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         tab_estoque.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tab_estoque.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_estoque);
+        if (tab_estoque.getColumnModel().getColumnCount() > 0) {
+            tab_estoque.getColumnModel().getColumn(0).setMinWidth(50);
+            tab_estoque.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tab_estoque.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
 
         add_estoque.setBackground(new java.awt.Color(255, 255, 255));
         add_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N

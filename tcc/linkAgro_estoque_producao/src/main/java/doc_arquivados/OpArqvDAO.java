@@ -67,7 +67,7 @@ public class OpArqvDAO {
                     stmt.close();
             
             //Arquivando Ordem de Produção        
-            archiveOp(id_op);
+            archiveOp(id_op, true);
             //Arquivando pedidos
             for(Pedido pedido : listPedidos){
                 archivePedidos(pedido.getId(), true);
@@ -129,12 +129,18 @@ public class OpArqvDAO {
     }
     
     //Arquivando Ordem de Produção        
-    public void archiveOp(int id){
+    public void archiveOp(int id,boolean arquivar){
         String sql = "UPDATE ordem_producao SET status = ? WHERE id = " + id;
+        String status;
+        if(arquivar){
+            status = "arquivada";
+        } else {
+            status = "produção";
+        }
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, "arquivada");
+            stmt.setString(1, status);
             stmt.execute();
             stmt.close();
             

@@ -60,7 +60,6 @@ public class CProdutoGUI extends javax.swing.JFrame {
         jLabel1.setText("Novo Produto:");
 
         btn_voltar.setBackground(new java.awt.Color(255, 255, 255));
-        btn_voltar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Lenovo\\Desktop\\linkAgro_estoque_producao\\src\\main\\java\\icons\\botao-voltar (1).png")); // NOI18N
         btn_voltar.setBorder(null);
         btn_voltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +69,7 @@ public class CProdutoGUI extends javax.swing.JFrame {
 
         btn_colorChooser.setBackground(new java.awt.Color(255, 255, 255));
         btn_colorChooser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_colorChooser.setIcon(new javax.swing.ImageIcon("C:\\Users\\Lenovo\\Desktop\\linkAgro_estoque_producao\\src\\main\\java\\icons\\paleta-de-cores.png")); // NOI18N
+        btn_colorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paleta-de-cores.png"))); // NOI18N
         btn_colorChooser.setText("Escolher cor");
         btn_colorChooser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

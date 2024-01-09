@@ -79,6 +79,16 @@ public class ArqvPedido extends javax.swing.JFrame {
         });
         tab_pedidos.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_pedidos);
+        if (tab_pedidos.getColumnModel().getColumnCount() > 0) {
+            tab_pedidos.getColumnModel().getColumn(0).setMinWidth(70);
+            tab_pedidos.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tab_pedidos.getColumnModel().getColumn(0).setMaxWidth(70);
+            tab_pedidos.getColumnModel().getColumn(1).setMinWidth(200);
+            tab_pedidos.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tab_pedidos.getColumnModel().getColumn(1).setMaxWidth(200);
+            tab_pedidos.getColumnModel().getColumn(2).setResizable(false);
+            tab_pedidos.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         button_return.setBackground(new java.awt.Color(255, 255, 255));
         button_return.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -106,15 +116,15 @@ public class ArqvPedido extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(button_return)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(219, 219, 219)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(242, 242, 242)
                 .addComponent(button_confirm)
-                .addGap(219, 219, 219))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,13 +162,23 @@ public class ArqvPedido extends javax.swing.JFrame {
         selectedRow = tab_pedidos.getSelectedRow();
         if(selectedRow>=0){
             if(edit){
+                //Atualizando status do pedido anterior para: "produção"
+                OpArqvDAO oparqvDAO = new OpArqvDAO();
+                int id = Integer.parseInt(String.valueOf(Controller.getcArqvOrdemProducaoGUI().tab_pedidos.getValueAt(selectedRow, 0)));
+                System.out.println(id);
+                oparqvDAO.archivePedidos(id, false);
+                
+                //Removendo da tabela a linha do pedido anterior
                 DefaultTableModel modelo = (DefaultTableModel) Controller.getcArqvOrdemProducaoGUI().tab_pedidos.getModel();
                 modelo.removeRow(Controller.getcArqvOrdemProducaoGUI().selectedRow);
                 
+                //Adicionando novo pedido
                 Object[] line = {tab_pedidos.getValueAt(selectedRow, 0),tab_pedidos.getValueAt(selectedRow, 1), tab_pedidos.getValueAt(selectedRow, 2), tab_pedidos.getValueAt(selectedRow, 3), tab_pedidos.getValueAt(selectedRow, 4)};
                 Controller.getcArqvOrdemProducaoGUI().addRow(line);
-            
+                
+                
             }else{
+                //Criando linha e adicionando a tabela de pedidos
                 Object[] line = {tab_pedidos.getValueAt(selectedRow, 0),tab_pedidos.getValueAt(selectedRow, 1), tab_pedidos.getValueAt(selectedRow, 2), tab_pedidos.getValueAt(selectedRow, 3), tab_pedidos.getValueAt(selectedRow, 4)};
                 Controller.getcArqvOrdemProducaoGUI().addRow(line);
             

@@ -85,7 +85,7 @@ Create Table relatorios_op(
   pre_tempo varchar(5) not null,
   pre_responsavel varchar(100) not null,
   pre_obs varchar(500),
-  
+
   cor_dataInicio varchar(10) not null,
   cor_horaInicio varchar(5) not null,
   cor_horaFim varchar(5) not null,

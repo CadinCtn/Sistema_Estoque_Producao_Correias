@@ -999,7 +999,7 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
                     List<Pedido> listPedArch = new ArrayList<>();
                     for(int i = 0; i < tab_pedidos.getRowCount(); i++){
                         Pedido pedido = new Pedido();
-                        pedido.setId(Integer.valueOf(String.valueOf(tab_pedidos.getValueAt(i, 0))));
+                        pedido.setId(Integer.parseInt(String.valueOf(tab_pedidos.getValueAt(i, 0))));
                         pedido.setNomeCliente(String.valueOf(tab_pedidos.getValueAt(i,1)));
                         pedido.setFechamento(String.valueOf(tab_pedidos.getValueAt(i,2)));
                         pedido.setEmbarque(String.valueOf(tab_pedidos.getValueAt(i, 3)));
@@ -1011,7 +1011,7 @@ public class CArqvOrdemProducaoGUI extends javax.swing.JFrame {
                     if(edit){
                         oparqvDAO.updateRelatorio(listPedArch, id_op, relatorio);
                     }else{
-                    oparqvDAO.insertRelatorio(listPedArch, id_op, relatorio);
+                        oparqvDAO.insertRelatorio(listPedArch, id_op, relatorio);
                     }
                     Controller.getrOrdemProducaoGUI().tabelaProd();
                     Controller.getrOrdemProducaoGUI().tabelaArch();
