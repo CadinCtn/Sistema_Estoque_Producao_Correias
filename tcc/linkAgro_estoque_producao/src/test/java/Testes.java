@@ -1,278 +1,286 @@
-import java.awt.BasicStroke;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import ordem_producao.PedidoOp;
 
-public class Testes extends JPanel {
 
-    public Testes(){
-        //Imprimir
-        JButton btnPrint = new JButton("IMPRIMIR");
-        btnPrint.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Adicionar o código que será executado quando o botão for clicado
-                new ImprimirOp();
+public class Testes extends JFrame{
+
+    //Função para verificar se uma lista está ordenada
+    private static boolean estaOrdenada(List<Medida> lista, Comparator<Medida> comparator) {
+        for (int i = 0; i < lista.size() - 1; i++) {
+            if (comparator.compare(lista.get(i), lista.get(i + 1)) > 0) {
+                // Elementos não estão em ordem de acordo com o comparator
+                return false;
             }
-        });
-        btnPrint.setBounds(217, 5, 120, 30); // Posição e tamanho do botão
-        add(btnPrint);
+        }
+        return true;
+    }
+    
+    
+    // Função para somar larguras onde a metragem é igual
+    public List<Medida> organizeLarg(List<Medida> listPedidoOp, float larguraTecido){
+        
+        Collections.sort(listPedidoOp, Comparator
+                .comparing(Medida::getLarg)
+                .reversed()
+                .thenComparing(Medida::getMet, Comparator.reverseOrder()));
+                
+                ///////////////////////////////////////
+                
+                for(int i = 0; i < listPedidoOp.size(); i++){
+                    int qtdListDel = 0;
+                    Medida pedidoop = listPedidoOp.get(i);
+                    //Verificando se existem pedidos com as mesmas medidas, retorna a quantidade de pedidos iguais ao index atual(i)
+                    int qtdEqualMet = nextEqualMet(listPedidoOp, pedidoop.getMet(), i);
+                    System.out.println("PedAtual:  " + listPedidoOp.get(i).getLarg() + " X " + listPedidoOp.get(i).getMet());
+                     
+                    
+                    if(qtdEqualMet != 0){
+                        float newLarg = pedidoop.getLarg();
+                        boolean menQTecido = false; // essa variavel continua como falsa caso a soma da largura dos pedidos iguais ultrapasse a largura do tecido
+                        for( int in = 1; in <= qtdEqualMet; in++){
+                            if(newLarg + listPedidoOp.get(i+in).getLarg() <= larguraTecido){
+                                newLarg += listPedidoOp.get(i+in).getLarg(); 
+                                qtdListDel++;
+                                menQTecido = true;
+                                
+                            } 
+                        }
+                        
+                        pedidoop.setLarg(newLarg); //definindo largura somada
+                        if(menQTecido){
+                            for( int in = qtdListDel; in > 0; in--){
+                                System.out.println("RemovendoOrg:  " + listPedidoOp.get(i+in).getLarg() + " X " + listPedidoOp.get(i+in).getMet());
+                     
+                                listPedidoOp.remove(i+in); //retirando pedidos que foram somados da lista
+                                 
+                            }
+                            
+                            i += qtdListDel-1;
+                        }
+                    }
+                }
+                ////////////////////////////////////////
+                
+                if(estaOrdenada(listPedidoOp, Comparator
+                .comparing(Medida::getLarg)
+                .reversed()
+                .thenComparing(Medida::getMet, Comparator.reverseOrder()))){
+            
+                    return listPedidoOp;
+                }
+                
+                
+                return organizeLarg(listPedidoOp, larguraTecido);                
+    }
+    
+    // Função para somar as metragens onde a largura é igual
+    public List<Medida> organizeMet(List<Medida> listPedidoOp, float larguraTecido, float metragemTecido){
+        
+                
+                for(int i = 0; i < listPedidoOp.size(); i++){
+                    Medida pedidoop = listPedidoOp.get(i);
+                    float totalMet = 0;
+                    int qtdListDel = 0;
+                    totalMet += pedidoop.getMet();
+                    
+                    //Verificando se existem pedidos com as mesmas medidas, retorna a quantidade de pedidos iguais ao index atual(i)
+                    int qtdEqualLarg = nextEqualLarg(listPedidoOp, pedidoop.getLarg(),i);
+                    if(qtdEqualLarg != 0){
+                        
+                        float newMet = pedidoop.getMet();
+                        boolean menQTecido = false; // essa variavel continua como falsa caso a soma da largura dos pedidos iguais ultrapasse a largura do tecido
+                        for(int in = 1; in <= qtdEqualLarg; in++){
+                            System.out.println(totalMet + listPedidoOp.get(i+in).getMet());
+                            if(totalMet + listPedidoOp.get(i+in).getMet() <= metragemTecido){
+                                newMet += listPedidoOp.get(i+in).getMet(); 
+                                qtdListDel++;
+                                menQTecido = true;
+                            } 
+                        }
+                        
+                        pedidoop.setMet(newMet); //definindo metragem somada
+                     
+                        if(menQTecido){
+                            
+                            for( int in = qtdListDel; in > 0; in--){
+                                System.out.println("Removendo:  " + listPedidoOp.get(i+in).getLarg() + " X " + listPedidoOp.get(i+in).getMet());
+                                listPedidoOp.remove(i+in); //retirando pedidos que foram somados da lista
+                            }
+                            
+                            i += qtdListDel-1;
+                        }
+                    }
+               }
+                
+        if(estaOrdenada(listPedidoOp, Comparator
+                .comparing(Medida::getLarg)
+                .reversed()
+                .thenComparing(Medida::getMet, Comparator.reverseOrder()))){
+            
+                    return listPedidoOp;
+                }
+        
+        return organizeMet(organizeLarg(listPedidoOp, larguraTecido), larguraTecido, metragemTecido);
+    }
+    
+    
+    // Função para contar a quantidade de items que possui a METRAGEM igual ao parametro fornecido
+    public int nextEqualMet(List<Medida> list, float itemAtual, int index){        
+            int cont = 0;
+            
+            // Loop para contar itens iguais após o item atual
+            for(int i = index ; i <= list.size(); i++) {
+                try{//try para quando chegar ao fim da lista encerrar o for
+                        if (itemAtual == list.get(i +1).getMet()) {
+                            cont++;
+                        } else {    
+                            break; // Se encontrar um valor diferente, encerra o loop
+                        }
+                    }
+                catch(Exception e){
+                    break;
+                }
+            }
+          
+        return cont;
+    }
+    
+    // Função para contar a quantidade de items que possui a LARGURA igual ao parametro fornecido
+    public int nextEqualLarg(List<Medida> list, float itemAtual, int index){        
+            int cont = 0;
+            
+            // Loop para contar itens iguais após o item atual
+            for(int i = index ; i <= list.size(); i++) {
+                try{//try para quando chegar ao fim da lista encerrar o for
+                        if (itemAtual == list.get(i +1).getLarg()) {
+                            cont++;
+                        } else {    
+                            break; // Se encontrar um valor diferente, encerra o loop
+                        }
+                    }
+                catch(Exception e){
+                    break;
+                }
+            }
+          
+        return cont;
+    }
+    
+    
+    /////
+    
+    
+        List<Medida> pedidos = new ArrayList<>();
+        List<Medida> estoque = new ArrayList<>();
+        Medida retanguloMaior;
+
+    
+    public Testes(){
+        retanguloMaior = new Medida(20,100);
+        
+        pedidos.add(new Medida(12,50));
+        pedidos.add(new Medida(15, 50));
+        
+        estoque.add(new Medida(8,50));
+        estoque.add(new Medida(5,50));
+
+        pedidos = organizeMet(pedidos, retanguloMaior.larg, retanguloMaior.met);
         
     }
+    
     
     
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
+    public void paint(Graphics g) {
+        super.paint(g);
+        desenharRetangulos(g);
+    }
+
+    private void desenharRetangulos(Graphics g) {
+        // Desenhar retângulo maior
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(50, 50, (int) retanguloMaior.larg, (int) retanguloMaior.met);
+
+        // Desenhar retângulos de pedidos
+        int xPedidos = 50;
+        int yPedidos = 50;
+        float largAtual = retanguloMaior.larg;
         
-        String op = "824";
-        String categoria = "Agrothor";
-        String lonas = "4";
-        String larg = "16";
-        String met = "150";
-        String mtsExtra = "2";
-        String espessura = "3x1.8+1";
-        String obs = "NPP\nTeste\nTeste\nTeste";
-        
-        
-        int y;
-        
-        PedidoOp ped = new PedidoOp();
-        List<PedidoOp> listPed = new ArrayList<>();
-        for(int i = 0; i <= 3; i++){
-            ped.setId(2222);
-            ped.setNome_cliente("Testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-            ped.setLargura(2);
-            ped.setMetragem(50);
-            listPed.add(ped);
-        }
-        
-        
-        
-        
-        
-        //Definindo número da OP
-        g2d.setFont(new Font("Arial Black",Font.PLAIN, 22));
-        g2d.drawString("OP: " + op, 35, 67);
-        //
-        
-        //Caixa de especificações
-        g2d.setStroke(new BasicStroke(2.25f));//Mudando espessura das linhas
-        g2d.draw(new Rectangle2D.Double(35,72,500,50));
-        //
-        
-        ////Especificações
-        //Categoria
-            g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD
-            g2d.drawString("Categoria:", 60, 90);
-            g2d.setFont(new Font("Arial", Font.PLAIN,16)); //Arial Normal/PLAIN
-            g2d.drawString(categoria,145,90);
-        //
-        //Lonas
-            g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD
-            g2d.drawString("Lonas:", 60, 110);
-            g2d.setFont(new Font("Arial", Font.PLAIN,16)); //Arial Normal/PLAIN
-            g2d.drawString(lonas + "L", 120, 110);
-        //
-        //Medida
-            g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD
-            g2d.drawString("Medida:", 155, 110);
-            g2d.setFont(new Font("Arial", Font.PLAIN,16)); //Arial Normal/PLAIN
-            g2d.drawString(larg+"\" X " + met + "+"+mtsExtra + "mts",220,110);
-        //
-        //Espesura
-            g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD
-            g2d.drawString("Espessura:", 355, 110);
-            g2d.setFont(new Font("Arial", Font.PLAIN,16)); //Arial Normal/PLAIN
-            g2d.drawString(espessura, 450, 110);
-        //
-        ////
-        
-        //Observação
-            g2d.setFont(new Font("Arial Black", Font.PLAIN,16)); //Arial Negrito/BOLD
-            g2d.drawString("Observação:", 40, 145);
-            g2d.setFont(new Font("Arial", Font.PLAIN,16)); //Arial Normal/PLAIN
+        g.setColor(Color.BLUE);
+        for (Medida pedido : pedidos) {
             
-            y = 145;
-            // Quebrando o texto em linhas
-            String[] linhas = obs.split("\n");
-            // Desenhando cada linha
-            for (String linha : linhas) {
-                g2d.drawString(linha, 155, y);
-                y += g2d.getFontMetrics().getHeight();
+            if(pedido.larg > largAtual){
+                yPedidos += pedido.met; // Adicionar espaço entre os retângulos
+                largAtual = retanguloMaior.larg;
+            } else {
+                xPedidos += pedido.larg; // Adicionar espaço entre os retângulos
+                largAtual-=pedido.larg;
             }
-        //    
         
-        ////Pedidos
-        //Tabela
-        g2d.setFont(new Font("Arial", Font.BOLD,16)); //Arial Negrito/BOLD
-        y = g2d.getFontMetrics().getHeight();
-        g2d.drawString("Pedidos:",35,255);
-        g2d.draw(new Rectangle2D.Double(35,260,500,124));
-        //
-        //Colunas
-        g2d.setFont(new Font("Arial", Font.BOLD,15)); //Arial Negrito/BOLD
-        //id
-        g2d.drawString("ID", 48, 275);
-        g2d.drawRect(35, 260, 40, y);
-        //nome cliente
-        g2d.drawString("Nome Cliente", 85, 275);
-        g2d.drawRect(75, 260, 370, y);
-        //largura
-        g2d.drawString("Larg.", 449, 275);
-        g2d.drawRect(445, 260, 45, y);
-        //metragem
-        g2d.drawString("Met.", 494, 275);
-        g2d.drawRect(490, 260, 45, y);
-        //
-        //Preenchento tabela
-        g2d.setStroke(new BasicStroke(1.2f));//Espessura das linhas
-        g2d.setFont(new Font("Arial", Font.PLAIN,14)); //Arial Negrito/BOLD
-       
-        y = 294;
-        int yt = g2d.getFontMetrics().getHeight() + 262;
-        //Preenchendo os dados
-        for(PedidoOp linha : listPed){
-            //id
-            g2d.draw(new Rectangle2D.Double(35,yt,40,g2d.getFontMetrics().getHeight()+1));
-            g2d.drawString(String.valueOf(linha.getId()),38, y);
-           //nome
-            Rectangle2D rectNome = new Rectangle2D.Double(75,yt,370,g2d.getFontMetrics().getHeight()+1);
-            g2d.draw(rectNome);
-            clipText(g2d, linha.getNome_cliente(), rectNome);
-            //largura
-            g2d.draw(new Rectangle2D.Double(445, yt, 45, g2d.getFontMetrics().getHeight()+1));
-            g2d.drawString(String.valueOf(linha.getLargura()), 456, y);
-            //metragem
-            g2d.draw(new Rectangle2D.Double(490, yt, 45, g2d.getFontMetrics().getHeight()+1));
-            g2d.drawString(String.valueOf(linha.getMetragem()), 497, y);
-           
-            //proxima linha
-            y+=g2d.getFontMetrics().getHeight()+1;
-            yt+=g2d.getFontMetrics().getHeight()+1;
-            
+            g.drawRect(xPedidos, yPedidos, (int) pedido.larg, (int) pedido.met);
+
         }
-        //
-        ////
+
+        // Desenhar retângulos de estoque
+        int xEstoque = 50;
+        int yEstoque = 50; // Espaço entre pedidos e estoque
+        g.setColor(Color.RED);
+        for (Medida estoque : estoque) {
         
-        ////Setores relatório
-        //Calandra
-        g2d.setFont(new Font("Arial Black", Font.PLAIN,14)); //Arial Negrito/BOLD
-        g2d.drawString("Calandra:",40,415);
-        g2d.setStroke(new BasicStroke(2.25f));//Mudando espessura das linhas
-        g2d.draw(new Rectangle2D.Double(35,417,205,96));
-        //Campos
-        g2d.setFont(new Font("Consolas",Font.PLAIN,14));
-        g2d.drawString("Data início: ___________",40,432);
-        g2d.drawString("Hora Início: ___________", 40, 451);
-        g2d.drawString("Hora Fim: ______________", 40, 468);
-        g2d.drawString("Data Fim: ______________", 40, 485);
-        g2d.drawString("Espessura: _____________", 40, 502);    
-        g2d.drawString("Colaborador:", 252, 508);
-        //
+            if(estoque.larg > largAtual){
+                yPedidos += estoque.met; // Adicionar espaço entre os retângulos
+                largAtual = retanguloMaior.larg;
+            } else {
+                xPedidos += estoque.larg; // Adicionar espaço entre os retângulos
+                largAtual-= estoque.larg;
+            }
         
-        //Prensa
-        g2d.setFont(new Font("Arial Black", Font.PLAIN,14)); //Arial Negrito/BOLD
-        g2d.drawString("Prensa:",40,532);
-        g2d.draw(new Rectangle2D.Double(35,534,205,96));
-        //Campos
-        g2d.setFont(new Font("Consolas",Font.PLAIN,14));
-        g2d.drawString("Data início: ___________",40,549);
-        g2d.drawString("Hora Início: ___________", 40, 566);
-        g2d.drawString("Hora Fim: ______________", 40, 583);
-        g2d.drawString("Data Fim: ______________", 40, 600);
-        g2d.drawString("Tempo (min.): __________", 40, 617);   
-        g2d.drawString("Colaborador:", 252, 623);
-        //
-        
-        //Corte
-        g2d.setFont(new Font("Arial Black", Font.PLAIN,14)); //Arial Negrito/BOLD
-        g2d.drawString("Corte:",40,649);
-        g2d.draw(new Rectangle2D.Double(35,651,205,96));
-        //Campos
-        g2d.setFont(new Font("Consolas",Font.PLAIN,14));
-        g2d.drawString("Data início: ___________",40,666);
-        g2d.drawString("Hora Início: ___________", 40, 683);
-        g2d.drawString("Hora Fim: ______________", 40, 700);
-        g2d.drawString("Data Fim: ______________", 40, 717);
-        g2d.drawString("Conserto:  SIM    NÃO", 40, 734);
-        g2d.drawRect(157, 724, 12, 12);
-        g2d.drawRect(212, 724, 12, 12);
-        g2d.drawString("Colaborador:", 252, 740);
-        //
-        
-        //Observações
-        //Calandra
-        g2d.setFont(new Font("Arial Black", Font.PLAIN,14)); //Arial Negrito/BOLD
-        g2d.drawString("OBS Calandra:",255,415);
-        g2d.draw(new Rectangle2D.Double(250,417,275,96));
-        //Prensa
-        g2d.drawString("OBS Prensa:",255,532);
-        g2d.draw(new Rectangle2D.Double(250,534,275,96));
-        //Corte
-        g2d.drawString("OBS Corte:",255,649);
-        g2d.draw(new Rectangle2D.Double(250,651,275,96));
-        //
-        ////
-        
+            g.drawRect(xEstoque, yEstoque, (int) estoque.larg, (int) estoque.met);
+
+        }
     }
     
-    //método para escrever o nome do cliente na célula da tabela
-     private void clipText(Graphics2D g2d, String text, Rectangle2D rect) {
-        String originalText = text;
+    public static void main(String[] args) {
 
-        // Obtém a largura disponível na célula
-        int availableWidth = (int) rect.getWidth();
-
-        // Obtém a largura do texto
-        int textWidth = g2d.getFontMetrics().stringWidth(text);
-
-        // Se o texto for mais largo do que a célula, corta e adiciona "..."
-        if (textWidth > availableWidth) {
-            while (textWidth > availableWidth && text.length() > 1) {
-                // Remove um caractere do final do texto
-                text = text.substring(0, text.length() - 1);
-
-                // Recalcula a largura do texto
-                textWidth = g2d.getFontMetrics().stringWidth(text + "...");
-            }
-
-            // Adiciona "..." ao final do texto
-            text += "...";
-        }
-
-        // Desenha o texto na célula
-        g2d.drawString(text, (int) rect.getX()+1, (int) (rect.getY() + g2d.getFontMetrics().getHeight()));
-
-        // Restaura o texto original (sem "...")
-        text = originalText;
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new Testes();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(400, 200);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+        
+        
+        
     }
 
-     public void frame(){
-        //Criando JFrame para visualização
-        JFrame frame = new JFrame("Imprimindo OP");
-        Testes painel = new Testes();
-        frame.add(painel);
-        frame.setSize(570, 877); // Tamanho ajustado para acomodar o retângulo
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+    static class Medida{
+
+        public float getLarg() {
+            return larg;
+        }
+
+        public void setLarg(float larg) {
+            this.larg = larg;
+        }
+
+        public float getMet() {
+            return met;
+        }
+
+        public void setMet(float met) {
+            this.met = met;
+        }
+        float larg,met;
+        public Medida(float larg, float met){
+            
+            this.larg = larg;
+            this.met = met;
         
-        
-        
-     }
-     
-    public static void main(String[] args) {
-        Testes t = new Testes();
-        t.frame();
+        }
     }
 }

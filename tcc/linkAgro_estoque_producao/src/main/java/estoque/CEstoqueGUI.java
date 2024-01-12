@@ -325,12 +325,14 @@ public class CEstoqueGUI extends javax.swing.JFrame {
                                             .addComponent(upd_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(del_est)))
-                                    .addGap(42, 42, 42)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(busca_est)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(42, 42, 42)
+                                            .addComponent(busca_est))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(33, 33, 33)
                                             .addComponent(jLabel4)
-                                            .addGap(75, 75, 75)
+                                            .addGap(84, 84, 84)
                                             .addComponent(jLabel5)))
                                     .addGap(39, 39, 39))))
                         .addGap(0, 439, Short.MAX_VALUE)))
@@ -437,7 +439,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         EstoqueDAO estoquedao = new EstoqueDAO();
         // Gerando JOptionPane e inserindo item a tabela
         estoquedao.insertEstoque(estoquedao.pane(null,0,null,null));
-        JOptionPane.showMessageDialog(null,"Correia adicionada com sucesso!");
         tabela();
         
     }//GEN-LAST:event_add_estoqueActionPerformed

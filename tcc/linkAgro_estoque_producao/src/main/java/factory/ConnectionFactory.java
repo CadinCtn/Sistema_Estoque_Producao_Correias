@@ -15,7 +15,7 @@ public class ConnectionFactory {
 
         try {
             return
-            DriverManager.getConnection("jdbc:mysql://localhost/bd_tcc","root","root");
+            DriverManager.getConnection("jdbc:mysql://localhost/bd_linkagro","root","root");
         }
         catch(SQLException excecao) {
             throw new RuntimeException(excecao);

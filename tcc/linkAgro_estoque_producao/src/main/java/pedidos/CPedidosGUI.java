@@ -95,6 +95,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
         upd_pedidoProd = new javax.swing.JButton();
         del_pedidoProd = new javax.swing.JButton();
         add_pedido = new javax.swing.JButton();
+        arch_pedidoProd = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tab_pedidosArch = new javax.swing.JTable();
@@ -181,19 +182,31 @@ public class CPedidosGUI extends javax.swing.JFrame {
             }
         });
 
+        arch_pedidoProd.setBackground(new java.awt.Color(255, 255, 255));
+        arch_pedidoProd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        arch_pedidoProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedido.png"))); // NOI18N
+        arch_pedidoProd.setText("Arquivar");
+        arch_pedidoProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                arch_pedidoProdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(434, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(add_pedido)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(upd_pedidoProd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(arch_pedidoProd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(del_pedidoProd)
                 .addContainerGap())
-            .addComponent(jScrollPane6)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +215,8 @@ public class CPedidosGUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(upd_pedidoProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(del_pedidoProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(add_pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(add_pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(arch_pedidoProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
                 .addContainerGap())
@@ -546,9 +560,12 @@ public class CPedidosGUI extends javax.swing.JFrame {
         int selectedRow = -1;
         selectedRow = tab_pedidosArch.getSelectedRow();
         if(selectedRow >= 0){
-            OpArqvDAO dao = new OpArqvDAO();
-            dao.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidosArch.getValueAt(selectedRow, 0))), false);
-            tabelaArch();
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo reativar esse pedido?","Reativar Pedido",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                    OpArqvDAO dao = new OpArqvDAO();
+                    dao.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidosArch.getValueAt(selectedRow, 0))), false);
+                    tabelaArch();
+            }
         } else {
             JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja reativar");
         }
@@ -558,6 +575,22 @@ public class CPedidosGUI extends javax.swing.JFrame {
         tabelaArch();
         tabelaProd();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void arch_pedidoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arch_pedidoProdActionPerformed
+        int selectedRow = -1;
+        selectedRow = tab_pedidosProd.getSelectedRow();
+        if(selectedRow >= 0){
+            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo arquivar esse pedido?","Arquivar Pedido",JOptionPane.YES_NO_OPTION)){
+                case JOptionPane.YES_OPTION:
+                    OpArqvDAO dao = new OpArqvDAO();
+                    dao.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidosProd.getValueAt(selectedRow, 0))), true);
+                    tabelaProd();
+            }
+             
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja arquivar");
+        }
+    }//GEN-LAST:event_arch_pedidoProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -599,6 +632,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_pedido;
+    private javax.swing.JButton arch_pedidoProd;
     private javax.swing.JButton btn_back;
     private javax.swing.JButton del_pedidoArch;
     private javax.swing.JButton del_pedidoProd;

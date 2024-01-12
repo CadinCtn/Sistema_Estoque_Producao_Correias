@@ -5,7 +5,7 @@ CREATE TABLE usuarios (
   id int NOT NULL AUTO_INCREMENT,
   login varchar(50) NOT NULL,
   senha varchar(15) NOT NULL,
-  permissao varchar(20),
+  permissao varchar(20) DEFAULT NULL,
   PRIMARY KEY (id)
 ); 
 
@@ -100,16 +100,7 @@ Create Table relatorios_op(
   foreign key(id) references ordem_producao(id)
 );
 
-Create table estoque_pendente(
-vinc int primary key auto_increment,
-id_op int not null,
-categoria varchar(50) not null,
-lonas int not null,
-largura float(4,2) not null,
-metragem float (5,2) not null,
-corte varchar(50),
-foreign key (id_op) references ordem_producao(id)
-);
+
 
 
 insert into usuarios (login,senha,permissao) values ("cris","2404","ADM")

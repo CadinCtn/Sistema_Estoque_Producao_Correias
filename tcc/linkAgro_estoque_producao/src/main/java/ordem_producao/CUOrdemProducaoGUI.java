@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ordem_producao;
 
+import estoque_pendente.EstoquePendenteGUI;
 import java.util.ArrayList;
 import produtos.ProdutoDAO;
 import java.util.List;
@@ -463,6 +460,10 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         op.setObservacao(field_observation.getText());
         
                 
+            //EstoquePendenteGUI window = new EstoquePendenteGUI(op);
+            //window.setVisible(true);
+            //window.setLocationRelativeTo(null);
+        
                 // Criando ou editando a op
                 cU(op,edit,id);
         

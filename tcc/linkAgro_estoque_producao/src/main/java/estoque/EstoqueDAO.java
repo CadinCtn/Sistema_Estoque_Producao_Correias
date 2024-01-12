@@ -90,8 +90,14 @@ public class EstoqueDAO {
                     //Criando objeto ana classe modelo
                     estoque.setCategoria((String) categoriaBox.getSelectedItem());
                     estoque.setLonas((int) lonasBox.getSelectedItem());
-                    estoque.setLargura(Float.valueOf(larguraField.getText()));
-                    estoque.setMetragem(Float.valueOf(metragemField.getText()));
+                    try{
+                        estoque.setLargura(Float.valueOf(larguraField.getText()));
+                        estoque.setMetragem(Float.valueOf(metragemField.getText()));
+                    
+                    }catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null,"Digite um valor numérico!\nUtilize ponto no lugar da vírgula se houver.");
+                        return null;
+                    }
                     
                     //retornando objeto a ser inserido na tabela
                     return estoque;
@@ -123,6 +129,9 @@ public class EstoqueDAO {
             
             stmt.execute();
             stmt.close();
+            
+            JOptionPane.showMessageDialog(null,"Correia adicionada com sucesso!\n"+estoque.getCategoria() + " " + estoque.getLonas() +"L   " + estoque.getLargura()+" x " + estoque.getMetragem());
+        
             
         }
         catch(SQLException e){
@@ -224,6 +233,9 @@ public class EstoqueDAO {
             stmt.setFloat(4,estoque.getMetragem());
             stmt.execute();
             stmt.close();
+            
+                JOptionPane.showMessageDialog(null,"Correia editada com sucesso!\n"+estoque.getCategoria() + " " + estoque.getLonas() +"L   " + estoque.getLargura()+" x " + estoque.getMetragem());
+        
             
         }
         catch(Exception e){
