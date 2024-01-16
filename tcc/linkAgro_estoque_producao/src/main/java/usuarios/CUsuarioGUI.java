@@ -229,9 +229,7 @@ public class CUsuarioGUI extends javax.swing.JFrame {
             CadastroUsuarioGUI cusergui = new CadastroUsuarioGUI();
             cusergui.field_login.setText(usuario.getLogin());
             cusergui.field_password.setText(usuario.getSenha());
-                if(usuario.getPermissao() != null){
-                    cusergui.permissionBox.setSelected(true);
-                }
+            cusergui.box_permissao.setSelectedItem(usuario.getPermissao());
                 
             
             cusergui.edit = true;

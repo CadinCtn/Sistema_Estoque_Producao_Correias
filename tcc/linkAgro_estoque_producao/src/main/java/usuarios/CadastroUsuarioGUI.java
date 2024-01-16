@@ -40,7 +40,8 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         field_login = new javax.swing.JTextField();
         label_login1 = new javax.swing.JLabel();
         field_password = new javax.swing.JTextField();
-        permissionBox = new javax.swing.JCheckBox();
+        box_permissao = new javax.swing.JComboBox<>();
+        label_password1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Criar Usuário");
@@ -78,13 +79,10 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
 
         field_password.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
-        permissionBox.setBackground(new java.awt.Color(255, 255, 255));
-        permissionBox.setText("ADMINISTRADOR");
-        permissionBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                permissionBoxActionPerformed(evt);
-            }
-        });
+        box_permissao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMINISTRADOR", "COMERCIAL", "PRODUÇÃO" }));
+
+        label_password1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label_password1.setText("Permissão");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -98,21 +96,20 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
                         .addGap(72, 72, 72)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52)
+                                .addComponent(button_enter))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(label_password)
-                                    .addComponent(label_login))
+                                    .addComponent(label_login)
+                                    .addComponent(label_password1, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(field_login, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(field_password, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(52, 52, 52)
-                                    .addComponent(button_enter))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(permissionBox)
-                                    .addGap(29, 29, 29))))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(box_permissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(field_login, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(field_password, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addGap(71, 71, 71))
         );
         jPanel1Layout.setVerticalGroup(
@@ -130,8 +127,10 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
                         .addComponent(label_login)
                         .addGap(18, 18, 18)
                         .addComponent(label_password)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(permissionBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(box_permissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_password1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button_enter)
@@ -169,18 +168,17 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
                 
                 user.setLogin(field_login.getText());
                 user.setSenha(field_password.getText());
+                user.setPermissao(String.valueOf(box_permissao.getSelectedItem()));
                 
-                System.out.println(user.getId());
-                System.out.println(user.getLogin());
-                System.out.println(user.getSenha());
-                usuariodao.editarUsuario(user, user.getId(), permissionBox.isSelected());
+                usuariodao.editarUsuario(user, user.getId());
                 
             } else {
                 //Novo Usuario
                 usuario.setLogin(field_login.getText());
                 usuario.setSenha(field_password.getText());
+                usuario.setPermissao(String.valueOf(box_permissao.getSelectedItem()));
                 
-                usuariodao.criarUsuario(usuario, permissionBox.isSelected());
+                usuariodao.criarUsuario(usuario);
             }
             
            CUsuarioGUI cugui = Controller.getcUsuarioGUI();
@@ -193,10 +191,6 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     private void button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_cancelActionPerformed
         dispose();
     }//GEN-LAST:event_button_cancelActionPerformed
-
-    private void permissionBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permissionBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_permissionBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,6 +231,7 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JComboBox<String> box_permissao;
     private javax.swing.JButton button_cancel;
     private javax.swing.JButton button_enter;
     public javax.swing.JTextField field_login;
@@ -245,6 +240,6 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     private javax.swing.JLabel label_login;
     private javax.swing.JLabel label_login1;
     private javax.swing.JLabel label_password;
-    public javax.swing.JCheckBox permissionBox;
+    private javax.swing.JLabel label_password1;
     // End of variables declaration//GEN-END:variables
 }

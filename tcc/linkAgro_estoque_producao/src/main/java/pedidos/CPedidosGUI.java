@@ -420,10 +420,18 @@ public class CPedidosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_submenu_newopActionPerformed
 
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
-        ProdutosGUI window = new ProdutosGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        Produto.setProdutosgui(window);
+        
+        LoginGUI logingui = Controller.getLogingui();
+
+        if("ADMINISTRADOR".equals(logingui.usuario.getPermissao())){
+            ProdutosGUI window = new ProdutosGUI();
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            Produto.setProdutosgui(window);
+        
+        } else {
+            JOptionPane.showMessageDialog(null,"Acesso negado","AVISO!",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_submenu_newproductActionPerformed
 
     private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
@@ -445,7 +453,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
         LoginGUI logingui = Controller.getLogingui();
 
-        if(logingui.permissao){
+        if("ADMINISTRADOR".equals(logingui.usuario.getPermissao())){
             CUsuarioGUI window = new CUsuarioGUI();
             window.setVisible(true);
             window.setLocationRelativeTo(null);
@@ -463,111 +471,184 @@ public class CPedidosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void upd_pedidoArchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoArchActionPerformed
-        int linhaSelecionada = -1;
-        linhaSelecionada = tab_pedidosArch.getSelectedRow();
-        if(linhaSelecionada >=0){
-            int id = (int) tab_pedidosArch.getValueAt(linhaSelecionada, 0);
+        LoginGUI login = Controller.getLogingui();
+                
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+            
+                int linhaSelecionada = -1;
+                linhaSelecionada = tab_pedidosArch.getSelectedRow();
+                if(linhaSelecionada >=0){
+                    int id = (int) tab_pedidosArch.getValueAt(linhaSelecionada, 0);
 
-            PedidoDAO pedidodao = new PedidoDAO();
+                    PedidoDAO pedidodao = new PedidoDAO();
 
-            String Id =  tab_pedidosArch.getValueAt(linhaSelecionada, 0).toString();
-            String nome = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 1);
-            String fechamento = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 2);
-            String embarque = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 3);
-            String obs = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 4);
-
-            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
-            tabelaArch();
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
-        }
+                    String Id =  tab_pedidosArch.getValueAt(linhaSelecionada, 0).toString();
+                    String nome = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 1);
+                    String fechamento = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 2);
+                    String embarque = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 3);
+                    String obs = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 4);
+                    
+                    Pedido updPedido = pedidodao.paneJOP(Id,nome,fechamento,embarque,obs);
+                    if(updPedido != null){
+                        pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
+                        tabelaArch();
+                    }   
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
+                }
+            break;
+            
+            default:
+                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
+        }          
 
     }//GEN-LAST:event_upd_pedidoArchActionPerformed
 
     private void del_pedidoArchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_pedidoArchActionPerformed
-        int linhaSelecionada = -1;
-        linhaSelecionada = tab_pedidosArch.getSelectedRow();
-        if(linhaSelecionada >=0){
+        LoginGUI login = Controller.getLogingui();
+                
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+           
+             int linhaSelecionada = -1;
+                linhaSelecionada = tab_pedidosArch.getSelectedRow();
+                if(linhaSelecionada >=0){
 
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
-                case JOptionPane.YES_OPTION:
-                PedidoDAO pedidodao = new PedidoDAO();
-                int id = (int) tab_pedidosArch.getValueAt(linhaSelecionada, 0);
-                pedidodao.deletePedido(id);
-                tabelaArch();
+                    switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
+                        case JOptionPane.YES_OPTION:
+                        PedidoDAO pedidodao = new PedidoDAO();
+                        int id = (int) tab_pedidosArch.getValueAt(linhaSelecionada, 0);
+                        pedidodao.deletePedido(id);
+                        tabelaArch();
 
+                        break;
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
+                }
                 break;
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
+            default:
+                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
         }
-
     }//GEN-LAST:event_del_pedidoArchActionPerformed
 
     private void upd_pedidoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoProdActionPerformed
-        // TODO add your handling code here:
-        int linhaSelecionada = -1;
-        linhaSelecionada = tab_pedidosProd.getSelectedRow();
-        if(linhaSelecionada >=0){
-            int id = (int) tab_pedidosProd.getValueAt(linhaSelecionada, 0);
+        PedidoDAO pedidodao = new PedidoDAO();
+        LoginGUI login = Controller.getLogingui();
+                
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+                int linhaSelecionada = -1;
+                linhaSelecionada = tab_pedidosProd.getSelectedRow();
+                if(linhaSelecionada >=0){
+                    int id = (int) tab_pedidosProd.getValueAt(linhaSelecionada, 0);
 
-            PedidoDAO pedidodao = new PedidoDAO();
-
-            String Id =  tab_pedidosProd.getValueAt(linhaSelecionada, 0).toString();
-            String nome = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 1);
-            String fechamento = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 2);
-            String embarque = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 3);
-            String obs = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 4);
-
-            pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
-            tabelaProd();
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
+                    String Id =  tab_pedidosProd.getValueAt(linhaSelecionada, 0).toString();
+                    String nome = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 1);
+                    String fechamento = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 2);
+                    String embarque = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 3);
+                    String obs = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 4);
+                    
+                    Pedido updPedido = pedidodao.paneJOP(Id,nome,fechamento,embarque,obs);
+                    if(updPedido != null){
+                        pedidodao.updatePedido(updPedido, id);
+                        tabelaProd();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
+                }
+                break;
+                
+           default:
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
+                break;
         }
     }//GEN-LAST:event_upd_pedidoProdActionPerformed
 
     private void del_pedidoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_pedidoProdActionPerformed
-       
-        int linhaSelecionada = -1;
-        linhaSelecionada = tab_pedidosProd.getSelectedRow();
-        if(linhaSelecionada >=0){
+        LoginGUI login = Controller.getLogingui();
+                
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+           
+                int linhaSelecionada = -1;
+                linhaSelecionada = tab_pedidosProd.getSelectedRow();
+                if(linhaSelecionada >=0){
 
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
-                case JOptionPane.YES_OPTION:
-                PedidoDAO pedidodao = new PedidoDAO();
-                int id = (int) tab_pedidosProd.getValueAt(linhaSelecionada, 0);
-                pedidodao.deletePedido(id);
-                tabelaProd();
+                    switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir esse pedido?","Aviso",JOptionPane.YES_NO_OPTION)){
+                        case JOptionPane.YES_OPTION:
+                        PedidoDAO pedidodao = new PedidoDAO();
+                        int id = (int) tab_pedidosProd.getValueAt(linhaSelecionada, 0);
+                        pedidodao.deletePedido(id);
+                        tabelaProd();
 
+                        break;
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
+                }
+            break;
+            
+            default:
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
                 break;
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja excluir");
         }
 
     }//GEN-LAST:event_del_pedidoProdActionPerformed
 
     private void add_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_pedidoActionPerformed
-        PedidoDAO pedidodao = new PedidoDAO();
-        pedidodao.insertPedido(pedidodao.paneJOP(null,null,null,null,null));
-        tabelaProd();
+        LoginGUI login = Controller.getLogingui();
         
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+                PedidoDAO pedidodao = new PedidoDAO();
+                Pedido addPedido = pedidodao.paneJOP(null,null,null,null,null);
+                if(addPedido != null){
+                    pedidodao.insertPedido(addPedido);
+                    tabelaProd();
+                }
+                break;
+                
+           default:
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
+
+           break;
+        }
     }//GEN-LAST:event_add_pedidoActionPerformed
 
     private void upd_reativarPedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_reativarPedActionPerformed
-        int selectedRow = -1;
-        selectedRow = tab_pedidosArch.getSelectedRow();
-        if(selectedRow >= 0){
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo reativar esse pedido?","Reativar Pedido",JOptionPane.YES_NO_OPTION)){
-                case JOptionPane.YES_OPTION:
-                    OpArqvDAO dao = new OpArqvDAO();
-                    dao.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidosArch.getValueAt(selectedRow, 0))), false);
-                    tabelaArch();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja reativar");
+        LoginGUI login = Controller.getLogingui();
+        switch(login.usuario.getPermissao()){
+            case "COMERCIAL":
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
+                break;
+                
+            default:
+        
+                int selectedRow = -1;
+                selectedRow = tab_pedidosArch.getSelectedRow();
+                if(selectedRow >= 0){
+                    switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo reativar esse pedido?","Reativar Pedido",JOptionPane.YES_NO_OPTION)){
+                        case JOptionPane.YES_OPTION:
+                            OpArqvDAO dao = new OpArqvDAO();
+                            dao.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidosArch.getValueAt(selectedRow, 0))), false);
+                            tabelaArch();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja reativar");
+                }
+                
+                break;
         }
     }//GEN-LAST:event_upd_reativarPedActionPerformed
 
@@ -577,19 +658,30 @@ public class CPedidosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void arch_pedidoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arch_pedidoProdActionPerformed
-        int selectedRow = -1;
-        selectedRow = tab_pedidosProd.getSelectedRow();
-        if(selectedRow >= 0){
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo arquivar esse pedido?","Arquivar Pedido",JOptionPane.YES_NO_OPTION)){
-                case JOptionPane.YES_OPTION:
-                    OpArqvDAO dao = new OpArqvDAO();
-                    dao.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidosProd.getValueAt(selectedRow, 0))), true);
-                    tabelaProd();
-            }
-             
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja arquivar");
+        LoginGUI login = Controller.getLogingui();
+        switch(login.usuario.getPermissao()){
+            case "COMERCIAL":
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
+                break;
+                
+            default:
+                    int selectedRow = -1;
+                selectedRow = tab_pedidosProd.getSelectedRow();
+                if(selectedRow >= 0){
+                    switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo arquivar esse pedido?","Arquivar Pedido",JOptionPane.YES_NO_OPTION)){
+                        case JOptionPane.YES_OPTION:
+                            OpArqvDAO dao = new OpArqvDAO();
+                            dao.archivePedidos(Integer.parseInt(String.valueOf(tab_pedidosProd.getValueAt(selectedRow, 0))), true);
+                            tabelaProd();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja arquivar");
+                }
+                break;
+        
         }
+                
     }//GEN-LAST:event_arch_pedidoProdActionPerformed
 
     /**

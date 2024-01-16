@@ -2,6 +2,9 @@ package estoque;
 
 import produtos.ProdutoDAO;
 import factory.ConnectionFactory;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +17,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import produtos.Produto;
 
 
@@ -28,8 +33,7 @@ public class EstoqueDAO {
     
     
     //Método que cria JOptionPane para adicionar ou editar um estoque
-    public Estoque pane(String categoria, int lonas, String largura, String metragem){
-        Estoque estoque = new Estoque();
+    public Estoque pane(Estoque estoque, boolean edit){
         
         //Criando painel do JOptionPane
         JPanel paneJOP = new JPanel();
@@ -39,7 +43,7 @@ public class EstoqueDAO {
         JComboBox lonasBox = new JComboBox();
         JTextField larguraField = new JTextField(7);
         JTextField metragemField = new JTextField(7);
-
+        JTextField obsField = new JTextField(20);
         
         //Adicionando elementos ao painel
         paneJOP.add(new JLabel("Categoria: "));
@@ -50,6 +54,8 @@ public class EstoqueDAO {
         paneJOP.add(larguraField);
         paneJOP.add(new JLabel("Metragem: "));
         paneJOP.add(metragemField);
+        paneJOP.add(new JLabel("OBS: "));
+        paneJOP.add(obsField);
         
         //Adicionando itens as comboBox
         ProdutoDAO produtodao = new ProdutoDAO();
@@ -69,13 +75,19 @@ public class EstoqueDAO {
             }
         }
         
-        
-         //Setando valores iniciais do Field
-        categoriaBox.setSelectedItem(categoria);
-        lonasBox.setSelectedItem(lonas);
-        larguraField.setText(largura);
-        metragemField.setText(metragem);
-        
+          
+           
+            //Setando valores iniciais do Field
+        if(edit){
+            categoriaBox.setSelectedItem(estoque.getCategoria());
+            lonasBox.setSelectedItem(estoque.getLonas());
+            larguraField.setText(String.valueOf(estoque.getLargura()));
+            metragemField.setText(String.valueOf(estoque.getMetragem()));
+            obsField.setText(estoque.getObs());
+        } else {
+            categoriaBox.setSelectedItem(null);
+            lonasBox.setSelectedItem(null);
+        }
         
    
         switch (JOptionPane.showConfirmDialog(null, paneJOP, "Adicionar Estoque", JOptionPane.OK_CANCEL_OPTION)) {
@@ -86,21 +98,22 @@ public class EstoqueDAO {
                     //JOptionPane de alerta
                     JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
                 } else {      
-
+                        Estoque addEstoque = new Estoque();
                     //Criando objeto ana classe modelo
-                    estoque.setCategoria((String) categoriaBox.getSelectedItem());
-                    estoque.setLonas((int) lonasBox.getSelectedItem());
+                    addEstoque.setLonas(Integer.parseInt(String.valueOf(lonasBox.getSelectedItem())));
+                    addEstoque.setCategoria(String.valueOf(categoriaBox.getSelectedItem()));
                     try{
-                        estoque.setLargura(Float.valueOf(larguraField.getText()));
-                        estoque.setMetragem(Float.valueOf(metragemField.getText()));
+                        addEstoque.setLargura(Float.parseFloat(larguraField.getText()));
+                        addEstoque.setMetragem(Float.parseFloat(metragemField.getText()));
                     
                     }catch(NumberFormatException e){
-                        JOptionPane.showMessageDialog(null,"Digite um valor numérico!\nUtilize ponto no lugar da vírgula se houver.");
+                        JOptionPane.showMessageDialog(null,"Digite um valor numérico!\nUtilize ponto no lugar da vírgula se houver.","AVISO",JOptionPane.ERROR_MESSAGE);
                         return null;
                     }
+                    addEstoque.setObs(obsField.getText());
                     
                     //retornando objeto a ser inserido na tabela
-                    return estoque;
+                    return addEstoque;
                    
                 }
 
@@ -118,7 +131,7 @@ public class EstoqueDAO {
     
     //Insert
     public void insertEstoque(Estoque estoque){
-        String sql = "INSERT INTO estoque (categoria,lonas,largura,metragem) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO estoque (categoria,lonas,largura,metragem,reservado,observacao) VALUES (?,?,?,?,?,?);";
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -126,6 +139,8 @@ public class EstoqueDAO {
             stmt.setInt(2,estoque.getLonas());
             stmt.setFloat(3,estoque.getLargura());
             stmt.setFloat(4,estoque.getMetragem());
+            stmt.setBoolean(5, false);
+            stmt.setString(6,estoque.getObs());
             
             stmt.execute();
             stmt.close();
@@ -178,6 +193,8 @@ public class EstoqueDAO {
                 estoque.setLonas(rs.getInt("lonas"));
                 estoque.setLargura(rs.getFloat("largura"));
                 estoque.setMetragem(rs.getFloat("metragem"));
+                estoque.setReservado(rs.getBoolean("reservado"));
+                estoque.setObs(rs.getString("observacao"));
                 
                 estoqueList.add(estoque);
             }
@@ -222,7 +239,7 @@ public class EstoqueDAO {
     
     //Update
     public void updadeEstoque(Estoque estoque, int id){
-        String sql = "UPDATE estoque SET categoria = ?, lonas = ?, largura = ?, metragem = ? WHERE id = " + id;
+        String sql = "UPDATE estoque SET categoria = ?, lonas = ?, largura = ?, metragem = ?, observacao = ? WHERE id = " + id;
         
         
         try{
@@ -231,6 +248,7 @@ public class EstoqueDAO {
             stmt.setInt(2,estoque.getLonas());
             stmt.setFloat(3,estoque.getLargura());
             stmt.setFloat(4,estoque.getMetragem());
+            stmt.setString(5,estoque.getObs());
             stmt.execute();
             stmt.close();
             
@@ -267,7 +285,8 @@ public class EstoqueDAO {
                 estoque.setLonas(rs.getInt("lonas"));
                 estoque.setLargura(rs.getFloat("largura"));
                 estoque.setMetragem(rs.getFloat("metragem"));
-                
+                estoque.setReservado(rs.getBoolean("reservado"));
+                estoque.setObs(rs.getString("observacao"));
                 estoqueFiltList.add(estoque);
             }
             
@@ -287,7 +306,63 @@ public class EstoqueDAO {
     }
     
 
+    public void reservado(int id){
+        String sql = "SELECT reservado FROM estoque WHERE id = ?;";
+        String reservar = "UPDATE estoque SET reservado = ? WHERE id = ?";
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                if(rs.getBoolean("reservado")){
+                    stmt = connection.prepareStatement(reservar);
+                    stmt.setBoolean(1, false);
+                    stmt.setInt(2, id);
+                    stmt.execute();
+                } else {
+                    stmt = connection.prepareStatement(reservar);
+                    stmt.setBoolean(1, true);
+                    stmt.setInt(2, id);
+                    stmt.execute();
+                }
+            }
+        stmt.close();
+        rs.close();
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     
+    
+    //Estoque reservado
+    public static void reservedRow(JTable table, List<Integer> rowIndexList) {
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                           boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (rowIndexList.contains(row) && !isSelected) {
+                    c.setBackground(new Color(255,222,0));
+                } else {
+                    // Mantém a cor padrão das outras linhas ou células selecionadas
+                    c.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+                }
+
+                return c;
+            }
+        });
+
+        // Atualiza a tabela para refletir as mudanças de renderização
+        table.repaint();
+    }
+
+    
+
+
     
     
 }

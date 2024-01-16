@@ -22,6 +22,8 @@ CREATE TABLE estoque (
   lonas int NOT NULL,
   largura float(4,2) NOT NULL,
   metragem float(5,2) NOT NULL,
+  reservado boolean NOT NULL,
+  observacao varchar(255),
   PRIMARY KEY (id),
   FOREIGN KEY (categoria) REFERENCES produtos (produto)
 ); 
@@ -112,4 +114,4 @@ foreign key (id_op) references ordem_producao(id)
 );
 
 
-insert into usuarios (login,senha,permissao) values ("cris","2404","ADM")
+insert into usuarios (login,senha,permissao) values ("cris","2404","ADMINISTRADOR")

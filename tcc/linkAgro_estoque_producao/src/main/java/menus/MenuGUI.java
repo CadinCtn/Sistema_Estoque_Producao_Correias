@@ -174,10 +174,18 @@ public class MenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_submenu_newopActionPerformed
 
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
-        ProdutosGUI window = new ProdutosGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        Produto.setProdutosgui(window);
+        
+        LoginGUI logingui = Controller.getLogingui();
+
+        if("ADMINISTRADOR".equals(logingui.usuario.getPermissao())){
+            ProdutosGUI window = new ProdutosGUI();
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            Produto.setProdutosgui(window);
+        
+        } else {
+            JOptionPane.showMessageDialog(null,"Acesso negado","AVISO!",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_submenu_newproductActionPerformed
 
     private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
@@ -199,7 +207,7 @@ public class MenuGUI extends javax.swing.JFrame {
 
         LoginGUI logingui = Controller.getLogingui();
 
-        if(logingui.permissao){
+        if("ADMINISTRADOR".equals(logingui.usuario.getPermissao())){
             CUsuarioGUI window = new CUsuarioGUI();
             window.setVisible(true);
             window.setLocationRelativeTo(null);

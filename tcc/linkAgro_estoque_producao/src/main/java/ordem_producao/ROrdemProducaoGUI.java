@@ -531,10 +531,18 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_submenu_newop1ActionPerformed
 
     private void submenu_newproduct1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproduct1ActionPerformed
-        ProdutosGUI window = new ProdutosGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        Produto.setProdutosgui(window);
+        
+        LoginGUI logingui = Controller.getLogingui();
+
+        if("ADMINISTRADOR".equals(logingui.usuario.getPermissao())){
+            ProdutosGUI window = new ProdutosGUI();
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            Produto.setProdutosgui(window);
+        
+        } else {
+            JOptionPane.showMessageDialog(null,"Acesso negado","AVISO!",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_submenu_newproduct1ActionPerformed
 
     private void submenu_estoque1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoque1ActionPerformed
@@ -556,7 +564,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
 
         LoginGUI logingui = Controller.getLogingui();
 
-        if(logingui.permissao){
+        if("ADMINISTRADOR".equals(logingui.usuario.getPermissao())){
             CUsuarioGUI window = new CUsuarioGUI();
             window.setVisible(true);
             window.setLocationRelativeTo(null);
@@ -586,149 +594,211 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_button_printerActionPerformed
 
     private void button_aqvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_aqvActionPerformed
+        LoginGUI login = Controller.getLogingui();
+        
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "COMERCIAL":
+                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
+                
+            default:
+              
+                int selectedRow = -1;
+                selectedRow = tab_ordemProducao.getSelectedRow();
+                if(selectedRow >= 0){
+                    OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+                    //Criando Objeto
+                    OrdemProducao op = opdao.selectOrdemProducaoById(Integer.parseInt(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0))));
+                    //Iniciando criação do relatório
+                    CArqvOrdemProducaoGUI window = new CArqvOrdemProducaoGUI(op, null, false);
+                    window.setVisible(true);
+                    window.setExtendedState(MAXIMIZED_BOTH);
+                    Controller.setcArqvOrdemProducaoGUI(window);
 
-        int selectedRow = -1;
-        selectedRow = tab_ordemProducao.getSelectedRow();
-        if(selectedRow >= 0){
-            OrdemProducaoDAO opdao = new OrdemProducaoDAO();
-            //Criando Objeto
-            OrdemProducao op = opdao.selectOrdemProducaoById(Integer.parseInt(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0))));
-            //Iniciando criação do relatório
-            CArqvOrdemProducaoGUI window = new CArqvOrdemProducaoGUI(op, null, false);
-            window.setVisible(true);
-            window.setExtendedState(MAXIMIZED_BOTH);
-            Controller.setcArqvOrdemProducaoGUI(window);
-
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione uma ordem de produção para arquivar");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Selecione uma ordem de produção para arquivar");
+                }
+                break;
         }
-
     }//GEN-LAST:event_button_aqvActionPerformed
 
     private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
-        // TODO add your handling code here:
-        OrdemProducao op = new OrdemProducao();
+        LoginGUI login = Controller.getLogingui();
+        
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+                OrdemProducao op = new OrdemProducao();
 
-        int selectedRow = -1;
-        selectedRow = tab_ordemProducao.getSelectedRow();
+                int selectedRow = -1;
+                selectedRow = tab_ordemProducao.getSelectedRow();
 
-        if(selectedRow >=0){
+                if(selectedRow >=0){
 
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa ordem de produção?","Aviso",JOptionPane.YES_NO_OPTION)){
+                    switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa ordem de produção?","Aviso",JOptionPane.YES_NO_OPTION)){
 
-                case JOptionPane.YES_OPTION:
-                PedidoOpDAO pedidoopdao = new PedidoOpDAO();
-                OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+                        case JOptionPane.YES_OPTION:
+                        PedidoOpDAO pedidoopdao = new PedidoOpDAO();
+                        OrdemProducaoDAO opdao = new OrdemProducaoDAO();
 
-                op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0))));
-                pedidoopdao.deleteAllPedidosOfOp(op.getId());
-                opdao.deleteOrdemProducao(op.getId());
+                        op.setId(Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0))));
+                        pedidoopdao.deleteAllPedidosOfOp(op.getId());
+                        opdao.deleteOrdemProducao(op.getId());
 
-                tabelaProd();
+                        tabelaProd();
 
-                break;
-            }
+                        break;
+                    }
 
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja excluir.");
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja excluir.");
+                }
+            break;
+            
+            default:
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
+            break;
         }
 
     }//GEN-LAST:event_button_deleteActionPerformed
 
     private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_updateActionPerformed
-        // TODO add your handling code here:
-        OrdemProducao op = new OrdemProducao();
+        LoginGUI login = Controller.getLogingui();
+        
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "COMERCIAL":
+                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
+                
+            default:
+                
+                OrdemProducao op = new OrdemProducao();
+                int selectedRow = -1;
+                selectedRow = tab_ordemProducao.getSelectedRow();
 
-        int selectedRow = -1;
-        selectedRow = tab_ordemProducao.getSelectedRow();
+                if(selectedRow >= 0){
+                    CUOrdemProducaoGUI cuopg = new CUOrdemProducaoGUI();
 
-        if(selectedRow >= 0){
-            CUOrdemProducaoGUI cuopg = new CUOrdemProducaoGUI();
+                    int id = Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0)));
+                    String categoria = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 1));
+                    String ee = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 2));
+                    String width = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 3));
+                    String length = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 4));
+                    String metExtra = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 5));
+                    String lonas = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 6));
+                    String espessura = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 7));
+                    String setor = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 8));
+                    String observacao = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 9));
+                    op.setEdit(true);
 
-            int id = Integer.valueOf(String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 0)));
-            String categoria = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 1));
-            String ee = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 2));
-            String width = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 3));
-            String length = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 4));
-            String metExtra = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 5));
-            String lonas = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 6));
-            String espessura = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 7));
-            String setor = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 8));
-            String observacao = String.valueOf(tab_ordemProducao.getValueAt(selectedRow, 9));
-            op.setEdit(true);
+                    cuopg.fillFields(op.getEdit(), id, categoria, ee, width, length, metExtra,lonas, espessura,setor, observacao);
 
-            cuopg.fillFields(op.getEdit(), id, categoria, ee, width, length, metExtra,lonas, espessura,setor, observacao);
+                    cuopg.setVisible(true);
+                    cuopg.setLocationRelativeTo(null);
+                    Controller.setCuOrdemProducaoGui(cuopg);
 
-            cuopg.setVisible(true);
-            cuopg.setLocationRelativeTo(null);
-            Controller.setCuOrdemProducaoGui(cuopg);
-
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja editar.");
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione a ordem de produção que deseja editar.");
+                }
+                
+                break;
         }
-
     }//GEN-LAST:event_button_updateActionPerformed
 
     private void button_createOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_createOpActionPerformed
-        // TODO add your handling code here:
-        CUOrdemProducaoGUI window = new CUOrdemProducaoGUI();
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
-        Controller.setCuOrdemProducaoGui(window);
-
+        LoginGUI login = Controller.getLogingui();
+        
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+                CUOrdemProducaoGUI window = new CUOrdemProducaoGUI();
+                window.setVisible(true);
+                window.setLocationRelativeTo(null);
+                Controller.setCuOrdemProducaoGui(window);
+                break;
+            
+            default: 
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
+        }
+                
     }//GEN-LAST:event_button_createOpActionPerformed
 
     private void button_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_relatorioActionPerformed
-        int selectedRow = -1;
-        selectedRow = tab_opArch.getSelectedRow();
-        if(selectedRow >= 0){
-            OrdemProducaoDAO opdao = new OrdemProducaoDAO();
-            OpArqvDAO arqvDAO = new OpArqvDAO();
+        LoginGUI login = Controller.getLogingui();
+        
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "COMERCIAL":
+                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
+                
+            default:
+                int selectedRow = -1;
+                selectedRow = tab_opArch.getSelectedRow();
+                if(selectedRow >= 0){
+                    OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+                    OpArqvDAO arqvDAO = new OpArqvDAO();
 
-            //Criando objetos
-            OrdemProducao op = opdao.selectOrdemProducaoById(Integer.parseInt(String.valueOf(tab_opArch.getValueAt(selectedRow, 0))));
-            RelatorioOp relatorio = arqvDAO.selectRelatorio(Integer.parseInt(String.valueOf(tab_opArch.getValueAt(selectedRow, 0))));
+                    //Criando objetos
+                    OrdemProducao op = opdao.selectOrdemProducaoById(Integer.parseInt(String.valueOf(tab_opArch.getValueAt(selectedRow, 0))));
+                    RelatorioOp relatorio = arqvDAO.selectRelatorio(Integer.parseInt(String.valueOf(tab_opArch.getValueAt(selectedRow, 0))));
 
-            //Exibindo relatorio
-            CArqvOrdemProducaoGUI window = new CArqvOrdemProducaoGUI(op, relatorio, true);
-            window.setVisible(true);
-            window.setExtendedState(MAXIMIZED_BOTH);
-            Controller.setcArqvOrdemProducaoGUI(window);
+                    //Exibindo relatorio
+                    CArqvOrdemProducaoGUI window = new CArqvOrdemProducaoGUI(op, relatorio, true);
+                    window.setVisible(true);
+                    window.setExtendedState(MAXIMIZED_BOTH);
+                    Controller.setcArqvOrdemProducaoGUI(window);
 
-        }else{
-            JOptionPane.showMessageDialog(null, "Selecione uma Ordem de Produção");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Selecione uma Ordem de Produção");
+                }
+            break;
         }
     }//GEN-LAST:event_button_relatorioActionPerformed
 
     private void button_delete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_delete1ActionPerformed
-        // TODO add your handling code here:
-        OrdemProducao op = new OrdemProducao();
+        LoginGUI login = Controller.getLogingui();
+        
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "ADMINISTRADOR":
+                OrdemProducao op = new OrdemProducao();
 
-        int selectedRow = -1;
-        selectedRow = tab_opArch.getSelectedRow();
+                int selectedRow = -1;
+                selectedRow = tab_opArch.getSelectedRow();
 
-        if(selectedRow >=0){
+                if(selectedRow >=0){
 
-            switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa ordem de produção?","Aviso",JOptionPane.YES_NO_OPTION)){
+                    switch(JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir essa ordem de produção?","Aviso",JOptionPane.YES_NO_OPTION)){
 
-                case JOptionPane.YES_OPTION:
-                PedidoOpDAO pedidoopdao = new PedidoOpDAO();
-                OrdemProducaoDAO opdao = new OrdemProducaoDAO();
-                OpArqvDAO opArqvDAO = new OpArqvDAO();
+                        case JOptionPane.YES_OPTION:
+                        PedidoOpDAO pedidoopdao = new PedidoOpDAO();
+                        OrdemProducaoDAO opdao = new OrdemProducaoDAO();
+                        OpArqvDAO opArqvDAO = new OpArqvDAO();
 
-                op.setId(Integer.parseInt(String.valueOf(tab_opArch.getValueAt(selectedRow, 0))));
-                opArqvDAO.deleteRelatorio(op.getId());
-                pedidoopdao.deleteAllPedidosOfOp(op.getId());
-                opdao.deleteOrdemProducao(op.getId());
+                        op.setId(Integer.parseInt(String.valueOf(tab_opArch.getValueAt(selectedRow, 0))));
+                        opArqvDAO.deleteRelatorio(op.getId());
+                        pedidoopdao.deleteAllPedidosOfOp(op.getId());
+                        opdao.deleteOrdemProducao(op.getId());
 
-                tabelaArch();
+                        tabelaArch();
 
+                        break;
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione a Ordem de Produção que deseja excluir.");
+                }
                 break;
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione a Ordem de Produção que deseja excluir.");
+                
+                
+            default:
+                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
         }
+        
 
     }//GEN-LAST:event_button_delete1ActionPerformed
 
@@ -739,39 +809,51 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void button_reativarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_reativarOpActionPerformed
-        int selectedRow = -1;
-        selectedRow = tab_opArch.getSelectedRow();
-        if(selectedRow >= 0){
-            boolean reatPed = false;
-            
-            switch(JOptionPane.showConfirmDialog(null,"Deseja também reativar os pedidos dessa Ordem de Produção?","Reativar Pedidos",JOptionPane.YES_NO_OPTION)){
-                case JOptionPane.YES_OPTION:
-                    reatPed = true;
-            }
-            
-            switch(JOptionPane.showConfirmDialog(null, "ATENÇÃO!\nApós reativar a Ordem de Produção o relatório será excluído.","AVISO",JOptionPane.WARNING_MESSAGE)){
-                case JOptionPane.OK_OPTION: 
-                    OpArqvDAO opArqvDAO = new OpArqvDAO();
-                    int id = Integer.valueOf(String.valueOf(tab_opArch.getValueAt(selectedRow, 0)));
-                    opArqvDAO.deleteRelatorio(id);
-                    opArqvDAO.archiveOp(id, false);
-                    
-                    //Reativando pedidos vinculados a ordem de produção
-                    PedidoOpDAO pedidoOpDAO = new PedidoOpDAO();
-                    if(reatPed){
-                        for(PedidoOp pedidoop : pedidoOpDAO.selectPedidoOp(id)){
-                            opArqvDAO.archivePedidos(pedidoop.getId(), false);
-                        }
+        
+        LoginGUI login = Controller.getLogingui();
+        
+        //Requisitando permissão para gerenciamento da tabela
+        switch(login.usuario.getPermissao()){
+            case "COMERCIAL":
+                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
+                
+            default:
+              
+                int selectedRow = -1;
+                selectedRow = tab_opArch.getSelectedRow();
+                if(selectedRow >= 0){
+                    boolean reatPed = false;
+
+                    switch(JOptionPane.showConfirmDialog(null,"Deseja também reativar os pedidos dessa Ordem de Produção?","Reativar Pedidos",JOptionPane.YES_NO_OPTION)){
+                        case JOptionPane.YES_OPTION:
+                            reatPed = true;
                     }
 
-            }
-            tabelaArch();
-            
-            
-        } else {
-            JOptionPane.showMessageDialog(null,"Selecione a Ordem de Produção que deseja reativar");
-        }
+                    switch(JOptionPane.showConfirmDialog(null, "ATENÇÃO!\nApós reativar a Ordem de Produção o relatório será excluído.","AVISO",JOptionPane.WARNING_MESSAGE)){
+                        case JOptionPane.OK_OPTION: 
+                            OpArqvDAO opArqvDAO = new OpArqvDAO();
+                            int id = Integer.valueOf(String.valueOf(tab_opArch.getValueAt(selectedRow, 0)));
+                            opArqvDAO.deleteRelatorio(id);
+                            opArqvDAO.archiveOp(id, false);
 
+                            //Reativando pedidos vinculados a ordem de produção
+                            PedidoOpDAO pedidoOpDAO = new PedidoOpDAO();
+                            if(reatPed){
+                                for(PedidoOp pedidoop : pedidoOpDAO.selectPedidoOp(id)){
+                                    opArqvDAO.archivePedidos(pedidoop.getId(), false);
+                                }
+                            }
+
+                    }
+                    tabelaArch();
+
+
+                } else {
+                    JOptionPane.showMessageDialog(null,"Selecione a Ordem de Produção que deseja reativar");
+                }
+            break;
+        }
         
     }//GEN-LAST:event_button_reativarOpActionPerformed
 

@@ -460,9 +460,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         op.setObservacao(field_observation.getText());
         
                 
-            //EstoquePendenteGUI window = new EstoquePendenteGUI(op);
-            //window.setVisible(true);
-            //window.setLocationRelativeTo(null);
+          //  EstoquePendenteGUI window = new EstoquePendenteGUI(op);
+          //  window.setVisible(true);
+          //  window.setLocationRelativeTo(null);
         
                 // Criando ou editando a op
                 cU(op,edit,id);

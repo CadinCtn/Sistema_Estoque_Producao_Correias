@@ -4,8 +4,10 @@
  */
 package estoque_pendente;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -275,6 +277,24 @@ public class EstoquePendenteGUI extends javax.swing.JFrame {
                 
         }
         if(areaTotalEst <= op.getLarguraTecido() * op.getMetragemTecido()){
+            DesenhoPanel painel = new DesenhoPanel();
+            int location = 0;
+            for(int i = 0; i <= listEstPend.size()-1; i++){
+                int width = (int) (200 * listEstPend.get(i).getLargura() / op.getLarguraTecido());
+                int heigth =  (int) (300 * listEstPend.get(i).getMetragem()/ op.getMetragemTecido());
+                
+                painel.retangulos.add(new Retangulo(location,location,  width, heigth));
+                location+= 200;
+            }
+            
+            painel.op = this.op;
+            JFrame frame = new JFrame("Desenhando Retângulos");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setSize(600, 400);
+            painel.setBackground(Color.white);
+            frame.getContentPane().add(painel);
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
             
         } else {
             JOptionPane.showMessageDialog(null, "Medidas não batem, favor conferir!");

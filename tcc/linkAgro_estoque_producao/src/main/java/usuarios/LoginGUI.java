@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 
 
 public class LoginGUI extends javax.swing.JFrame {
-    public boolean permissao = false;
-    private boolean logado = false;
     
+    private boolean logado = false;
+    public Usuario usuario = new Usuario();
     
     public LoginGUI() {
         initComponents();
@@ -150,7 +150,7 @@ public class LoginGUI extends javax.swing.JFrame {
             UsuarioDAO usuariodao = new UsuarioDAO();
         try {
             logado = usuariodao.validarLogin(field_login.getText(),field_password.getText());
-            permissao = usuariodao.permissao(field_login.getText(),field_password.getText());
+            usuario.setPermissao(usuariodao.permissao(field_login.getText(),field_password.getText()));
             
             if(logado){
                 JFrame window = new MenuGUI();

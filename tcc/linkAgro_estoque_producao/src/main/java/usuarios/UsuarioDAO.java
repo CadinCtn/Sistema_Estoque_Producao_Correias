@@ -51,9 +51,9 @@ public class UsuarioDAO {
 
     
     // Permissao de ADM
-    public boolean permissao(String login, String senha) throws SQLException{
+    public String permissao(String login, String senha) throws SQLException{
         
-        String sql = "SELECT login,senha,permissao FROM usuarios WHERE login = ? and senha = ? and permissao = 'ADM';";
+        String sql = "SELECT permissao FROM usuarios WHERE login = ? and senha = ?";
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -65,33 +65,29 @@ public class UsuarioDAO {
             
             //Se encontrar login correspondente banco de dados, retorna true
             if(resultado.next()){
-               return true;
+               return resultado.getString("permissao");
             }
             
         }
         catch (SQLException u) {
             throw new RuntimeException(u);
         }
-        return false;
-                
+ 
+        return null;
+        
     }
  
     
         //metodo para cadastrar novo usuário
-    public void criarUsuario(Usuario usuario, boolean permissao){     
-        String sql;
+    public void criarUsuario(Usuario usuario){     
+        String sql = "INSERT INTO usuarios (login,senha,permissao) VALUES (?,?,?)";
         
-        if(permissao){
-            sql = "INSERT INTO usuarios (login,senha,permissao) VALUES (?,?,'ADM')";
-            
-        } else {
-            sql = "INSERT INTO usuarios (login,senha) VALUES (?,?)";
-        }
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1,usuario.getLogin());
             stmt.setString(2,usuario.getSenha());
+            stmt.setString(3,usuario.getPermissao());
             stmt.execute();
             stmt.close();
             JOptionPane.showMessageDialog(null,"Usuário " + usuario.getLogin() + " cadastrado com sucesso!");
@@ -103,18 +99,15 @@ public class UsuarioDAO {
         
     }
     //Update
-    public void editarUsuario(Usuario usuario, int id, boolean permissao){
-        String sql;
-        if(permissao){
-            sql = "UPDATE usuarios SET login = ?, senha = ?, permissao = 'ADM' WHERE id = ?";
-        } else {
-            sql = "UPDATE usuarios SET login = ?, senha = ?, permissao = null WHERE id = ?";
-        }
+    public void editarUsuario(Usuario usuario, int id){
+        String sql = "UPDATE usuarios SET login = ?, senha = ?, permissao = ? WHERE id = ?";
+        
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, usuario.getLogin());
             stmt.setString(2,usuario.getSenha());
-            stmt.setInt(3,usuario.getId());
+            stmt.setString(3,usuario.getPermissao());
+            stmt.setInt(4,usuario.getId());
             stmt.execute();
             stmt.close();
             

@@ -157,6 +157,7 @@ public class CProdutoGUI extends javax.swing.JFrame {
     private void btn_colorChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_colorChooserActionPerformed
         String cor = String.valueOf(JColorChooser.showDialog(null, "Cor do produto", Color.BLACK));
         produto.setCor_produto(cor);
+        System.out.println(cor);
         
     }//GEN-LAST:event_btn_colorChooserActionPerformed
 

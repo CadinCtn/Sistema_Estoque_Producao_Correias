@@ -15,6 +15,8 @@ public class Estoque {
     int lonas;
     float largura;
     float metragem;
+    boolean reservado;
+    String obs;
 
     public int getId() {
         return id;
@@ -55,9 +57,23 @@ public class Estoque {
     public void setMetragem(float metragem) {
         this.metragem = metragem;
     }
-    
-    
-    
+
+    public boolean isReservado() {
+        return reservado;
+    }
+
+    public void setReservado(boolean reservado) {
+        this.reservado = reservado;
+    }
+
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
     
     
 }
