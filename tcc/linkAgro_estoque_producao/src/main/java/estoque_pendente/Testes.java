@@ -115,8 +115,8 @@ class DesenhoPanel extends JPanel {
                             
                             // Move o novo retângulo para a margem do retângulo existente
                             novoRetangulo.moverPara(
-                                    novoRetangulo.x + TAMANHO_GRADE,
-                                    novoRetangulo.y + TAMANHO_GRADE
+                                    novoRetangulo.x,
+                                    novoRetangulo.y
                             );
                         }
 
@@ -133,8 +133,13 @@ class DesenhoPanel extends JPanel {
     }
 
     private boolean sobreposicaoComRetangulos(Retangulo novoRetangulo) {
+        /*for (Retangulo retangulo : retangulos) { 
+            if ( novoRetangulo.bordasProximas(novoRetangulo, retangulo, 5)) {
+                return true;
+            } 
+        }*/
         for (Retangulo retangulo : retangulos) { 
-            if (novoRetangulo.sobrepostoCom(retangulo) && retangulo != retanguloAtual || novoRetangulo.bordasProximas(novoRetangulo, retangulo, 5)) {
+            if (novoRetangulo.sobrepostoCom(retangulo) && retangulo != retanguloAtual) {
                 return true;
             } 
         }

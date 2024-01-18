@@ -1,6 +1,5 @@
 package estoque;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -28,14 +27,14 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     public CEstoqueGUI() {
         initComponents();
         categoriaBox();
-        tabela();   
+        filtro();   
     }
 
     
     //Adicionandos os itens da tabela de produtos a  combobox
     public void categoriaBox(){
         ProdutoDAO produtodao = new ProdutoDAO();
-        
+            box_category.removeAllItems();
         try{
             List<Produto> produtoList = produtodao.categoriaBox(); 
                 box_category.addItem(null);
@@ -55,35 +54,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     
     
     // Gerando itens na tabela
-    public void tabela(){
-        EstoqueDAO estoquedao = new EstoqueDAO();
-        DefaultTableModel modelo = (DefaultTableModel) tab_estoque.getModel();
-        
-        ////
-        //limpando tabela
-        while(tab_estoque.getModel().getRowCount() > 0 ){
-            ((DefaultTableModel) tab_estoque.getModel()).removeRow(0);
-        }
-        ////
-        List<Integer> reservedRows = new ArrayList<>();
-        List<Estoque> estoqueList = estoquedao.selectEstoque();
-        for (Estoque estoque : estoqueList) {
-            //criando e adicionado rows a tabela
-            Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem(),estoque.getObs()};
-            modelo.addRow(line);
-            if (estoque.isReservado()) {
-            reservedRows.add(estoqueList.indexOf(estoque));
-        }
-    }
-
-    // Destacar as linhas reservadas após adicionar todas as linhas
-    estoquedao.reservedRow(tab_estoque, reservedRows);
-        ProdutoDAO produtodao = new ProdutoDAO();
-        produtodao.paintCat(tab_estoque, 1);
-        
-    }
-    
-    
     public void filtro(){
         // Aplicando filtro
            EstoqueDAO estoquedao = new EstoqueDAO();
@@ -126,14 +96,23 @@ public class CEstoqueGUI extends javax.swing.JFrame {
            
            // Função que retorna uma lista com os objetos após aplicar o filtro
            List<Estoque> estoqueList = estoquedao.buscaEstoque(categoria, lonas,largura,metragem);
-           
+           List<Integer> reservedRows = new ArrayList<>();
            //Inserindo itens na tabela
-           for (Estoque estoque : estoqueList) {
+            for (Estoque estoque : estoqueList) {
 
                Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem(), estoque.getObs()};
                modelo.addRow(line);
-            
-        }
+               if (estoque.isReservado()) {
+                    reservedRows.add(estoqueList.indexOf(estoque));
+                }
+            }
+
+    // Destacar as linhas reservadas após adicionar todas as linhas
+    estoquedao.reservedRow(tab_estoque, reservedRows);
+        ProdutoDAO produtodao = new ProdutoDAO();
+        produtodao.paintCat(tab_estoque, 1);
+        
+        
     }
     
     
@@ -275,6 +254,11 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             }
         });
 
+        box_category.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                box_categoryMousePressed(evt);
+            }
+        });
         box_category.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 box_categoryActionPerformed(evt);
@@ -319,46 +303,46 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1015, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_voltar)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(box_category, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(12, 12, 12)
-                                    .addComponent(box_lona, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(largField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(metField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(91, 91, 91)
-                                            .addComponent(jLabel2)
-                                            .addGap(93, 93, 93)
-                                            .addComponent(jLabel3))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(add_estoque)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(upd_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(del_est)))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(33, 33, 33)
-                                            .addComponent(jLabel4)
-                                            .addGap(84, 84, 84)
-                                            .addComponent(jLabel5))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(40, 40, 40)
-                                            .addComponent(busca_est)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(btn_reservar)))
-                                    .addGap(55, 55, 55))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(box_category, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(12, 12, 12)
+                                        .addComponent(box_lona, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(largField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(metField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(30, 30, 30)
+                                                .addComponent(jLabel2)
+                                                .addGap(95, 95, 95)
+                                                .addComponent(jLabel3)
+                                                .addGap(97, 97, 97)
+                                                .addComponent(jLabel4))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(add_estoque)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(upd_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(del_est)))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(23, 23, 23)
+                                                .addComponent(busca_est)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btn_reservar))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(93, 93, 93)
+                                                .addComponent(jLabel5)))))))
                         .addGap(356, 356, 356)))
                 .addContainerGap())
         );
@@ -475,7 +459,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
                Estoque addEstoque = estoquedao.pane(null,false);
                if(addEstoque != null){
                     estoquedao.insertEstoque(addEstoque);
-                    tabela();
                     filtro();
                 
                }
@@ -508,7 +491,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
                         int id = (int) tab_estoque.getValueAt(linhaSelecionada, 0);
                         //Deletando o produto e gerando a tabela novamente
                         estoquedao.deleteEstoque(id);
-                        tabela();
                         filtro();
 
                     break;
@@ -552,7 +534,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
                     Estoque updEstoque = estoquedao.pane(estoque,true);
                     if(updEstoque != null){
                         estoquedao.updadeEstoque(updEstoque, estoque.getId());
-                        tabela();
                         filtro();
                     }
 
@@ -656,12 +637,15 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             EstoqueDAO estoquedao = new EstoqueDAO();
             int id = Integer.parseInt(String.valueOf(tab_estoque.getValueAt(row, 0)));
             estoquedao.reservado(id);
-            tabela();
-            //filtro();
+            filtro();
         } else {
             JOptionPane.showMessageDialog(null,"Selecione a correia para reservar");
         }
     }//GEN-LAST:event_btn_reservarActionPerformed
+
+    private void box_categoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_box_categoryMousePressed
+        categoriaBox();
+    }//GEN-LAST:event_box_categoryMousePressed
 
     /**
      * @param args the command line arguments

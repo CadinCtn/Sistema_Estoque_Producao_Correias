@@ -177,6 +177,11 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         label_obs.setText("Observação");
 
         box_category.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        box_category.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                box_categoryMousePressed(evt);
+            }
+        });
         box_category.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 box_categoryActionPerformed(evt);
@@ -460,9 +465,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         op.setObservacao(field_observation.getText());
         
                 
-          //  EstoquePendenteGUI window = new EstoquePendenteGUI(op);
-          //  window.setVisible(true);
-          //  window.setLocationRelativeTo(null);
+            //EstoquePendenteGUI window = new EstoquePendenteGUI(op);
+            //window.setVisible(true);
+            //window.setLocationRelativeTo(null);
         
                 // Criando ou editando a op
                 cU(op,edit,id);
@@ -564,6 +569,10 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
         }
     }//GEN-LAST:event_button_editPedOpActionPerformed
+
+    private void box_categoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_box_categoryMousePressed
+        categoriaBox();
+    }//GEN-LAST:event_box_categoryMousePressed
 
     /**
      * @param args the command line arguments
