@@ -15,7 +15,8 @@ public class ConnectionFactory {
 
         try {
             return
-            DriverManager.getConnection("jdbc:mysql://localhost/","","");
+            DriverManager.getConnection("jdbc:mysql://192.168.1.16/bd_linkagro","root","root");
+            //DriverManager.getConnection("jdbc:mysql://localhost/bd_linkagro","root","root");
         }
         catch(SQLException excecao) {
             throw new RuntimeException(excecao);

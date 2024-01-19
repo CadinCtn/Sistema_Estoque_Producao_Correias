@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pedidos;
 
 import com.toedter.calendar.JDateChooser;
@@ -23,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 
 
 /**
@@ -52,6 +48,7 @@ public class PedidoDAO {
         JTextField idField = new JTextField(5);
         JTextField nomeField = new JTextField(17);
         JDateChooser fechamentoDate = new JDateChooser();
+        JTextField diasField  = new JTextField(3);
         JDateChooser embarqueDate = new JDateChooser();
         fechamentoDate.setPreferredSize(new Dimension(150, 19));
         embarqueDate.setPreferredSize(new Dimension(150, 19));
@@ -64,6 +61,8 @@ public class PedidoDAO {
         paneJOP.add(nomeField);
         paneJOP.add(new JLabel("Data Fechamento: "));
         paneJOP.add(fechamentoDate);
+        paneJOP.add(new JLabel("Dias Úteis: "));
+        paneJOP.add(diasField);
         paneJOP.add(new JLabel("Data Embarque: "));
         paneJOP.add(embarqueDate);
         paneJOP.add(new JLabel("OBS: "));
@@ -92,13 +91,15 @@ public class PedidoDAO {
         
         obsField.setText(obs);
         
+      
+       
        
         //switch para verificar se os campos estão vazios
         switch (JOptionPane.showConfirmDialog(null, paneJOP, "Adicionar Pedido", JOptionPane.OK_CANCEL_OPTION)) {
             case JOptionPane.OK_OPTION : 
                 
                 //if para impedir que seja cadastrado como null
-                if (idField.getText().isEmpty() || nomeField.getText().isEmpty()) {
+                if (idField.getText().isEmpty() || nomeField.getText().isEmpty() || diasField.getText().isEmpty()) {
                     //JOptionPane de alerta
                     JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
                 } else {    
@@ -116,12 +117,12 @@ public class PedidoDAO {
                             emba = dateForm.format(embaUtil);
                     
                         } catch(NullPointerException e){
-                            JOptionPane.showMessageDialog(null, "Formato de data inserido não é válido","Formato de data Inválido",JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Formato de data inserido não é válido","Formato de data Inválido",JOptionPane.ERROR_MESSAGE);
                             return null;
                         }
                         
                     //Criando objeto ana classe modelo
-                    pedido.setId(Integer.valueOf(idField.getText()));
+                    pedido.setId(Integer.parseInt(idField.getText()));
                     pedido.setNomeCliente(nomeField.getText());
                     pedido.setFechamento( fech);
                     pedido.setEmbarque( emba);
@@ -147,7 +148,7 @@ public class PedidoDAO {
     //Adicionando pedido
     public void insertPedido(Pedido pedido){
     
-        String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao,status)VALUES(?, ?, ?, ?, ?, 'produção')";
+        String sql = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao,status,prazo)VALUES(?, ?, ?, ?, ?, 'produção',?)";
 
 
         try {
@@ -157,6 +158,7 @@ public class PedidoDAO {
             stmt.setString(3,pedido.getFechamento());
             stmt.setString(4,pedido.getEmbarque());
             stmt.setString(5, pedido.getObservacao());
+            stmt.setInt(6,pedido.getPrazo());
             stmt.execute();
             stmt.close();
         }
@@ -187,7 +189,7 @@ public class PedidoDAO {
     
     //Atualizando Pedido
     public void updatePedido(Pedido pedido, int id){
-        String sql = "UPDATE pedidos SET id = ?, nome_cliente = ?, data_fechamento = ?, data_embarque = ?, observacao = ? WHERE id = " + id;
+        String sql = "UPDATE pedidos SET id = ?, nome_cliente = ?, data_fechamento = ?, data_embarque = ?, observacao = ?, prazo = ? WHERE id = " + id;
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -196,6 +198,7 @@ public class PedidoDAO {
             stmt.setString(3,pedido.getFechamento());
             stmt.setString(4,pedido.getEmbarque());
             stmt.setString(5, pedido.getObservacao());
+            stmt.setInt(6,pedido.getPrazo());
             
             stmt.execute();
             updateAllPedidoOp(pedido, id);
@@ -227,7 +230,37 @@ public class PedidoDAO {
         }
     }
     
+    //Selecionar pedido especifico
+    public Pedido selectByID(int id){
+        String sql = "SELECT * FROM pedidos WHERE id = " + id;
+        
+        Pedido pedido = new Pedido();
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                
+                pedido.setId(rs.getInt("id"));
+                pedido.setNomeCliente(rs.getString("nome_cliente"));
+                pedido.setFechamento(rs.getString("data_fechamento"));
+                pedido.setEmbarque(rs.getString("data_embarque"));
+                pedido.setObservacao(rs.getString("observacao"));
+                pedido.setPrazo(rs.getInt("prazo"));
+                
+            }
+            
+            stmt.close();
+            rs.close();
+                    
+            
+        }
+        catch(SQLException e){
+            throw new RuntimeException(e);
+        }
     
+        return pedido;
+    }
     
     //Select Pedidos
     public List<Pedido> selectPedidos(){

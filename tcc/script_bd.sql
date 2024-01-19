@@ -50,6 +50,7 @@ CREATE TABLE pedidos (
   id int NOT NULL,
   nome_cliente varchar(255) NOT NULL,
   data_fechamento varchar(10) not NULL,
+  prazo int not null,
   data_embarque varchar(10) not NULL,
   observacao varchar(500) not NULL,
   status varchar(100) not null,

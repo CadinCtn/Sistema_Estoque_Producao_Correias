@@ -141,10 +141,10 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         btn_reservar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         submenu_users1 = new javax.swing.JMenu();
-        submenu_newop1 = new javax.swing.JMenuItem();
-        submenu_newproduct1 = new javax.swing.JMenuItem();
-        submenu_estoque1 = new javax.swing.JMenuItem();
         submenu_pedidos1 = new javax.swing.JMenuItem();
+        submenu_newop1 = new javax.swing.JMenuItem();
+        submenu_estoque1 = new javax.swing.JMenuItem();
+        submenu_newproduct1 = new javax.swing.JMenuItem();
         submenu_user1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -380,6 +380,15 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         submenu_users1.setText("Menu");
         submenu_users1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
+        submenu_pedidos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedidos.png"))); // NOI18N
+        submenu_pedidos1.setText("Pedidos");
+        submenu_pedidos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_pedidos1ActionPerformed(evt);
+            }
+        });
+        submenu_users1.add(submenu_pedidos1);
+
         submenu_newop1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard.png"))); // NOI18N
         submenu_newop1.setText("Ordem de produção");
         submenu_newop1.addActionListener(new java.awt.event.ActionListener() {
@@ -388,15 +397,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             }
         });
         submenu_users1.add(submenu_newop1);
-
-        submenu_newproduct1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
-        submenu_newproduct1.setText("Produtos");
-        submenu_newproduct1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_newproduct1ActionPerformed(evt);
-            }
-        });
-        submenu_users1.add(submenu_newproduct1);
 
         submenu_estoque1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/estoque.png"))); // NOI18N
         submenu_estoque1.setText("Estoque Correias");
@@ -407,14 +407,14 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         });
         submenu_users1.add(submenu_estoque1);
 
-        submenu_pedidos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedidos.png"))); // NOI18N
-        submenu_pedidos1.setText("Pedidos");
-        submenu_pedidos1.addActionListener(new java.awt.event.ActionListener() {
+        submenu_newproduct1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
+        submenu_newproduct1.setText("Produtos");
+        submenu_newproduct1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_pedidos1ActionPerformed(evt);
+                submenu_newproduct1ActionPerformed(evt);
             }
         });
-        submenu_users1.add(submenu_pedidos1);
+        submenu_users1.add(submenu_newproduct1);
 
         submenu_user1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-usuario.png"))); // NOI18N
         submenu_user1.setText("Usuarios");
@@ -613,6 +613,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         CPedidosGUI cpedidosgui = new CPedidosGUI();
         cpedidosgui.setVisible(true);
         cpedidosgui.setExtendedState(MAXIMIZED_BOTH);
+        Controller.setcPedidosGUI(cpedidosgui);
         dispose();
     }//GEN-LAST:event_submenu_pedidos1ActionPerformed
 

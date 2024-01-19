@@ -34,10 +34,10 @@ public class MenuGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         menubar = new javax.swing.JMenuBar();
         submenu_users = new javax.swing.JMenu();
-        submenu_newop = new javax.swing.JMenuItem();
-        submenu_newproduct = new javax.swing.JMenuItem();
-        submenu_estoque = new javax.swing.JMenuItem();
         submenu_pedidos = new javax.swing.JMenuItem();
+        submenu_newop = new javax.swing.JMenuItem();
+        submenu_estoque = new javax.swing.JMenuItem();
+        submenu_newproduct = new javax.swing.JMenuItem();
         submenu_user = new javax.swing.JMenuItem();
 
         jScrollPane1.setViewportView(jEditorPane1);
@@ -86,6 +86,15 @@ public class MenuGUI extends javax.swing.JFrame {
         submenu_users.setText("Menu");
         submenu_users.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
+        submenu_pedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedidos.png"))); // NOI18N
+        submenu_pedidos.setText("Pedidos");
+        submenu_pedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_pedidosActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_pedidos);
+
         submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
         submenu_newop.addActionListener(new java.awt.event.ActionListener() {
@@ -94,15 +103,6 @@ public class MenuGUI extends javax.swing.JFrame {
             }
         });
         submenu_users.add(submenu_newop);
-
-        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
-        submenu_newproduct.setText("Produtos");
-        submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_newproductActionPerformed(evt);
-            }
-        });
-        submenu_users.add(submenu_newproduct);
 
         submenu_estoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/estoque.png"))); // NOI18N
         submenu_estoque.setText("Estoque Correias");
@@ -113,14 +113,14 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         submenu_users.add(submenu_estoque);
 
-        submenu_pedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedidos.png"))); // NOI18N
-        submenu_pedidos.setText("Pedidos");
-        submenu_pedidos.addActionListener(new java.awt.event.ActionListener() {
+        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
+        submenu_newproduct.setText("Produtos");
+        submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_pedidosActionPerformed(evt);
+                submenu_newproductActionPerformed(evt);
             }
         });
-        submenu_users.add(submenu_pedidos);
+        submenu_users.add(submenu_newproduct);
 
         submenu_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-usuario.png"))); // NOI18N
         submenu_user.setText("Usuarios");
@@ -200,6 +200,7 @@ public class MenuGUI extends javax.swing.JFrame {
         CPedidosGUI cpedidosgui = new CPedidosGUI();
         cpedidosgui.setVisible(true);
         cpedidosgui.setExtendedState(MAXIMIZED_BOTH);
+        Controller.setcPedidosGUI(cpedidosgui);
         dispose();
     }//GEN-LAST:event_submenu_pedidosActionPerformed
 

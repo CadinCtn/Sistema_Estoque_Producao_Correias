@@ -9,7 +9,9 @@ import doc_arquivados.OpArqvDAO;
 import estoque.CEstoqueGUI;
 import help.HPedidos;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import menus.MenuGUI;
 import ordem_producao.ROrdemProducaoGUI;
@@ -104,10 +106,10 @@ public class CPedidosGUI extends javax.swing.JFrame {
         upd_reativarPed = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         submenu_users = new javax.swing.JMenu();
-        submenu_newop = new javax.swing.JMenuItem();
-        submenu_newproduct = new javax.swing.JMenuItem();
-        submenu_estoque = new javax.swing.JMenuItem();
         submenu_pedidos = new javax.swing.JMenuItem();
+        submenu_newop = new javax.swing.JMenuItem();
+        submenu_estoque = new javax.swing.JMenuItem();
+        submenu_newproduct = new javax.swing.JMenuItem();
         submenu_user = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -138,7 +140,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pedido", "Nome Cliente", "Data Fechamento", "Data Embarque", "OBS"
+                "ID PEDIDO", "NOME CLIENTE", "DATA FECHAMENTO", "DATA EMBARQUE", "OBS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -150,7 +152,26 @@ public class CPedidosGUI extends javax.swing.JFrame {
             }
         });
         tab_pedidosProd.setSelectionBackground(new java.awt.Color(153, 153, 153));
+        // Configurando a renderização das células para centralizar
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Aplicando a renderização centralizada a todas as colunas
+        tab_pedidosProd.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tab_pedidosProd.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tab_pedidosProd.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         jScrollPane6.setViewportView(tab_pedidosProd);
+        if (tab_pedidosProd.getColumnModel().getColumnCount() > 0) {
+            tab_pedidosProd.getColumnModel().getColumn(0).setMinWidth(100);
+            tab_pedidosProd.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab_pedidosProd.getColumnModel().getColumn(0).setMaxWidth(100);
+            tab_pedidosProd.getColumnModel().getColumn(2).setMinWidth(150);
+            tab_pedidosProd.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tab_pedidosProd.getColumnModel().getColumn(2).setMaxWidth(150);
+            tab_pedidosProd.getColumnModel().getColumn(3).setMinWidth(150);
+            tab_pedidosProd.getColumnModel().getColumn(3).setPreferredWidth(150);
+            tab_pedidosProd.getColumnModel().getColumn(3).setMaxWidth(150);
+        }
 
         upd_pedidoProd.setBackground(new java.awt.Color(255, 255, 255));
         upd_pedidoProd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -230,7 +251,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pedido", "Nome Cliente", "Data Fechamento", "Data Embarque", "OBS"
+                "ID PEDIDO", "NOME CLIENTE", "DATA FECHAMENTO", "DATA EMBARQUE", "OBS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -242,7 +263,22 @@ public class CPedidosGUI extends javax.swing.JFrame {
             }
         });
         tab_pedidosArch.setSelectionBackground(new java.awt.Color(153, 153, 153));
+        // Aplicando a renderização centralizada a todas as colunas
+        tab_pedidosArch.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tab_pedidosArch.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tab_pedidosArch.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         jScrollPane5.setViewportView(tab_pedidosArch);
+        if (tab_pedidosArch.getColumnModel().getColumnCount() > 0) {
+            tab_pedidosArch.getColumnModel().getColumn(0).setMinWidth(100);
+            tab_pedidosArch.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab_pedidosArch.getColumnModel().getColumn(0).setMaxWidth(100);
+            tab_pedidosArch.getColumnModel().getColumn(2).setMinWidth(150);
+            tab_pedidosArch.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tab_pedidosArch.getColumnModel().getColumn(2).setMaxWidth(150);
+            tab_pedidosArch.getColumnModel().getColumn(3).setMinWidth(150);
+            tab_pedidosArch.getColumnModel().getColumn(3).setPreferredWidth(150);
+            tab_pedidosArch.getColumnModel().getColumn(3).setMaxWidth(150);
+        }
 
         upd_pedidoArch.setBackground(new java.awt.Color(255, 255, 255));
         upd_pedidoArch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -325,6 +361,15 @@ public class CPedidosGUI extends javax.swing.JFrame {
         submenu_users.setText("Menu");
         submenu_users.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
+        submenu_pedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedidos.png"))); // NOI18N
+        submenu_pedidos.setText("Pedidos");
+        submenu_pedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_pedidosActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_pedidos);
+
         submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard.png"))); // NOI18N
         submenu_newop.setText("Ordem de produção");
         submenu_newop.addActionListener(new java.awt.event.ActionListener() {
@@ -333,15 +378,6 @@ public class CPedidosGUI extends javax.swing.JFrame {
             }
         });
         submenu_users.add(submenu_newop);
-
-        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
-        submenu_newproduct.setText("Produtos");
-        submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_newproductActionPerformed(evt);
-            }
-        });
-        submenu_users.add(submenu_newproduct);
 
         submenu_estoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/estoque.png"))); // NOI18N
         submenu_estoque.setText("Estoque Correias");
@@ -352,14 +388,14 @@ public class CPedidosGUI extends javax.swing.JFrame {
         });
         submenu_users.add(submenu_estoque);
 
-        submenu_pedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedidos.png"))); // NOI18N
-        submenu_pedidos.setText("Pedidos");
-        submenu_pedidos.addActionListener(new java.awt.event.ActionListener() {
+        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
+        submenu_newproduct.setText("Produtos");
+        submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submenu_pedidosActionPerformed(evt);
+                submenu_newproductActionPerformed(evt);
             }
         });
-        submenu_users.add(submenu_pedidos);
+        submenu_users.add(submenu_newproduct);
 
         submenu_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-usuario.png"))); // NOI18N
         submenu_user.setText("Usuarios");
@@ -476,32 +512,23 @@ public class CPedidosGUI extends javax.swing.JFrame {
         //Requisitando permissão para gerenciamento da tabela
         switch(login.usuario.getPermissao()){
             case "ADMINISTRADOR":
-            
                 int linhaSelecionada = -1;
                 linhaSelecionada = tab_pedidosArch.getSelectedRow();
                 if(linhaSelecionada >=0){
                     int id = (int) tab_pedidosArch.getValueAt(linhaSelecionada, 0);
-
-                    PedidoDAO pedidodao = new PedidoDAO();
-
-                    String Id =  tab_pedidosArch.getValueAt(linhaSelecionada, 0).toString();
-                    String nome = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 1);
-                    String fechamento = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 2);
-                    String embarque = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 3);
-                    String obs = (String) tab_pedidosArch.getValueAt(linhaSelecionada, 4);
                     
-                    Pedido updPedido = pedidodao.paneJOP(Id,nome,fechamento,embarque,obs);
-                    if(updPedido != null){
-                        pedidodao.updatePedido(pedidodao.paneJOP(Id, nome, fechamento, embarque, obs), id);
-                        tabelaArch();
-                    }   
+                    
+                    PedidosGUI window = new PedidosGUI(null,true, new PedidoDAO().selectByID(id));
+                    window.setLocationRelativeTo(null);
+                    window.setVisible(true);
+                    
                 } else {
                     JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
                 }
-            break;
-            
-            default:
-                JOptionPane.showMessageDialog(null, "Você não possui permissão!");
+                break;
+                
+           default:
+                JOptionPane.showMessageDialog(null,"Você não possui permissão!");
                 break;
         }          
 
@@ -539,7 +566,6 @@ public class CPedidosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_del_pedidoArchActionPerformed
 
     private void upd_pedidoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upd_pedidoProdActionPerformed
-        PedidoDAO pedidodao = new PedidoDAO();
         LoginGUI login = Controller.getLogingui();
                 
         //Requisitando permissão para gerenciamento da tabela
@@ -549,18 +575,12 @@ public class CPedidosGUI extends javax.swing.JFrame {
                 linhaSelecionada = tab_pedidosProd.getSelectedRow();
                 if(linhaSelecionada >=0){
                     int id = (int) tab_pedidosProd.getValueAt(linhaSelecionada, 0);
-
-                    String Id =  tab_pedidosProd.getValueAt(linhaSelecionada, 0).toString();
-                    String nome = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 1);
-                    String fechamento = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 2);
-                    String embarque = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 3);
-                    String obs = (String) tab_pedidosProd.getValueAt(linhaSelecionada, 4);
                     
-                    Pedido updPedido = pedidodao.paneJOP(Id,nome,fechamento,embarque,obs);
-                    if(updPedido != null){
-                        pedidodao.updatePedido(updPedido, id);
-                        tabelaProd();
-                    }
+                    
+                    PedidosGUI window = new PedidosGUI(null,true, new PedidoDAO().selectByID(id));
+                    window.setLocationRelativeTo(null);
+                    window.setVisible(true);
+                    
                 } else {
                     JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
                 }
@@ -611,12 +631,10 @@ public class CPedidosGUI extends javax.swing.JFrame {
         //Requisitando permissão para gerenciamento da tabela
         switch(login.usuario.getPermissao()){
             case "ADMINISTRADOR":
-                PedidoDAO pedidodao = new PedidoDAO();
-                Pedido addPedido = pedidodao.paneJOP(null,null,null,null,null);
-                if(addPedido != null){
-                    pedidodao.insertPedido(addPedido);
-                    tabelaProd();
-                }
+                PedidosGUI window = new PedidosGUI(null, true,null);
+                window.setLocationRelativeTo(null);
+                window.setVisible(true);
+                
                 break;
                 
            default:

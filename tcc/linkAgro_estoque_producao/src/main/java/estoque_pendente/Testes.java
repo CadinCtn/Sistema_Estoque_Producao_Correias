@@ -29,12 +29,7 @@ class Retangulo {
                this.y + this.altura > outro.y;
     }
 
-    public boolean bordasProximas(Retangulo r1, Retangulo r2, int distancia) {
-    return Math.abs(r1.x - r2.x) <= distancia ||
-           Math.abs(r1.x + r1.largura - (r2.x + r2.largura)) <= distancia ||
-           Math.abs(r1.y - r2.y) <= distancia ||
-           Math.abs(r1.y + r1.altura - (r2.y + r2.altura)) <= distancia;
-}
+    
 
     
     
@@ -133,11 +128,7 @@ class DesenhoPanel extends JPanel {
     }
 
     private boolean sobreposicaoComRetangulos(Retangulo novoRetangulo) {
-        /*for (Retangulo retangulo : retangulos) { 
-            if ( novoRetangulo.bordasProximas(novoRetangulo, retangulo, 5)) {
-                return true;
-            } 
-        }*/
+        
         for (Retangulo retangulo : retangulos) { 
             if (novoRetangulo.sobrepostoCom(retangulo) && retangulo != retanguloAtual) {
                 return true;

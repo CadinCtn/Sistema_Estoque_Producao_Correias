@@ -10,6 +10,7 @@ import doc_arquivados.CArqvOrdemProducaoGUI;
 import imprimir.Preview;
 import ordem_producao.CUOrdemProducaoGUI;
 import ordem_producao.ROrdemProducaoGUI;
+import pedidos.CPedidosGUI;
 import usuarios.CUsuarioGUI;
 import usuarios.LoginGUI;
 import usuarios.Usuario;
@@ -37,6 +38,18 @@ public class Controller {
     //Arquivar
     private static CArqvOrdemProducaoGUI cArqvOrdemProducaoGUI;
 
+    //Pedidos
+    private static CPedidosGUI cPedidosGUI;
+
+    
+    
+    public static CPedidosGUI getcPedidosGUI() {
+        return cPedidosGUI;
+    }
+
+    public static void setcPedidosGUI(CPedidosGUI cPedidosGUI) {
+        Controller.cPedidosGUI = cPedidosGUI;
+    }
     
     
     public static CArqvOrdemProducaoGUI getcArqvOrdemProducaoGUI() {

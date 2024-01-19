@@ -18,6 +18,7 @@ public class Pedido {
     String embarque;
     String nomeCliente;
     String observacao;
+    int prazo;
 
     
     public boolean equals(Object o) {
@@ -71,6 +72,14 @@ public class Pedido {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public int getPrazo() {
+        return prazo;
+    }
+
+    public void setPrazo(int prazo) {
+        this.prazo = prazo;
     }
 
     
